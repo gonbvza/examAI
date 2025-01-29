@@ -3,6 +3,7 @@ import './App.css'
 
 // Import components
 import Landing from './components/landingPage/Landing'
+import Sign from './components/Sign/Sign'
 
 function App() {
 
@@ -11,7 +12,9 @@ function App() {
 	  <BrowserRouter>
       <Routes>
         <Route path="landing" Component={Landing}/>
+        <Route path="" Component={Landing}/>
         <Route path="/main" Component={""}/>
+        <Route path="/signUp" Component={Sign}/>
       </Routes>
 	  </BrowserRouter>
    </>

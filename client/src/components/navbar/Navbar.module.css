@@ -1,13 +1,13 @@
 :root {
     --button-colour:#1A80E5;
-  }
+}
 
 * {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
     font-family: 'Plus Jakarta Sans';
-  }
+}
   
 ul {
     list-style: none;
@@ -18,6 +18,7 @@ a {
     color: black;
     font-size: 18px;
 }
+
   
 .navbar {
     padding: 10px 20px;

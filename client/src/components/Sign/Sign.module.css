@@ -91,9 +91,3 @@ input::placeholder {
     background-color: #155D9C; 
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); 
 }
-
-.wrapper {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh; /* Ensure wrapper takes full height of the viewport */
-}

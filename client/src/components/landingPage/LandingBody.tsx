@@ -2,6 +2,7 @@ import React from 'react'
 import styles from './LandingBody.module.css'
 import { faBullseye, faClock, faFile} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {Link} from 'react-router-dom';
 
 
 const LandingBody = () => {
@@ -46,7 +47,7 @@ const LandingBody = () => {
                     <h2>Try it out today!</h2>
                     <div>
                         <ul className={styles.navLinks}>
-                            <li>Sign Up</li>
+                            <li><Link to="/signUp">Sign Up</Link></li>
                             <li>Log In</li>
                         </ul>
                     </div>

@@ -123,4 +123,9 @@
     padding: 10px;
     border-radius: 30px;
     font-weight: 500;
+    cursor: pointer;
+}
+
+.navLinks a {
+    color: white;
 }

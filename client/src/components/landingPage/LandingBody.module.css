@@ -5,7 +5,7 @@
 }
   
 .bodyWeb {
-    width: 50%; 
+    width: 70%; 
     margin: 90px;
 
 }
@@ -16,8 +16,9 @@
   
 .bodyTitle {
     display: flex;
+    margin: auto;
     gap: 60px;
-    align-items: top;
+    justify-content: center;
 }
 
 .bodyTitle h1 {

@@ -6,6 +6,7 @@ import Landing from './components/landingPage/Landing'
 import Sign from './components/Sign/Sign'
 import LogIn from './components/LogIn/LogIn'
 import Main from './components/main/Main'
+import Question from './components/Question/Question'
 
 function App() {
 
@@ -18,6 +19,9 @@ function App() {
         <Route path="/main" Component={Main}/>
         <Route path="/signUp" Component={Sign}/>
         <Route path="/logIn" Component={LogIn}/>
+        
+        {/* URI ID passing has to be implemented */}
+        <Route path="/question" Component={Question}/>
       </Routes>
 	  </BrowserRouter>
    </>

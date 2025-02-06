@@ -1,0 +1,85 @@
+.questionPageContainer {
+    margin-top: 2%;
+    text-align: center;
+}
+
+.promptContainers {
+    width: 60%;
+    margin: auto;
+    margin-top: 3%;
+    padding: 20px; 
+    border-radius: 8px; 
+}
+
+.prompt h3 {
+    font-weight: 500;
+    font-size: 23px;
+}
+
+.prompt {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+}
+
+.promptContainers ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin-top: 10px;
+    text-align: left;
+}
+
+.hidden {
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: opacity 1s ease, max-height 1s ease;
+}
+
+.visible {
+    opacity: 1;
+    max-height: 500px;
+    transition: opacity 1.5s ease, max-height 1s ease;
+}
+
+.promptContainers ul li {
+    background-color: #F3F2EE;
+    width: 90%;
+    margin: auto;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+
+}
+
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+button:hover {
+    opacity: 0.7;
+}
+
+
+/* Submit Button */
+.submitButton {
+    width: 22%;
+    background-color: var(--button-colour);
+    color: white;
+    font-weight: 600;
+    border-radius: 30px;
+    cursor: pointer;
+    padding: 12px 20px;  
+    text-align: center; 
+    border: none;
+    transition: all 0.3s ease; 
+}
+
+.submitButton:hover {
+    transform: scale(1.1); 
+    background-color: #155D9C; 
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); 
+}

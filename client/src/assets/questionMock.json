@@ -1,0 +1,32 @@
+{
+    "id": 1,
+    "name": "Climate Change Report",
+    "type": "questions",
+    "questions": [
+        {
+            "questionText": "What are the primary causes of rising global temperatures?",
+            "answerA": "Greenhouse gases",
+            "answerB": "Deforestation",
+            "answerC": "Solar flares",
+            "answerD": "Volcanic eruptions",
+            "Correct": "A"
+        },
+        {
+            "questionText": "What are the key impacts of climate change on the environment?",
+            "answerA": "Decreased biodiversity",
+            "answerB": "Increased storms",
+            "answerC": "Rising sea levels",
+            "answerD": "All of the above",
+            "Correct": "D"
+        },
+        {
+            "questionText": "What are the primary causes of rising global temperatures?",
+            "answerA": "Greenhouse gases",
+            "answerB": "Deforestation",
+            "answerC": "Solar flares",
+            "answerD": "Volcanic eruptions",
+            "Correct": "A"
+        }
+    ],
+    "created_at": "2025-01-11T10:05:00Z"
+}

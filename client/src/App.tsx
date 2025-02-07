@@ -7,6 +7,11 @@ import Sign from './components/Sign/Sign'
 import LogIn from './components/LogIn/LogIn'
 import Main from './components/main/Main'
 import Question from './components/Question/Question'
+import Dashboard from './components/Dashboard/Dashboard'
+import Summary from './components/Summary/Summary'
+
+
+
 
 function App() {
 
@@ -21,7 +26,11 @@ function App() {
         <Route path="/logIn" Component={LogIn}/>
         
         {/* URI ID passing has to be implemented */}
-        <Route path="/question" Component={Question}/>
+        <Route path="/question/:questionId" Component={Question}/>
+        <Route path="/summary/:summaryId" Component={Summary}/>
+
+        {/* URI ID passing has to be implemented */}
+        <Route path="/dashboard" Component={Dashboard}/>
       </Routes>
 	  </BrowserRouter>
    </>

@@ -1,0 +1,12 @@
+.summaryPageContainer {
+    margin-top: 2%;
+    text-align: center;
+}
+
+.summaryContainer {
+    width: 60%;
+    margin: auto;
+    margin-top: 3%;
+    padding: 20px; 
+    border-radius: 8px; 
+}

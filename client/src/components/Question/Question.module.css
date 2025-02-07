@@ -76,6 +76,7 @@ button:hover {
     text-align: center; 
     border: none;
     transition: all 0.3s ease; 
+    margin: auto;
 }
 
 .submitButton:hover {

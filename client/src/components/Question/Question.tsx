@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import Navbar from '../navbar/Navbar';
 import Footer from '../Footer/Footer';
 import styles from './Question.module.css'
@@ -25,8 +26,11 @@ const Question = () => {
   const [visibleAnswers, setVisibleAnswers] = useState<{ [key: string]: boolean }>({});
   const [answerVisibility, setAnswerVisibility] = useState<boolean>(false)
 
+  const { questionId } = useParams<{ questionId: string }>();
+  console.log(questionId);
+
   useEffect(() => {
-    fetch('src/assets/questionMock.json') 
+    fetch('/public/questionMock.json') 
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -34,6 +38,7 @@ const Question = () => {
         return response.json();
       })
       .then((data) => {
+
         setQuestionMock(data);
       })
       .catch((error) => console.error('Error loading JSON:', error));
@@ -81,7 +86,7 @@ const Question = () => {
             );
           })}
         </div>
-        <button onClick={() => showAnswers()} className={styles.submitButton}>
+        <button style={{ display: questionMock ? 'block' : 'none'}} onClick={() => showAnswers()} className={styles.submitButton}>
           Display results
         </button>
       </div>

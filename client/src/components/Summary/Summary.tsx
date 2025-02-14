@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Navbar from '../navbar/Navbar';
 import Footer from '../Footer/Footer';
@@ -19,6 +19,7 @@ const Summary = () => {
   const { summaryId } = useParams<{ summaryId: string }>();
 
   useEffect(() => {
+    console.log(summaryId);
     fetch('/summaryMock.json') // No 'public/' in path
       .then((response) => {
         if (!response.ok) {

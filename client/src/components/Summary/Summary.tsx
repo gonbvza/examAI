@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Navbar from '../navbar/Navbar';
 import Footer from '../Footer/Footer';
@@ -16,7 +16,7 @@ const Summary = () => {
   const { summaryId } = useParams<{ summaryId: string }>();
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/summary/${summaryId}`) // No 'public/' in path
+    fetch('/summaryMock.json') // No 'public/' in path
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);

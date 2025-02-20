@@ -1,13 +1,12 @@
 import {useState, useEffect} from 'react'
 import styles from './Sign.module.css'
-import { verifyLogIn } from '../../helpers/verifyUser'
+import { verifyLogIn } from '../../helpers/verifyUser.ts'
 import { useNavigate } from 'react-router-dom'
 
-const Sign = () => {
+const Sign = ({setUsernameNavBar} : {setUsernameNavBar: React.Dispatch<React.SetStateAction<string>>}) => {
     const [Email, setEmail] = useState<string>("");
     const [Password, setPassword] = useState<string>("");
-    const [Name, setName] = useState<string>("");
-    const [Surname, setSurname] = useState<string>("");
+    const [Username, setUsername] = useState<string>("");
 
     const navigate = useNavigate();
 
@@ -17,7 +16,7 @@ const Sign = () => {
             const response = await fetch("http://localhost:8000/user/signup/", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ "username": Name, "password" : Password }),
+                body: JSON.stringify({ "username": Username, "password" : Password, "email": Email}),
                 credentials: "include"
             });
     
@@ -25,6 +24,8 @@ const Sign = () => {
     
             if (response.ok) {
                 console.log("Signup successful!", data);
+                setUsernameNavBar(Username)
+                navigate("/main")
             } else {
                 console.error("Signup failed:", data.error);
             }
@@ -36,12 +37,12 @@ const Sign = () => {
     useEffect(() => {
         const getUser = async () => {
         var user:string = await verifyLogIn()
-        setName(user)
+        setUsername(user)
         };
     
         getUser();
 
-        if(Name.length > 0) {
+        if(Username.length > 0) {
             navigate("/main")
         }
 
@@ -58,6 +59,10 @@ const Sign = () => {
             <div className={styles.inputForm}>
                 <form>
                     <label className={styles.emailInput}>
+                        Username
+                        <input type="text" name="Username" value={Username} placeholder='Username' onChange={(e) => setUsername(e.target.value)}></input>
+                    </label>
+                    <label className={styles.emailInput}>
                         Email
                         <input type="text" name="Email" value={Email} placeholder='Email' onChange={(e) => setEmail(e.target.value)}></input>
                     </label>
@@ -65,16 +70,6 @@ const Sign = () => {
                         Pasword
                         <input type="password" name="Password" value={Password} placeholder='Password' onChange={(e) => setPassword(e.target.value)}></input>
                     </label>
-                    <div className={styles.nameInput}>
-                        <label>
-                            Name
-                            <input type="text" name="Name" value={Name} placeholder='Name' onChange={(e) => setName(e.target.value)}></input>
-                        </label>
-                        <label>
-                            Surname
-                            <input type="text" name="Surname" value={Surname} placeholder='Surname' onChange={(e) => setSurname(e.target.value)}></input>
-                        </label>
-                    </div>
                     <button onClick={sendLogin} className={styles.submitButton}>
                         Sign Up
                     </button>

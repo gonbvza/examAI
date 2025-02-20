@@ -13,7 +13,7 @@ import Summary from './components/Summary/Summary'
 import Navbar from './components/navbar/Navbar'
 import Footer from './components/Footer/Footer'
 
-import { verifyLogIn } from './helpers/verifyUser'
+import { verifyLogIn } from './helpers/verifyUser.ts'
 
 function App() {
   const [username, setUsername] = useState("")
@@ -33,13 +33,13 @@ function App() {
     <>
 
 	  <BrowserRouter>
-      <Navbar name={username}/>
+      <Navbar name={username} setUsernameNavbar={setUsername}/>
       <Routes>
         <Route path="landing" Component={Landing}/>
         <Route path="" Component={Landing}/>
         <Route path="/main" Component={Main}/>
-        <Route path="/signUp" Component={Sign}/>
-        <Route path="/logIn" Component={LogIn}/>
+        <Route path="/signUp" element={<Sign setUsernameNavBar={setUsername}/>}/>
+        <Route path="/logIn" element={<LogIn setUsernameNavBar={setUsername}/>}/>
         
         {/* URI ID passing has to be implemented */}
         <Route path="/question/:questionId" Component={Question}/>

@@ -2,14 +2,14 @@ import React from 'react'
 import UnloggedNavbar from './UnloggedNavbar.tsx'
 import LoggedNavbar from './LoggedNavbar'
 
-const Navbar = ({name}: {name: string}) => {
+const Navbar = ({name, setUsernameNavbar}: {name: string, setUsernameNavbar: React.Dispatch<React.SetStateAction<string>>}) => {
   if(name == "") {
     return (
       <UnloggedNavbar/>
     )
   } else {
     return (
-      <LoggedNavbar name={name}/>
+      <LoggedNavbar name={name} setUsernameNavbar={setUsernameNavbar}/>
     )
   }
 }

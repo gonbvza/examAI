@@ -48,7 +48,7 @@ const LandingBody = () => {
                     <div>
                         <ul className={styles.navLinks}>
                             <li><Link to="/signUp">Sign Up</Link></li>
-                            <li>Log In</li>
+                            <li><Link to="/login">Log In</Link></li>
                         </ul>
                     </div>
                 </div>

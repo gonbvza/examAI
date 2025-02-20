@@ -1,19 +1,51 @@
-import { useState} from 'react'
+import React, { useState, useEffect} from 'react'
 import styles from './LogIn.module.css'
+import { useNavigate } from 'react-router-dom'
+import { verifyLogIn } from '../../helpers/verifyUser'
 
-const LogIn = () => {
-    const [Email, setEmail] = useState<string>("");
+const LogIn = ({setUsernameNavBar}:{setUsernameNavBar: React.Dispatch<React.SetStateAction<string>>}) => {
+    const [username, setUsername] = useState<string>("");
     const [Password, setPassword] = useState<string>("");
 
-    function sendLogin(e: React.FormEvent) {
-        e.preventDefault(); // Prevents the default form submission behavior
-        console.log("Login in");
-        // You can handle the logic for user registration here, e.g. sending data to an API
-        console.log({
-          Email,
-          Password,
-        });
+    const navigate = useNavigate();
+
+    async function sendLogin(e: React.FormEvent) {
+        e.preventDefault(); 
+        try {
+            const response = await fetch("http://localhost:8000/user/login/", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ "username": username, "password" : Password}),
+                credentials: "include"
+            });
+    
+            const data = await response.json();
+    
+            if (response.ok) {
+                console.log("Login successful!", data);
+                setUsernameNavBar(username)
+                navigate("/main")
+            } else {
+                console.error("Login failed:", data.error);
+            }
+        } catch (error) {
+            console.error("Error during signup:", error);
+        }
       }
+
+    useEffect(() => {
+        const getUser = async () => {
+        var user:string = await verifyLogIn()
+        setUsername(user)
+        };
+    
+        getUser();
+
+        if(username.length > 0) {
+            navigate("/main")
+        }
+
+    }, []);
 
   return (
     <>
@@ -26,8 +58,8 @@ const LogIn = () => {
             <div className={styles.inputForm}>
                 <form>
                     <label className={styles.emailInput}>
-                        Email
-                        <input type="text" name="Email" value={Email} placeholder='Email' onChange={(e) => setEmail(e.target.value)}></input>
+                        username
+                        <input type="text" name="username" value={username} placeholder='username' onChange={(e) => setUsername(e.target.value)}></input>
                     </label>
                     <label className={styles.emailInput}>
                         Pasword

@@ -6,7 +6,7 @@ from django.utils import timezone
 class Summaries(models.Model):
     
     name = models.CharField(max_length=100)
-    summaryText = models.CharField(max_length=2000)
+    summaryText = models.TextField()
     pub_date = models.DateTimeField("date published")
     # TODO: Create the users table and define the ID as foreign key
 

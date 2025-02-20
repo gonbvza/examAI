@@ -1,10 +1,10 @@
-import json
+from .models import Summaries
 from django.http import JsonResponse
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from pypdf import PdfReader
-
-
+from AI import gemini
+import datetime
 
 @api_view(["POST"])
 def summarize_text(request):
@@ -17,6 +17,7 @@ def summarize_text(request):
     if "file" not in request.FILES:
         return Response({"error": "No file uploaded. Make sure you're sending a 'file' field in form-data."}, status=400)
 
+    print("SUMMARIZING TEXT")
     uploaded_file = request.FILES["file"]  # Get the uploaded file
 
     # creating a pdf reader object
@@ -26,7 +27,30 @@ def summarize_text(request):
 
     text = page.extract_text()
 
-    print(text)
+    summarizedText = gemini.makeSummary(text)
 
-    return Response({"summary"})
+    summary = Summaries(
+        name = "blockchain",
+        summaryText = summarizedText,
+        pub_date = datetime.date.today()
+    )
 
+    summary.save()
+
+    return JsonResponse({"summaryID": summary.id})
+
+@api_view(["GET"])
+def get_summary_by_id(request, id):
+    
+    print("Getting summary")
+
+    summary = Summaries.objects.get(pk = id)
+
+    text = summary.summaryText.splitlines()
+
+    responseData = {
+        "name": summary.name,
+        "summary": text[1:]
+    }
+
+    return JsonResponse(responseData)

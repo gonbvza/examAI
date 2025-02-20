@@ -6,11 +6,8 @@ import Footer from '../Footer/Footer';
 import styles from './Summary.module.css';
 
 interface SummaryData {
-  id: number;
   name: string;
-  type: string;
-  summary: { paragraph: string }[];
-  created_at: string;
+  summary: string[]
 }
 
 const Summary = () => {
@@ -19,7 +16,7 @@ const Summary = () => {
   const { summaryId } = useParams<{ summaryId: string }>();
 
   useEffect(() => {
-    fetch('/summaryMock.json') // No 'public/' in path
+    fetch(`http://127.0.0.1:8000/summary/${summaryId}`) // No 'public/' in path
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -27,6 +24,7 @@ const Summary = () => {
         return response.json();
       })
       .then((data) => {
+        console.log(data)
         setSummaryMock(data);
       })
       .catch((error) => console.error('Error loading JSON:', error));
@@ -40,7 +38,7 @@ const Summary = () => {
         <div className={styles.summaryContainer}>
             {summaryMock?.summary.map((item, index) => (
                 <div>
-                    <p key={index}>{item.paragraph}</p>
+                    <p key={index}>{item}</p>
                     <br />
                 </div>
 

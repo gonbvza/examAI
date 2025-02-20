@@ -2,13 +2,33 @@ import React, { useState } from 'react';
 import styles from './Main.module.css';
 import { faFile} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Modal from 'react-modal';
 
 import Navbar from '../navbar/Navbar';
 import Footer from '../Footer/Footer';
 
+import { useNavigate } from 'react-router-dom';
+
+const summaryURL = "http://127.0.0.1:8000/summary/generateSummary/"
+
+const customModalStyles = {
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+      border: 'none',
+    },
+  };
+
 const Main = () => {
     const [file, setFile] = useState<File | null>(null);
     const [selectedOption, setSelectedOption] = useState<string | null>(null);
+    const [loading, setloading] = useState(false)
+
+    const navigate = useNavigate();
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
@@ -28,7 +48,7 @@ const Main = () => {
             }
 
             const renamedFile = new File([selectedFile], newName, { type: selectedFile.type });
-    
+
             setFile(renamedFile); 
         }
     };
@@ -39,10 +59,35 @@ const Main = () => {
         setSelectedOption(option);
     };
 
-    const sendLogin = () => {
-        console.log("Summarize:", selectedOption === "summarize");
-        console.log("Generate Exam:", selectedOption === "generateExam");
-    };
+    async function sendFile() {
+        if(selectedOption == "summarize") {
+            setloading(true)
+            if(file) {
+                const formData = new FormData();
+                formData.append("file", file); 
+
+                try {
+                    const response = await fetch(summaryURL, {
+                      method: 'POST',
+                      body: formData, // Use FormData to send the file
+                      // No need to manually set 'Content-Type' when using FormData
+                    });
+                
+                    if (!response.ok) {
+                      throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                
+                    const data = await response.json();
+                    console.log(data); // Handle the response from the server
+                    
+                    setloading(false)
+                    navigate(`/summary/${data.summaryID}`)
+                  } catch (error) {
+                    console.error("Error during file upload:", error);
+                }
+            }
+        }
+    }
 
     return (
         <>
@@ -87,10 +132,18 @@ const Main = () => {
                     </div>
                 </div>
                 <div className={styles.submitButtonContainer}>
-                    <button onClick={sendLogin} className={styles.submitButton}>
+                    <button onClick={sendFile} className={styles.submitButton}>
                         Submit
                     </button>
                 </div>
+                <Modal 
+                    isOpen={loading}
+                    style={customModalStyles}    
+                >
+                    <>
+                        <img src="/src/assets/loading.gif" width="100" height="100"/>
+                    </>
+                </Modal>
             </div>
             <Footer />
         </>

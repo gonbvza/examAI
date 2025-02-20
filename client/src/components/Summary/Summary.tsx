@@ -16,7 +16,8 @@ const Summary = () => {
   const { summaryId } = useParams<{ summaryId: string }>();
 
   useEffect(() => {
-    fetch('/summaryMock.json') // No 'public/' in path
+    fetch(`http://127.0.0.1:8000/summary/${summaryId}`) // No 'public/' in path
+
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);

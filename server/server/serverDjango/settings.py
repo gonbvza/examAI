@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -133,3 +134,10 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOW_CREDENTIALS = True
+
+SESSION_COOKIE_NAME = "sessionid"  # Default session cookie
+SESSION_COOKIE_AGE = 60 * 60 * 24 * 7  # 7 days (User stays logged in)
+SESSION_COOKIE_HTTPONLY = True  # Prevent JavaScript access (for security)
+SESSION_ENGINE = "django.contrib.sessions.backends.db"

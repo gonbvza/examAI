@@ -57,7 +57,6 @@ const Question = () => {
 
   return (
     <>
-      <Navbar />
       <div className={styles.questionPageContainer}>
         <h1>Exam {questionMock ? questionMock.name : "Loading..."}</h1>
         <div className={styles.promptContainers}>
@@ -90,7 +89,6 @@ const Question = () => {
           Display results
         </button>
       </div>
-      <Footer />
     </>
   );
 };

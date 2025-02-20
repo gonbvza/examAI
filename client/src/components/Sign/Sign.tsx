@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react'
 import styles from './Sign.module.css'
-import Navbar from '../navbar/Navbar'
-import Footer from '../Footer/Footer'
+import { verifyLogIn } from '../../helpers/verifyUser'
+import { useNavigate } from 'react-router-dom'
 
 const Sign = () => {
     const [Email, setEmail] = useState<string>("");
@@ -9,21 +9,46 @@ const Sign = () => {
     const [Name, setName] = useState<string>("");
     const [Surname, setSurname] = useState<string>("");
 
-    function sendLogin(e: React.FormEvent) {
-        e.preventDefault(); // Prevents the default form submission behavior
-        console.log("Login in");
-        // You can handle the logic for user registration here, e.g. sending data to an API
-        console.log({
-          Email,
-          Password,
-          Name,
-          Surname,
-        });
+    const navigate = useNavigate();
+
+    async function sendLogin(e: React.FormEvent) {
+        e.preventDefault(); 
+        try {
+            const response = await fetch("http://localhost:8000/user/signup/", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ "username": Name, "password" : Password }),
+                credentials: "include"
+            });
+    
+            const data = await response.json();
+    
+            if (response.ok) {
+                console.log("Signup successful!", data);
+            } else {
+                console.error("Signup failed:", data.error);
+            }
+        } catch (error) {
+            console.error("Error during signup:", error);
+        }
       }
 
+    useEffect(() => {
+        const getUser = async () => {
+        var user:string = await verifyLogIn()
+        setName(user)
+        };
+    
+        getUser();
+
+        if(Name.length > 0) {
+            navigate("/main")
+        }
+
+    }, []);
+    
   return (
     <>
-        <Navbar/>
         <div className={styles.signContainer}>
             <div className={styles.titleContainer}>
                 <h1>Sign Up</h1>
@@ -56,7 +81,6 @@ const Sign = () => {
                 </form>
             </div>
         </div>
-        <Footer/>
     </>
   )
 }

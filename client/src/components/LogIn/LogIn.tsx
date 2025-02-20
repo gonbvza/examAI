@@ -1,7 +1,5 @@
 import { useState} from 'react'
 import styles from './LogIn.module.css'
-import Navbar from '../navbar/Navbar';
-import Footer from '../Footer/Footer';
 
 const LogIn = () => {
     const [Email, setEmail] = useState<string>("");
@@ -19,7 +17,6 @@ const LogIn = () => {
 
   return (
     <>
-        <Navbar/>
         <div className={styles.signContainer}>
             <div className={styles.titleContainer}>
                 <h1>Log in</h1>
@@ -42,7 +39,6 @@ const LogIn = () => {
                 </form>
             </div>
         </div>
-        <Footer/>
     </>
   )
 }

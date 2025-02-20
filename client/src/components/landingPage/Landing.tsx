@@ -6,7 +6,7 @@ import Footer from '../Footer/Footer'
 const Landing = () => {
   return (
     <>
-        <Navbar/>
+
         <LandingBody/>
         <Footer/>
     </>

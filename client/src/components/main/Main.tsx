@@ -91,7 +91,6 @@ const Main = () => {
 
     return (
         <>
-            <Navbar />
             <div className={styles.mainContainer}>
                 <div className={styles.titleContainer}>
                     <h1>Welcome to examAI</h1>
@@ -145,7 +144,6 @@ const Main = () => {
                     </>
                 </Modal>
             </div>
-            <Footer />
         </>
     );
 };

@@ -33,7 +33,6 @@ const Summary = () => {
 
   return (
     <>
-      <Navbar />
       <div className={styles.summaryPageContainer}>
         <h1>{summaryMock ? summaryMock.name : 'Loading...'}</h1>
         <div className={styles.summaryContainer}>
@@ -46,7 +45,6 @@ const Summary = () => {
             ))}
         </div>
       </div>
-      <Footer />
     </>
   );
 };

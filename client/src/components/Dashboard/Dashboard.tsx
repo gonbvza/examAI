@@ -48,7 +48,6 @@ const Dashboard = () => {
 
   return (
     <>
-      <Navbar />
       <div className={styles.dashboardContainer}>
         <h1>Dashboard</h1>
         <p>Please select your exam</p>
@@ -78,7 +77,6 @@ const Dashboard = () => {
           ))}
         </div>
       </div>
-      <Footer />
     </>
   );
 }

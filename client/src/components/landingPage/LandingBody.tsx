@@ -1,11 +1,27 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import styles from './LandingBody.module.css'
 import { faBullseye, faClock, faFile} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {Link} from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
+import { verifyLogIn } from '../../helpers/verifyUser';
 
 const LandingBody = () => {
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const getUser = async  () => {
+            var user = await verifyLogIn();
+
+            if(user.length > 0) {
+                navigate("main/")
+            }
+        }
+
+        getUser()
+    }, []) 
+
   return (
     <>
         <div className={styles.webContainer}>

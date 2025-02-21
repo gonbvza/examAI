@@ -7,9 +7,11 @@ import Modal from 'react-modal';
 import Navbar from '../navbar/Navbar';
 import Footer from '../Footer/Footer';
 
+import Cookies from 'js-cookie';
+
 import { useNavigate } from 'react-router-dom';
 
-const summaryURL = "http://127.0.0.1:8000/summary/generateSummary/"
+const summaryURL = "http://localhost:8000/summary/generateSummary/"
 
 const customModalStyles = {
     content: {
@@ -69,8 +71,9 @@ const Main = () => {
                 try {
                     const response = await fetch(summaryURL, {
                       method: 'POST',
-                      body: formData, // Use FormData to send the file
-                      // No need to manually set 'Content-Type' when using FormData
+                      body: formData,
+                      headers: {'X-CSRFToken': Cookies.get('csrftoken')},
+                      credentials: 'include', 
                     });
                 
                     if (!response.ok) {

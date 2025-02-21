@@ -6,51 +6,64 @@ from pypdf import PdfReader
 from AI import gemini
 import datetime
 
-@api_view(["POST"])
-def summarize_text(request):
-    # Debugging: Print request method and content type
-    print("Request Method:", request.method)
-    print("Request Content-Type:", request.content_type)
-    print("Request FILES:", request.FILES)
+from django.contrib.sessions.models import Session
+from django.contrib.auth.models import User
 
-    # Check if file is included in request
-    if "file" not in request.FILES:
-        return Response({"error": "No file uploaded. Make sure you're sending a 'file' field in form-data."}, status=400)
+from django.views.decorators.csrf import csrf_exempt, requires_csrf_token
 
-    print("SUMMARIZING TEXT")
-    uploaded_file = request.FILES["file"]  # Get the uploaded file
+from rest_framework import generics
 
-    # creating a pdf reader object
-    reader = PdfReader(uploaded_file)
 
-    page = reader.pages[0]
+class SummarizeText(generics.GenericAPIView):
 
-    text = page.extract_text()
+    @csrf_exempt
+    def post(self, request):
+        # Debugging: Print request method and content type
+        print("Request Method:", request.method)
+        print("Request Content-Type:", request.content_type)
+        print("Request FILES:", request.FILES)
 
-    summarizedText = gemini.makeSummary(text)
+        
+        print("sessionid: " + request.COOKIES['sessionid'])
 
-    summary = Summaries(
-        name = "blockchain",
-        summaryText = summarizedText,
-        pub_date = datetime.date.today()
-    )
+        # Check if file is included in request
+        if "file" not in request.FILES:
+            return Response({"error": "No file uploaded. Make sure you're sending a 'file' field in form-data."}, status=400)
 
-    summary.save()
+        print("SUMMARIZING TEXT")
+        uploaded_file = request.FILES["file"]  # Get the uploaded file
 
-    return JsonResponse({"summaryID": summary.id})
+        # creating a pdf reader object
+        reader = PdfReader(uploaded_file)
 
-@api_view(["GET"])
-def get_summary_by_id(request, id):
-    
-    print("Getting summary")
+        page = reader.pages[0]
 
-    summary = Summaries.objects.get(pk = id)
+        text = page.extract_text()
 
-    text = summary.summaryText.splitlines()
+        summarizedText = gemini.makeSummary(text)
 
-    responseData = {
-        "name": summary.name,
-        "summary": text[1:]
-    }
+        summary = Summaries(
+            name = "blockchain",
+            summaryText = summarizedText,
+            pub_date = datetime.date.today()
+        )
 
-    return JsonResponse(responseData)
+        summary.save()
+
+        return JsonResponse({"summaryID": summary.id})
+
+class GetSummary(generics.GenericAPIView):
+    def get(self, request, id):
+        
+        print("Getting summary")
+
+        summary = Summaries.objects.get(pk = id)
+
+        text = summary.summaryText.splitlines()
+
+        responseData = {
+            "name": summary.name,
+            "summary": text[1:]
+        }
+
+        return JsonResponse(responseData)

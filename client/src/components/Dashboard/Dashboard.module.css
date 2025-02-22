@@ -19,7 +19,13 @@
     margin-bottom: 10px;
     border-radius: 10px;
     border: 1px solid #DBE0E5;
+    margin-left: none;
 }
+
+.row h3 {
+    text-align: left;
+}
+
 
 .rowCharacteristics {
     text-align: left;

@@ -27,8 +27,8 @@ const LoggedNavbar = ({name, setUsernameNavbar}: {name: string, setUsernameNavba
           <h1 className={styles.logo}>Hi, {name}</h1>
           <ul className={styles.navMenu}>
             <div className={styles.links}>
-              <li onClick={logOutLocal}>log out</li>
-              <li><Link to="/dashboad">Dashboard</Link></li>
+              <li onClick={logOutLocal} className={styles.logOutButton}>log out</li>
+              <li><Link to="/dashboard">Dashboard</Link></li>
               <li className={styles.logIn}><Link to="/main">New</Link></li>
             </div>
           </ul>

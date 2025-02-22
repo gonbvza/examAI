@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Dashboard.module.css';
 
+import { capitalizeFirstLetter } from '../../helpers/capitalize';
+
 interface Row {
   id: string;
   name: string;
-  created_at: string; // Use string instead of Date
+  pub_date: string; // Use string instead of Date
 }
 
 interface Rows {
@@ -64,9 +66,9 @@ const Dashboard = () => {
           {rows?.summaries.map((summary) => (
             <div key={summary.id} className={styles.row}>
               <div className={styles.rowBody}>
-                <h3>{summary.name}</h3>
+                <h3>{capitalizeFirstLetter(summary.name)}</h3>
                 <div className={styles.rowCharacteristics}>
-                  <p>Created on: {new Date(summary.created_at).toLocaleDateString()}</p>
+                  <p>Created on: {new Date(summary.pub_date).toLocaleDateString()}</p>
                 </div>
               </div>
               <button className={styles.viewButton} onClick={() => sendToWindow(0, summary.id)}>View</button>
@@ -76,9 +78,9 @@ const Dashboard = () => {
           {rows?.questions.map((question) => (
             <div key={question.id} className={styles.row}>
               <div className={styles.rowBody}>
-                <h3>{question.name}</h3>
+                <h3>{capitalizeFirstLetter(question.name)}</h3>
                 <div className={styles.rowCharacteristics}>
-                  <p>Created on: {new Date(question.created_at).toLocaleDateString()}</p>
+                  <p>Created on: {new Date(question.pub_date).toLocaleDateString()}</p>
                 </div>
               </div>
               <button className={styles.viewButton} onClick={() => sendToWindow(1, question.id)}>View</button>

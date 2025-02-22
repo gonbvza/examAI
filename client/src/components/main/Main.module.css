@@ -33,6 +33,18 @@
     padding: 10px;
 }
 
+.nameTextInput {
+    border: 1px solid #DBE0E5;
+    border-radius: 12px;
+    padding: 10px;
+    max-width: 70%;
+    margin-bottom: 10px;
+}
+
+.textInput::placeholder {
+    color: #A1824A;
+}
+
 .uploadContainer input {
     width: 80%;
     margin-top: 4%;

@@ -64,7 +64,14 @@ a {
     height: 2px;  
     background-color: #d8d8d8;  
 }
-  
+
+.logOutButton {
+    background-color: #ff4d4d;
+    padding: 5px;
+    border-radius: 5px;
+    color: white;
+}
+
 @media screen and (max-width: 780px){
 
     /* hamburger */

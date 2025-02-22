@@ -11,12 +11,13 @@ from django.contrib.auth.models import User
 
 from django.views.decorators.csrf import csrf_exempt, requires_csrf_token
 
+import json
+
 from rest_framework import generics
 
 
-class SummarizeText(generics.GenericAPIView):
+class SummarizeTextFile(generics.GenericAPIView):
 
-    @csrf_exempt
     def post(self, request):
         # Debugging: Print request method and content type
         print("Request Method:", request.method)
@@ -29,9 +30,10 @@ class SummarizeText(generics.GenericAPIView):
         if "file" not in request.FILES:
             return Response({"error": "No file uploaded. Make sure you're sending a 'file' field in form-data."}, status=400)
 
-        print("SUMMARIZING TEXT")
+        print("SUMMARIZING FLE")
         uploaded_file = request.FILES["file"]  # Get the uploaded file
-
+        file_name = uploaded_file.name
+        
         # creating a pdf reader object
         reader = PdfReader(uploaded_file)
 
@@ -42,7 +44,32 @@ class SummarizeText(generics.GenericAPIView):
         summarizedText = gemini.makeSummary(text)
 
         summary = Summaries(
-            name = "blockchain",
+            name = file_name,
+            summaryText = summarizedText,
+            pub_date = datetime.date.today(),
+            user_id = current_user
+        )
+
+        summary.save()
+
+        return JsonResponse({"summaryID": summary.id})
+
+class SummarizeText(generics.GenericAPIView):
+
+    def post(self, request):
+        # Debugging: Print request method and content type
+        current_user = request.user
+
+        print("SUMMARIZING TEXT")
+
+        content = request.data
+        text = content['text']
+        name = content['name']
+
+        summarizedText = gemini.makeSummary(text)
+
+        summary = Summaries(
+            name = name,
             summaryText = summarizedText,
             pub_date = datetime.date.today(),
             user_id = current_user

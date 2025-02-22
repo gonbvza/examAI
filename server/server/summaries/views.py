@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view
 from pypdf import PdfReader
 from AI import gemini
 import datetime
-
+from django.core import serializers
 from django.contrib.sessions.models import Session
 from django.contrib.auth.models import User
 
@@ -23,8 +23,7 @@ class SummarizeText(generics.GenericAPIView):
         print("Request Content-Type:", request.content_type)
         print("Request FILES:", request.FILES)
 
-        
-        print("sessionid: " + request.COOKIES['sessionid'])
+        current_user = request.user
 
         # Check if file is included in request
         if "file" not in request.FILES:
@@ -45,7 +44,8 @@ class SummarizeText(generics.GenericAPIView):
         summary = Summaries(
             name = "blockchain",
             summaryText = summarizedText,
-            pub_date = datetime.date.today()
+            pub_date = datetime.date.today(),
+            user_id = current_user
         )
 
         summary.save()
@@ -67,3 +67,24 @@ class GetSummary(generics.GenericAPIView):
         }
 
         return JsonResponse(responseData)
+
+class GetAllSummaries(generics.GenericAPIView):
+    def get(self, request):
+        if request.user.is_authenticated:
+            currentUser = request.user
+
+            summaries = Summaries.objects.filter(user_id = currentUser)
+
+            data = []
+            for i in summaries:
+                data.append(i.getRow())
+
+            response = {
+                "summaries": data,
+                "questions": []
+            }
+
+            return Response(response)
+
+        print("Not authenitcated")
+        return Response("Not authenticated")

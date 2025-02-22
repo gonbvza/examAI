@@ -1,26 +1,20 @@
-import {useEffect, useState} from 'react'
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from './Dashboard.module.css'
-import Navbar from '../navbar/Navbar'
-import Footer from '../Footer/Footer'
+import styles from './Dashboard.module.css';
 
-interface rows {
-  summaries: {
-    id: string;
-    name: string;
-    type: string;
-    created_at: Date;
-  }[];
-  questions: {
-    id: string;
-    name: string;
-    type: string;
-    created_at: Date;
-  }[];
+interface Row {
+  id: string;
+  name: string;
+  created_at: string; // Use string instead of Date
+}
+
+interface Rows {
+  questions: Row[];
+  summaries: Row[];
 }
 
 const Dashboard = () => {
-  const [rows, setRows] = useState<rows | null>(null);  
+  const [rows, setRows] = useState<Rows | null>(null);
   const navigate = useNavigate();
 
   // 0 is for summary, 1 is for question
@@ -33,18 +27,33 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    fetch('/public/rowDummy.json') 
-      .then((response) => {
+    async function getSummaries() {
+      try {
+        const response = await fetch("http://localhost:8000/summary/", {
+          credentials: "include", // Sends sessionid cookie
+        });
+
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        return response.json();
-      })
-      .then((data) => {
-        setRows(data);
-      })
-      .catch((error) => console.error('Error loading JSON:', error));
+
+        const data = await response.json();
+        console.log(data)
+        setRows(data); // Update rows state
+      } catch (error) {
+        console.error("Error fetching summaries:", error);
+      }
+    }
+
+    getSummaries();
   }, []);
+
+  // Log updated rows after they are set
+  useEffect(() => {
+    if (rows) {
+      console.log("Rows updated: ", rows);
+    }
+  }, [rows]);
 
   return (
     <>
@@ -81,4 +90,4 @@ const Dashboard = () => {
   );
 }
 
-export default Dashboard
+export default Dashboard;

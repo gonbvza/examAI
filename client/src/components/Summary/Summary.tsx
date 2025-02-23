@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import Navbar from '../navbar/Navbar';
-import Footer from '../Footer/Footer';
+
 
 import styles from './Summary.module.css';
 

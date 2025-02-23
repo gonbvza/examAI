@@ -66,7 +66,7 @@ const Dashboard = () => {
           {rows?.summaries.map((summary) => (
             <div key={summary.id} className={styles.row}>
               <div className={styles.rowBody}>
-                <h3>{capitalizeFirstLetter(summary.name)}</h3>
+                <h3>{capitalizeFirstLetter(summary.name)} Summary</h3>
                 <div className={styles.rowCharacteristics}>
                   <p>Created on: {new Date(summary.pub_date).toLocaleDateString()}</p>
                 </div>
@@ -78,7 +78,7 @@ const Dashboard = () => {
           {rows?.questions.map((question) => (
             <div key={question.id} className={styles.row}>
               <div className={styles.rowBody}>
-                <h3>{capitalizeFirstLetter(question.name)}</h3>
+                <h3>{capitalizeFirstLetter(question.name)} Questions</h3>
                 <div className={styles.rowCharacteristics}>
                   <p>Created on: {new Date(question.pub_date).toLocaleDateString()}</p>
                 </div>

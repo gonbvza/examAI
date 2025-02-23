@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route} from 'react-router-dom'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 
 // Import components

@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import Navbar from '../navbar/Navbar';
-import Footer from '../Footer/Footer';
+
 import styles from './Question.module.css'
 import { faChevronDown, faChevronUp} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,14 +8,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 interface QuestionData {
   id: number;
   name: string;
-  type: string;
   questions: {
     questionText: string;
-    answerA: string;
-    answerB: string;
-    answerC: string;
-    answerD: string;
-    Correct: string;
+    A: string;
+    B: string;
+    C: string;
+    D: string;
+    correct: string;
   }[];
   created_at: string;
 }
@@ -30,7 +28,7 @@ const Question = () => {
   console.log(questionId);
 
   useEffect(() => {
-    fetch('/public/questionMock.json') 
+    fetch(`http://127.0.0.1:8000/questions/${questionId}`) 
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -76,10 +74,10 @@ const Question = () => {
                   id={String(index)}
                   className={isVisible ? styles.visible : styles.hidden} 
                 >
-                  <li id='A' style={{ backgroundColor: answerVisibility && question.Correct === 'A' ? '#A4EF88' : '#F3F2EE'}}>A: {question.answerA}</li>
-                  <li id='B' style={{ backgroundColor: answerVisibility && question.Correct === 'B' ? '#A4EF88' : '#F3F2EE' }}>B: {question.answerB}</li>
-                  <li id='C' style={{ backgroundColor: answerVisibility && question.Correct === 'C' ? '#A4EF88' : '#F3F2EE' }}>C: {question.answerC}</li>
-                  <li id='D' style={{ backgroundColor: answerVisibility && question.Correct === 'D' ? '#A4EF88' : '#F3F2EE' }}>D: {question.answerD}</li>
+                  <li id='A' style={{ backgroundColor: answerVisibility && question.correct === 'A' ? '#A4EF88' : '#F3F2EE'}}>A: {question.A}</li>
+                  <li id='B' style={{ backgroundColor: answerVisibility && question.correct === 'B' ? '#A4EF88' : '#F3F2EE' }}>B: {question.B}</li>
+                  <li id='C' style={{ backgroundColor: answerVisibility && question.correct === 'C' ? '#A4EF88' : '#F3F2EE' }}>C: {question.C}</li>
+                  <li id='D' style={{ backgroundColor: answerVisibility && question.correct === 'D' ? '#A4EF88' : '#F3F2EE' }}>D: {question.D}</li>
                 </ul>
               </div>
             );

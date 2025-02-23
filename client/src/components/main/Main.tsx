@@ -14,6 +14,9 @@ import { useNavigate } from 'react-router-dom';
 const summaryURLFile = "http://localhost:8000/summary/generateSummary/file"
 const summaryURLText = "http://localhost:8000/summary/generateSummary/text"
 
+const questionsURLFile = "http://localhost:8000/questions/generateQuestions/file"
+const questionsURLText = "http://localhost:8000/questions/generateQuestions/text"
+
 const customModalStyles = {
     content: {
       top: '50%',
@@ -54,6 +57,9 @@ const Main = () => {
     const [uploadError, setUploadError] = useState(false)
 
     const navigate = useNavigate();
+    
+    const csrftoken: string | undefined = Cookies?.get('csrftoken') || '';
+
 
     useEffect(() => {
         const getUser = async  () => {
@@ -96,64 +102,131 @@ const Main = () => {
         setSelectedOption(option);
     };
 
-    async function sendFile() {
+    function sendRequest() {
+        console.log("sending")
         if(selectedOption == "summarize") {
-            if(file) {
-                const formData = new FormData();
-                formData.append("file", file);
-                console.log("sending file")
-                try {
-                    setloading(true)
-                    const response = await fetch(summaryURLFile, {
-                      method: 'POST',
-                      body: formData,
-                      headers: {'X-CSRFToken': Cookies.get('csrftoken')},
-                      credentials: 'include', 
-                    });
-                
-                    if (!response.ok) {
-                      throw new Error(`HTTP error! Status: ${response.status}`);
-                    }
-                
-                    const data = await response.json();
-                    console.log(data); // Handle the response from the server
-                    
-                    setloading(false)
-                    navigate(`/summary/${data.summaryID}`)
-                  } catch (error) {
-                    console.error("Error during file upload:", error);
-                }
-            } else if(text) {
+            generateSummary()
+        } else {
+            generateQuestions()
+        }
+    }
 
-                if(name == "") {
-                    console.log("Please insert a name")
-                    return
-                }
-
+    async function generateSummary() {
+        if(file) {
+            const formData = new FormData();
+            formData.append("file", file);
+            console.log("sending file")
+            try {
                 setloading(true)
-                try {
-                    console.log("sending text")
-                    const response = await fetch(summaryURLText, {
-                      method: 'POST',
-                      headers: {'X-CSRFToken': Cookies.get('csrftoken'), 'Content-Type': "application/json"},
-                      body: JSON.stringify({"name": name, "text": text}),
-                      credentials: 'include', 
-                    });
-                
-                    if (!response.ok) {
-                      throw new Error(`HTTP error! Status: ${response.status}`);
-                    }
-                
-                    const data = await response.json();
-                    console.log(data); // Handle the response from the server
-                    
-                    setloading(false)
-                    navigate(`/summary/${data.summaryID}`)
-                  } catch (error) {
-                    console.error("Error during file upload:", error);
-                    setloading(false)
-                    setUploadError(true)
+                const response = await fetch(summaryURLFile, {
+                  method: 'POST',
+                  body: formData,
+                  headers: {'X-CSRFToken': csrftoken!},
+                  credentials: 'include', 
+                });
+            
+                if (!response.ok) {
+                  throw new Error(`HTTP error! Status: ${response.status}`);
                 }
+            
+                const data = await response.json();
+                console.log(data); // Handle the response from the server
+                
+                setloading(false)
+                navigate(`/summary/${data.summaryID}`)
+              } catch (error) {
+                console.error("Error during file upload:", error);
+            }
+        } else if(text) {
+
+            if(name == "") {
+                console.log("Please insert a name")
+                return
+            }
+
+            setloading(true)
+            try {
+                console.log("sending text")
+                const response = await fetch(summaryURLText, {
+                  method: 'POST',
+                  headers: {'X-CSRFToken': csrftoken!, 'Content-Type': "application/json"},
+                  body: JSON.stringify({"name": name, "text": text}),
+                  credentials: 'include', 
+                });
+            
+                if (!response.ok) {
+                  throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+            
+                const data = await response.json();
+                console.log(data); // Handle the response from the server
+                
+                setloading(false)
+                navigate(`/summary/${data.summaryID}`)
+              } catch (error) {
+                console.error("Error during file upload:", error);
+                setloading(false)
+                setUploadError(true)
+            }
+        }
+    }
+
+    async function generateQuestions() {
+        if(file) {
+            const formData = new FormData();
+            formData.append("file", file);
+            console.log("sending file")
+            try {
+                setloading(true)
+                const response = await fetch(questionsURLFile, {
+                  method: 'POST',
+                  body: formData,
+                  headers: {'X-CSRFToken': csrftoken!},
+                  credentials: 'include', 
+                });
+            
+                if (!response.ok) {
+                  throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+            
+                const data = await response.json();
+                console.log(data); // Handle the response from the server
+                
+                setloading(false)
+                navigate(`/question/${data.summaryID}`)
+              } catch (error) {
+                console.error("Error during file upload:", error);
+            }
+        } else if(text) {
+
+            if(name == "") {
+                console.log("Please insert a name")
+                return
+            }
+
+            setloading(true)
+            try {
+                console.log("sending text")
+                const response = await fetch(questionsURLText, {
+                  method: 'POST',
+                  headers: {'X-CSRFToken': csrftoken!, 'Content-Type': "application/json"},
+                  body: JSON.stringify({"name": name, "text": text}),
+                  credentials: 'include', 
+                });
+            
+                if (!response.ok) {
+                  throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+            
+                const data = await response.json();
+                console.log(data); // Handle the response from the server
+                
+                setloading(false)
+                navigate(`/question/${data.summaryID}`)
+              } catch (error) {
+                console.error("Error during file upload:", error);
+                setloading(false)
+                setUploadError(true)
             }
         }
     }
@@ -201,7 +274,7 @@ const Main = () => {
                     </div>
                 </div>
                 <div className={styles.submitButtonContainer}>
-                    <button onClick={sendFile} className={styles.submitButton}>
+                    <button onClick={sendRequest} className={styles.submitButton}>
                         Submit
                     </button>
                 </div>

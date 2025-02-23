@@ -1,4 +1,6 @@
 from .models import Summaries
+from questions.models import Exams
+
 from django.http import JsonResponse
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -95,20 +97,25 @@ class GetSummary(generics.GenericAPIView):
 
         return JsonResponse(responseData)
 
-class GetAllSummaries(generics.GenericAPIView):
+class GetAllExams(generics.GenericAPIView):
     def get(self, request):
         if request.user.is_authenticated:
             currentUser = request.user
 
             summaries = Summaries.objects.filter(user_id = currentUser)
+            questionExams = Exams.objects.filter(user_id = currentUser)
 
-            data = []
+            summariesData = []
             for i in summaries:
-                data.append(i.getRow())
+                summariesData.append(i.getRow())
+
+            questionData = []
+            for i in questionExams:
+                questionData.append(i.getRow())
 
             response = {
-                "summaries": data,
-                "questions": []
+                "summaries": summariesData,
+                "questions": questionData
             }
 
             return Response(response)

@@ -15,6 +15,8 @@ from django.views.decorators.csrf import csrf_exempt, requires_csrf_token
 
 from django.core.exceptions import BadRequest
 
+import pymupdf4llm
+
 import json
 
 from rest_framework import generics
@@ -23,27 +25,26 @@ from rest_framework import generics
 class SummarizeTextFile(generics.GenericAPIView):
 
     def post(self, request):
-        # Debugging: Print request method and content type
         print("Request Method:", request.method)
         print("Request Content-Type:", request.content_type)
         print("Request FILES:", request.FILES)
 
         current_user = request.user
 
-        # Check if file is included in request
         if "file" not in request.FILES:
             return Response({"error": "No file uploaded. Make sure you're sending a 'file' field in form-data."}, status=400)
 
         print("SUMMARIZING FLE")
-        uploaded_file = request.FILES["file"]  # Get the uploaded file
+        uploaded_file = request.FILES["file"] 
         file_name = uploaded_file.name
         
-        # creating a pdf reader object
         reader = PdfReader(uploaded_file)
+        text = ""
 
-        page = reader.pages[0]
-
-        text = page.extract_text()
+        for i in range(len(reader.pages)):
+            print("page " + str(i))
+            page = reader.pages[i]
+            text += page.extract_text()
 
         summarizedText = gemini.makeSummary(text)
 
@@ -61,10 +62,8 @@ class SummarizeTextFile(generics.GenericAPIView):
 class SummarizeText(generics.GenericAPIView):
 
     def post(self, request):
-        # Debugging: Print request method and content type
+    
         current_user = request.user
-
-        print("SUMMARIZING TEXT")
 
         content = request.data
         text = content['text']

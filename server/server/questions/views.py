@@ -21,24 +21,22 @@ from rest_framework import generics
 class QuestionsFile(generics.GenericAPIView):
 
     def post(self, request):
-                # Debugging: Print request method and content type
-        print("Request Method:", request.method)
-        print("Request Content-Type:", request.content_type)
-        print("Request FILES:", request.FILES)
-
         current_user = request.user
 
-        # Check if file is included in request
         if "file" not in request.FILES:
             return Response({"error": "No file uploaded. Make sure you're sending a 'file' field in form-data."}, status=400)
 
-        print("SUMMARIZING FLE")
-        uploaded_file = request.FILES["file"]  # Get the uploaded file
-        file_name = uploaded_file.name
+        uploaded_file = request.FILES["file"] 
         
-        print("Creating the pdf object reader")
-        # creating a pdf reader object
+        file_name = uploaded_file.name
+
         reader = PdfReader(uploaded_file)
+        text = ""
+
+        for i in range(len(reader.pages)):
+            print("page " + str(i))
+            page = reader.pages[i]
+            text += page.extract_text()
 
         page = reader.pages[0]
 

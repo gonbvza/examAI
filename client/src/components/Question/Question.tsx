@@ -56,7 +56,7 @@ const Question = () => {
   return (
     <>
       <div className={styles.questionPageContainer}>
-        <h1>Exam {questionMock ? questionMock.name : "Loading..."}</h1>
+        <h1>{questionMock ? questionMock.name : "Loading..."} Exam</h1>
         <div className={styles.promptContainers}>
           {questionMock?.questions?.map((question, index) => {
             const isVisible = visibleAnswers[String(index)];

@@ -39,7 +39,7 @@ const customModalStyles = {
         transform: 'translate(-50%, -50%)',
         border: 'none',
         background: "#ff4d4d",  // Softer red
-        padding: "20px",
+        padding: "30px",
         borderRadius: "10px",
         color: "white",
         boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
@@ -55,6 +55,7 @@ const Main = () => {
     const [selectedOption, setSelectedOption] = useState<string | null>(null);
     const [loading, setloading] = useState(false)
     const [uploadError, setUploadError] = useState(false)
+    const [selectionError, setElectionError] = useState(false)
 
     const navigate = useNavigate();
     
@@ -104,6 +105,11 @@ const Main = () => {
 
     function sendRequest() {
         console.log("sending")
+        if(selectedOption == null) {
+            setElectionError(true)
+            return
+        }
+
         if(selectedOption == "summarize") {
             generateSummary()
         } else {
@@ -307,6 +313,26 @@ const Main = () => {
                             Upload Failed!
                         </p>
                         <p>Please try again or check your file format.</p>
+                    </div>
+                </Modal>
+                <Modal isOpen={selectionError} style={ErrorModalStyle}>
+                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                        <button 
+                            onClick={() => setElectionError(false)} 
+                            style={{
+                                background: "transparent", 
+                                border: "none", 
+                                fontSize: "20px", 
+                                color: "white", 
+                                position: "absolute", 
+                                top: "10px", 
+                                right: "15px",
+                                cursor: "pointer"
+                            }}
+                        >
+                            <FontAwesomeIcon icon={faClose} />
+                        </button>
+                        <p>Please select a choice.</p>
                     </div>
                 </Modal>
 

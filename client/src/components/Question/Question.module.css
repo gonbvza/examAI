@@ -13,13 +13,17 @@
 
 .prompt h3 {
     font-weight: 500;
-    font-size: 23px;
+    font-size: 19px;
 }
 
 .prompt {
     display: flex;
     justify-content: space-between; 
     align-items: center;
+    border: 1px solid #DBE0E5;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 2px 2px 2px gray;
 }
 
 .promptContainers ul {

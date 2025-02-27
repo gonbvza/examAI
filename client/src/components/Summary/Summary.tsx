@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
+import Cookies  from 'js-cookie';
 
 import styles from './Summary.module.css';
 
@@ -14,8 +15,10 @@ const Summary = () => {
 
   const { summaryId } = useParams<{ summaryId: string }>();
 
+  const csrftoken: string | undefined = Cookies?.get('csrftoken') || '';
+
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/summary/${summaryId}`) // No 'public/' in path
+    fetch(`http://127.0.0.1:8000/summary/${summaryId}`, {credentials: "include",  headers: {'X-CSRFToken': csrftoken},}) 
 
       .then((response) => {
         if (!response.ok) {
@@ -28,7 +31,22 @@ const Summary = () => {
         setSummaryMock(data);
       })
       .catch((error) => console.error('Error loading JSON:', error));
+    
+      const getData = async () => {
+        try {
+          const response = await fetch(`http://127.0.0.1:8000/summary/${summaryId}`, {
+            credentials: "include", // Sends sessionid cookie
+            headers: {'X-CSRFToken': csrftoken},
+          })
+        } catch (error) {
+          console.log(error)
+        }
+      }
+
+      getData()
   }, []);
+
+  
 
   return (
     <>

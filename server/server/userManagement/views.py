@@ -45,7 +45,7 @@ class LoginView(generics.GenericAPIView):
 
 class CheckSession(generics.GenericAPIView):        
     def get(self, request):
-        print(request.COOKIES)
+        print(request.user)
 
         if request.user.is_authenticated:
             print("authenticated")

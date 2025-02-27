@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Main.module.css';
-import { faFile} from "@fortawesome/free-solid-svg-icons";
+import { faFile, faL} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 import Modal from 'react-modal';
@@ -39,7 +39,7 @@ const customModalStyles = {
         transform: 'translate(-50%, -50%)',
         border: 'none',
         background: "#ff4d4d",  // Softer red
-        padding: "20px",
+        padding: "30px",
         borderRadius: "10px",
         color: "white",
         boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
@@ -55,6 +55,8 @@ const Main = () => {
     const [selectedOption, setSelectedOption] = useState<string | null>(null);
     const [loading, setloading] = useState(false)
     const [uploadError, setUploadError] = useState(false)
+    const [selectionError, setElectionError] = useState(false)
+    const [wrongCredentials, setwrongCredentials] = useState(false)
 
     const navigate = useNavigate();
     
@@ -74,9 +76,17 @@ const Main = () => {
     }, []) 
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setwrongCredentials(false)
         if (e.target.files && e.target.files[0]) {
             let selectedFile = e.target.files[0];
             let originalName = selectedFile.name;
+            let size = selectedFile.size
+            
+            if(size > 10484760 ) {
+                setwrongCredentials(true)
+                return
+            }
+
             let nameWithoutExtension = originalName.substring(0, originalName.lastIndexOf(".")); 
             
             let words = nameWithoutExtension.split(" ").filter(word => word.length > 0); 
@@ -104,6 +114,11 @@ const Main = () => {
 
     function sendRequest() {
         console.log("sending")
+        if(selectedOption == null) {
+            setElectionError(true)
+            return
+        }
+
         if(selectedOption == "summarize") {
             generateSummary()
         } else {
@@ -245,6 +260,7 @@ const Main = () => {
                     <label htmlFor="fileUpload" className={styles.uploadButton}>
                         <FontAwesomeIcon icon={faFile}/><i></i> {(file && file.name) || "Or upload a PDF"} 
                     </label>
+                    <p className={styles.wrongCredentials}> {wrongCredentials ? "File size too long, please insert another" : ""}</p>
                 </div>
                 <div className={styles.selectionContainer}>
                     <div className={styles.selectionHeader}>
@@ -307,6 +323,26 @@ const Main = () => {
                             Upload Failed!
                         </p>
                         <p>Please try again or check your file format.</p>
+                    </div>
+                </Modal>
+                <Modal isOpen={selectionError} style={ErrorModalStyle}>
+                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                        <button 
+                            onClick={() => setElectionError(false)} 
+                            style={{
+                                background: "transparent", 
+                                border: "none", 
+                                fontSize: "20px", 
+                                color: "white", 
+                                position: "absolute", 
+                                top: "10px", 
+                                right: "15px",
+                                cursor: "pointer"
+                            }}
+                        >
+                            <FontAwesomeIcon icon={faClose} />
+                        </button>
+                        <p>Please select a choice.</p>
                     </div>
                 </Modal>
 

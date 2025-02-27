@@ -62,6 +62,9 @@ const Dashboard = () => {
       <div className={styles.dashboardContainer}>
         <h1>Dashboard</h1>
         <p>Please select your exam</p>
+        <div style={{display: (rows?.rows.length == 0) ? 'inline': 'none'}} className={styles.noExams}>
+          <p>Currently you have no exams</p>
+        </div>
         <div className={styles.rowsDisplay}>
           {rows?.rows.map((row) => (
             <div key={row.id} className={styles.row}>

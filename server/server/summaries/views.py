@@ -13,6 +13,8 @@ from django.contrib.auth.models import User
 
 from django.views.decorators.csrf import csrf_exempt, requires_csrf_token
 
+from django.core.exceptions import BadRequest
+
 import json
 
 from rest_framework import generics
@@ -83,19 +85,30 @@ class SummarizeText(generics.GenericAPIView):
 
 class GetSummary(generics.GenericAPIView):
     def get(self, request, id):
+        try:
+
+            current_user = request.user
+
+            current_user_id = current_user.id
+
+            summary = Summaries.objects.get(pk = id)
+            
+            if current_user != summary.user_id:
+                return Response({"error": "You cant access that page"}, status=404)
+
+            text = summary.summaryText.splitlines()
+
+            responseData = {
+                "name": summary.name,
+                "summary": text[1:]
+            }
+
+            return JsonResponse(responseData)
+        except (BadRequest):
+            return Response({"error": "Summary not found"}, status=400)
         
-        print("Getting summary")
-
-        summary = Summaries.objects.get(pk = id)
-
-        text = summary.summaryText.splitlines()
-
-        responseData = {
-            "name": summary.name,
-            "summary": text[1:]
-        }
-
-        return JsonResponse(responseData)
+        except Exception as e:
+            return Response({"error": e}, status=400)
 
 class GetAllExams(generics.GenericAPIView):
     def get(self, request):
@@ -113,9 +126,7 @@ class GetAllExams(generics.GenericAPIView):
             for i in questionExams:
                 data.append(i.getRow())
 
-            print("the data es ")
             data.sort(key=lambda x: x['pub_date'], reverse=True)
-            print()
 
             response = {
                 "rows": data,

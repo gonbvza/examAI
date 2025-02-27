@@ -1,19 +1,39 @@
+:root {
+    --primary-color: #2563eb;
+    --primary-hover: #1d4ed8;
+    --primary-light: #dbeafe;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --border-color: #e5e7eb;
+    --background-light: #f9fafb;
+    --background-hover: #eff6ff;
+    --box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    --box-shadow-hover: 0 15px 30px rgba(0, 0, 0, 0.08);
+    --border-radius: 12px;
+    --border-radius-lg: 16px;
+    --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --button-colour: #2563eb;
+    --item-background: #f8fafc;
+    --transition-standard: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --container-width: clamp(320px, 90%, 1400px);
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 40px;
+  }
+
 .webContainer {
     display: flex;
     justify-content: center; 
     width: 100vw; 
 }
-  
+
 .bodyWeb {
-    width: 70%; 
-    margin: 90px;
-
+    width: var(--container-width);
+    margin: var(--spacing-xl) auto;
+    padding: 0 var(--spacing-md);
 }
 
-.bodyWeb img {
-    border-radius: 10px;
-}
-  
 .bodyTitle {
     display: flex;
     margin: auto;
@@ -37,13 +57,62 @@
     margin-top: 10px;
 }
 
-.mainText {
-
-    margin-top: 70px;
+/* Submit Button */
+.getStarted {
+    min-width: 180px;
+    padding: 14px 32px;
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 600;
+    font-size: 16px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: var(--transition-standard);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+    margin: var(--spacing-xl) auto;
+    display: block;
+    position: relative;
+    overflow: hidden;
+}
+  
+.getStarted:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 16px rgba(37, 99, 235, 0.3);
+}
+  
+.getStarted:active {
+    transform: translateY(-1px);
 }
 
+.bodyWeb img {
+    border-radius: var(--border-radius-lg);
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+    box-shadow: var(--box-shadow);
+    transition: var(--transition-standard);
+}
+  
+.bodyWeb img:hover {
+    transform: scale(1.02);
+    box-shadow: var(--box-shadow-hover);
+}
+
+.mainText {
+    margin-top: var(--spacing-xl);
+    text-align: center;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+  
 .mainText h2 {
-    font-size: 30px;
+    font-size: clamp(24px, 4vw, 32px);
+    position: relative;
+    display: inline-block;
+    margin-bottom: var(--spacing-md);
 }
 
 .mainText p {
@@ -54,30 +123,59 @@
 /* Cards */
 .cardContainer {
     display: flex;
-    justify-content: space-around;
-    margin-top: 40px;
-}
-
-.features-container {
-    display: flex;
     justify-content: center;
-    gap: 20px;
-    padding: 20px;
-}
+    flex-wrap: wrap;
+    gap: var(--spacing-xl);
+    margin-top: var(--spacing-xl);
+  }
   
-.card {
-    margin-top: 30px;
+  .card {
     background: white;
-    border: 1px solid #E8DECF;
-    border-radius: 10px;
-    padding: 20px;
-    gap: 4px;
-    width: 250px;
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-xl);
+    width: 100%;
+    max-width: 300px;
     text-align: left;
     display: flex;
     flex-direction: column;
     align-items: start;
-}
+    box-shadow: var(--box-shadow);
+    transition: var(--transition-standard);
+    border-top: 4px solid var(--primary-color);
+  }
+  
+  .card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--box-shadow-hover);
+  }
+  
+  .card svg {
+    font-size: 28px;
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-md);
+    padding: var(--spacing-sm);
+    background-color: var(--primary-light);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .card .title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: var(--spacing-sm) 0;
+  }
+  
+  .card .description {
+    font-size: 16px;
+    color: var(--text-secondary);
+    margin-top: var(--spacing-sm);
+  }
+  
   
 .icon {
     font-size: 30px;

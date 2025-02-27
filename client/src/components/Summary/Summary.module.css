@@ -1,12 +1,176 @@
-.summaryPageContainer {
-    margin-top: 2%;
+:root {
+    --primary-color: #2563eb;
+    --primary-hover: #1d4ed8;
+    --text-primary: #333333;
+    --text-secondary: #666666;
+    --border-color: #e5e7eb;
+    --background-light: #f9fafb;
+    --background-hover: #eff6ff;
+    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --border-radius: 12px;
+    --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+  
+  /* Summary Page Container */
+  .summaryPageContainer {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: var(--font-family);
+  }
+  
+  /* Summary Container */
+  .summaryContainer {
+    width: 90%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 30px;
+    transition: transform 0.3s ease;
+    overflow: hidden; /* Add this to contain child elements */
+  }
+  
+  /* Summary Title */
+  .summaryTitle {
+    font-weight: 800;
+    font-size: 28px;
+    color: var(--text-primary);
+    margin-bottom: 24px;
     text-align: center;
-}
-
-.summaryContainer {
-    width: 60%;
-    margin: auto;
-    margin-top: 3%;
-    padding: 20px; 
-    border-radius: 8px; 
-}
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--border-color);
+    word-wrap: break-word; /* Allow long words to break */
+    overflow-wrap: break-word; /* Modern browsers */
+  }
+  
+  /* Summary Content */
+  .summaryContent {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%; /* Ensure it takes full width */
+  }
+  
+  .summaryItem {
+    padding: 16px;
+    background-color: var(--background-light);
+    border-radius: var(--border-radius);
+    transition: background-color 0.2s ease;
+    word-wrap: break-word; /* Allow long words to break */
+    overflow-wrap: break-word; /* Modern browsers */
+    width: 100%; /* Ensure it takes full width */
+  }
+  
+  .summaryItem p {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: 16px;
+    line-height: 1.6;
+    white-space: normal; /* Allow text to wrap */
+    word-wrap: break-word; /* Allow long words to break */
+    overflow-wrap: break-word; /* Modern browsers */
+    max-width: 100%; /* Restrict to container width */
+  }
+  
+  /* Loading State */
+  .loadingContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    width: 100%;
+  }
+  
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(37, 99, 235, 0.1);
+    border-radius: 50%;
+    border-top: 4px solid var(--primary-color);
+    animation: spin 1s linear infinite;
+    margin-bottom: 16px;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  /* Error State */
+  .errorContainer {
+    text-align: center;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 40px 20px;
+  }
+  
+  .errorIcon {
+    width: 60px;
+    height: 60px;
+    background-color: #fee2e2;
+    color: #dc2626;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    font-weight: bold;
+    margin: 0 auto 20px;
+  }
+  
+  .errorContainer h2 {
+    color: var(--text-primary);
+    margin-bottom: 12px;
+  }
+  
+  .errorContainer p {
+    color: var(--text-secondary);
+  }
+  
+  /* Not Found State */
+  .notFoundContainer {
+    text-align: center;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 40px 20px;
+  }
+  
+  .notFoundContainer h2 {
+    color: var(--text-primary);
+    margin-bottom: 12px;
+  }
+  
+  .notFoundContainer p {
+    color: var(--text-secondary);
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .summaryContainer {
+      width: 100%;
+      padding: 20px;
+    }
+    
+    .summaryTitle {
+      font-size: 24px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .summaryPageContainer {
+      padding: 20px 12px;
+    }
+    
+    .summaryTitle {
+      font-size: 22px;
+    }
+    
+    .summaryItem {
+      padding: 12px;
+    }
+  }

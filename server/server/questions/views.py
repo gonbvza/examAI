@@ -36,12 +36,16 @@ class QuestionsFile(generics.GenericAPIView):
         uploaded_file = request.FILES["file"]  # Get the uploaded file
         file_name = uploaded_file.name
         
+        print("Creating the pdf object reader")
         # creating a pdf reader object
         reader = PdfReader(uploaded_file)
 
         page = reader.pages[0]
 
         text = page.extract_text()
+
+        print("The text is")
+        print(text)
 
         exam = gemini.generateExam(text)
 
@@ -111,10 +115,17 @@ class QuestionsText(generics.GenericAPIView):
 
 class GetExam(generics.GenericAPIView):
     def get(self, request, id):
-        print("getting questinos")
+
         examRow = Exams.objects.get(pk=id)
 
         questions = Questions.objects.filter(exam_id=examRow)
+
+        current_user = request.user
+
+        current_user_id = current_user.id
+        
+        if current_user != examRow.user_id:
+            return Response({"error": "You cant access that page"}, status=404)
 
         data = []
         for question in questions:

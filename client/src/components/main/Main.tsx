@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Main.module.css';
-import { faFile, faL} from "@fortawesome/free-solid-svg-icons";
+import { faFile } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 import Modal from 'react-modal';
@@ -55,7 +55,7 @@ const Main = () => {
     const [selectedOption, setSelectedOption] = useState<string | null>(null);
     const [loading, setloading] = useState(false)
     const [uploadError, setUploadError] = useState(false)
-    const [selectionError, setElectionError] = useState(false)
+    const [errorModalMessage, setErrorModalMessage] = useState<string>("")
     const [wrongCredentials, setwrongCredentials] = useState(false)
 
     const navigate = useNavigate();
@@ -115,7 +115,8 @@ const Main = () => {
     function sendRequest() {
         console.log("sending")
         if(selectedOption == null) {
-            setElectionError(true)
+            setUploadError(true)
+            setErrorModalMessage("Please select an option")
             return
         }
 
@@ -150,7 +151,16 @@ const Main = () => {
                 setloading(false)
                 navigate(`/summary/${data.summaryID}`)
               } catch (error) {
-                console.error("Error during file upload:", error);
+                setloading(false)
+
+                if(error == "Error: HTTP error! Status: 405") {
+                    setUploadError(true)
+                    setErrorModalMessage("Please provide more text")
+                    return
+                }
+
+                setUploadError(true)
+                setErrorModalMessage("Please try again")
             }
         } else if(text) {
 
@@ -179,9 +189,16 @@ const Main = () => {
                 setloading(false)
                 navigate(`/summary/${data.summaryID}`)
               } catch (error) {
-                console.error("Error during file upload:", error);
                 setloading(false)
+
+                if(error == "Error: HTTP error! Status: 405") {
+                    setUploadError(true)
+                    setErrorModalMessage("Please provide more text")
+                    return
+                }
+
                 setUploadError(true)
+                setErrorModalMessage("Please try again")
             }
         }
     }
@@ -210,7 +227,16 @@ const Main = () => {
                 setloading(false)
                 navigate(`/question/${data.summaryID}`)
               } catch (error) {
-                console.error("Error during file upload:", error);
+                setloading(false)
+
+                if(error == "Error: HTTP error! Status: 405") {
+                    setUploadError(true)
+                    setErrorModalMessage("Please provide more text")
+                    return
+                }
+
+                setUploadError(true)
+                setErrorModalMessage("Please try again")
             }
         } else if(text) {
 
@@ -239,9 +265,16 @@ const Main = () => {
                 setloading(false)
                 navigate(`/question/${data.summaryID}`)
               } catch (error) {
-                console.error("Error during file upload:", error);
                 setloading(false)
+
+                if(error == "Error: HTTP error! Status: 405") {
+                    setUploadError(true)
+                    setErrorModalMessage("Please provide more text")
+                    return
+                }
+
                 setUploadError(true)
+                setErrorModalMessage("Please try again")
             }
         }
     }
@@ -322,27 +355,7 @@ const Main = () => {
                         <p style={{ fontSize: "18px", fontWeight: "bold", marginBottom: "10px" }}>
                             Upload Failed!
                         </p>
-                        <p>Please try again or check your file format.</p>
-                    </div>
-                </Modal>
-                <Modal isOpen={selectionError} style={ErrorModalStyle}>
-                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                        <button 
-                            onClick={() => setElectionError(false)} 
-                            style={{
-                                background: "transparent", 
-                                border: "none", 
-                                fontSize: "20px", 
-                                color: "white", 
-                                position: "absolute", 
-                                top: "10px", 
-                                right: "15px",
-                                cursor: "pointer"
-                            }}
-                        >
-                            <FontAwesomeIcon icon={faClose} />
-                        </button>
-                        <p>Please select a choice.</p>
+                        <p>{errorModalMessage}</p>
                     </div>
                 </Modal>
 

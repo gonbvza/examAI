@@ -71,6 +71,11 @@ class SummarizeText(generics.GenericAPIView):
 
         summarizedText = gemini.makeSummary(text)
 
+        print(summarizedText.split('\n')[0])
+
+        if summarizedText.split('\n')[0] == "Not Enough":
+            return Response({"error": "Please provide more text"}, status=405)
+
         summary = Summaries(
             name = name,
             summaryText = summarizedText,

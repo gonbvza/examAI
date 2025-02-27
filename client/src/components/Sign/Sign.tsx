@@ -2,16 +2,26 @@ import {useState, useEffect} from 'react'
 import styles from './Sign.module.css'
 import { verifyLogIn } from '../../helpers/verifyUser.ts'
 import { useNavigate } from 'react-router-dom'
+import { verifyMail } from '../../helpers/verifyMail.tsx'
 
 const Sign = ({setUsernameNavBar} : {setUsernameNavBar: React.Dispatch<React.SetStateAction<string>>}) => {
     const [Email, setEmail] = useState<string>("");
     const [Password, setPassword] = useState<string>("");
     const [Username, setUsername] = useState<string>("");
+    const [NotValidMail, setNotValidMail] = useState(false);
 
     const navigate = useNavigate();
 
     async function sendLogin(e: React.FormEvent) {
         e.preventDefault(); 
+
+        if(!verifyMail(Email)) {
+            setNotValidMail(true)
+            return
+        } 
+        
+        setNotValidMail(true)
+
         try {
             const response = await fetch("http://localhost:8000/user/signup/", {
                 method: "POST",
@@ -35,6 +45,7 @@ const Sign = ({setUsernameNavBar} : {setUsernameNavBar: React.Dispatch<React.Set
       }
 
     useEffect(() => {
+        
         const getUser = async () => {
         var user:string = await verifyLogIn()
         setUsername(user)
@@ -66,6 +77,7 @@ const Sign = ({setUsernameNavBar} : {setUsernameNavBar: React.Dispatch<React.Set
                         Email
                         <input type="text" name="Email" value={Email} placeholder='Email' onChange={(e) => setEmail(e.target.value)}></input>
                     </label>
+                    <p style={{color: 'red', display: NotValidMail ? 'inline': 'none'}}> Please provide a valid mail</p>
                     <label className={styles.emailInput}>
                         Pasword
                         <input type="password" name="Password" value={Password} placeholder='Password' onChange={(e) => setPassword(e.target.value)}></input>

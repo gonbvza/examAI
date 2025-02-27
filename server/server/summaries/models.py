@@ -27,6 +27,7 @@ class Summaries(models.Model):
         JSON = {
             "id": str(self.pk),
             "name": self.name,
+            "type": "summary", 
             "pub_date": str(self.pub_date)
         }
 

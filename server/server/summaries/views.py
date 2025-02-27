@@ -105,17 +105,20 @@ class GetAllExams(generics.GenericAPIView):
             summaries = Summaries.objects.filter(user_id = currentUser)
             questionExams = Exams.objects.filter(user_id = currentUser)
 
-            summariesData = []
+            data = []
             for i in summaries:
-                summariesData.append(i.getRow())
+                data.append(i.getRow())
 
-            questionData = []
+            
             for i in questionExams:
-                questionData.append(i.getRow())
+                data.append(i.getRow())
+
+            print("the data es ")
+            data.sort(key=lambda x: x['pub_date'], reverse=True)
+            print()
 
             response = {
-                "summaries": summariesData,
-                "questions": questionData
+                "rows": data,
             }
 
             return Response(response)

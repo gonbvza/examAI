@@ -26,6 +26,7 @@ class Exams(models.Model):
         JSON = {
             "id": str(self.pk),
             "name": self.name,
+            "type": "questions", 
             "pub_date": str(self.pub_date)
         }
 

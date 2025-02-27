@@ -1,12 +1,20 @@
+/* In your app.tsx CSS */
 html, body, #root {
     height: 100%;
-}
-
-#root {
+    margin: 0;
+  }
+  
+  #root {
     display: flex;
     flex-direction: column;
-}
-
-footer { 
-    margin-top: auto 
-}
+    min-height: 100vh; /* This ensures minimum height is full viewport */
+  }
+  
+  /* This ensures main content pushes footer down */
+  main {
+    flex: 1 0 auto;
+  }
+  
+  footer {
+    margin-top: auto; /* This is good! */
+  }

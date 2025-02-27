@@ -86,12 +86,15 @@ class SummarizeText(generics.GenericAPIView):
 class GetSummary(generics.GenericAPIView):
     def get(self, request, id):
         try:
-            user_id = request.COOKIES
 
-            print("user")
-            print(user_id)
+            current_user = request.user
+
+            current_user_id = current_user.id
 
             summary = Summaries.objects.get(pk = id)
+            
+            if current_user != summary.user_id:
+                return Response({"error": "You cant access that page"}, status=404)
 
             text = summary.summaryText.splitlines()
 

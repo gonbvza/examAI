@@ -1,90 +1,150 @@
-.questionPageContainer {
-    margin-top: 2%;
+:root {
+    --primary-color: #2563eb;
+    --primary-hover: #1d4ed8;
+    --text-primary: #333333;
+    --text-secondary: #666666;
+    --border-color: #e5e7eb;
+    --background-light: #f9fafb;
+    --background-hover: #eff6ff;
+    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --border-radius: 12px;
+    --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --button-colour: #1a73e8; /* Using your original button color */
+    --item-background: #F3F2EE;
+    --transition-standard: all 0.3s ease;
+  }
+  
+  /* Question Page Container */
+  .questionPageContainer {
+    width: 100%;
+    max-width: 1400px;
+    margin: 40px auto 0;
+    padding: 0 20px;
+    font-family: var(--font-family);
     text-align: center;
-}
-
-.promptContainers {
-    width: 60%;
-    margin: auto;
-    margin-top: 3%;
-    padding: 20px; 
-    border-radius: 8px; 
-}
-
-.prompt h3 {
-    font-weight: 500;
-    font-size: 19px;
-}
-
-.prompt {
+  }
+  
+  /* Prompt Containers */
+  .promptContainers {
+    width: 90%;
+    max-width: 1000px;
+    margin: 40px auto 0;
+    padding: 30px;
+    border-radius: var(--border-radius);
+    background-color: white;
+    box-shadow: var(--box-shadow);
+    transition: var(--transition-standard);
+  }
+  
+  /* Prompt Section */
+  .prompt {
     display: flex;
-    justify-content: space-between; 
+    justify-content: space-between;
     align-items: center;
-    border: 1px solid #DBE0E5;
-    padding: 15px;
-    border-radius: 5px;
-    box-shadow: 2px 2px 2px gray;
-}
-
-.promptContainers ul {
+    padding: 18px 20px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background-color: white;
+    transition: var(--transition-standard);
+    cursor: pointer;
+  }
+  
+  .prompt:hover {
+    background-color: var(--background-hover);
+    border-color: var(--primary-color);
+  }
+  
+  .prompt h3 {
+    font-weight: 600;
+    font-size: 17px;
+    color: var(--text-primary);
+    margin: 0;
+    transition: var(--transition-standard);
+  }
+  
+  .prompt:hover h3 {
+    color: var(--primary-color);
+  }
+  
+  /* List Styling */
+  .promptContainers ul {
     list-style-type: none;
-    padding-left: 0;
-    margin-top: 10px;
+    padding: 0;
+    margin: 20px 0 0;
     text-align: left;
-}
-
-.hidden {
+  }
+  
+  .promptContainers ul li {
+    background-color: var(--item-background);
+    width: 100%;
+    margin: 0 0 12px;
+    padding: 16px;
+    border-radius: var(--border-radius);
+    color: var(--text-primary);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: var(--transition-standard);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+  
+  
+  /* Animation States */
+  .hidden {
     opacity: 0;
     max-height: 0;
     overflow: hidden;
-    transition: opacity 1s ease, max-height 1s ease;
-}
-
-.visible {
+    transition: opacity 0.4s ease, max-height 0.5s ease;
+    margin-top: 0;
+  }
+  
+  .visible {
     opacity: 1;
-    max-height: 500px;
-    transition: opacity 1.5s ease, max-height 1s ease;
-}
-
-.promptContainers ul li {
-    background-color: #F3F2EE;
-    width: 90%;
-    margin: auto;
-    margin-bottom: 10px;
-    padding: 10px;
-    border-radius: 5px;
-
-}
-
-button {
+    max-height: 1000px; /* Increased to accommodate more content */
+    transition: opacity 0.6s ease, max-height 0.8s ease;
+    margin-top: 20px;
+  }
+  
+  /* Button Styling */
+  .answersButton {
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 20px;
-}
-
-button:hover {
-    opacity: 0.7;
-}
-
-
-/* Submit Button */
-.submitButton {
-    width: 22%;
-    background-color: var(--button-colour);
+    font-size: 22px;
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    transition: var(--transition-standard);
+  }
+  
+  /* Submit Button */
+  .submitButton {
+    min-width: 180px;
+    padding: 14px 32px;
+    background-color: var(--primary-color);
     color: white;
     font-weight: 600;
+    font-size: 16px;
+    border: none;
     border-radius: 30px;
     cursor: pointer;
-    padding: 12px 20px;  
-    text-align: center; 
-    border: none;
-    transition: all 0.3s ease; 
-    margin: auto;
-}
+    transition: var(--transition-standard);
+    box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
+    margin: 30px auto;
+    display: block;
+  }
+  
+  .submitButton:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(37, 99, 235, 0.3);
+  }
+  
+  .submitButton:active {
+    transform: translateY(-1px);
+  }
 
-.submitButton:hover {
-    transform: scale(1.1); 
-    background-color: #155D9C; 
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); 
-}
+

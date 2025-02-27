@@ -1,68 +1,107 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-
-import Cookies  from 'js-cookie';
-
 import styles from './Summary.module.css';
+
+import { useNavigate } from 'react-router-dom';
 
 interface SummaryData {
   name: string;
-  summary: string[]
+  summary: string[];
 }
 
 const Summary = () => {
-  const [summaryMock, setSummaryMock] = useState<SummaryData | null>(null);
-
+  const [summaryData, setSummaryData] = useState<SummaryData | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const { summaryId } = useParams<{ summaryId: string }>();
 
-  const csrftoken: string | undefined = Cookies?.get('csrftoken') || '';
+  const navigate = useNavigate()
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/summary/${summaryId}`, {credentials: "include",  headers: {'X-CSRFToken': csrftoken},}) 
+    // Flag to track if component is mounted
+    let isMounted = true;
 
-      .then((response) => {
+    const fetchSummaryData = async () => {
+      if (!summaryId) return;
+      
+      try {
+        setIsLoading(true);
+        const response = await fetch(`http://localhost:8000/summary/${summaryId}`, {
+          credentials: "include",
+        });
+        
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data)
-        setSummaryMock(data);
-      })
-      .catch((error) => console.error('Error loading JSON:', error));
-    
-      const getData = async () => {
-        try {
-          const response = await fetch(`http://127.0.0.1:8000/summary/${summaryId}`, {
-            credentials: "include", // Sends sessionid cookie
-            headers: {'X-CSRFToken': csrftoken},
-          })
-        } catch (error) {
-          console.log(error)
+        
+        if(response.status == 404) {
+          console.log("it is")
+          navigate("/404")
+        }
+
+        const data = await response.json();
+        
+        if (isMounted) {
+          console.log("Fetched data:", data);
+          setSummaryData(data);
+          setIsLoading(false);
+        }
+      } catch (error) {
+        console.error(error);
+        if(error == "Error: HTTP error! Status: 404") {
+          navigate("/401")
+        }
+        if (isMounted) {
+          
+          setError('Failed to load summary. Please try again later.');
+          setIsLoading(false);
         }
       }
+    };
 
-      getData()
-  }, []);
+    fetchSummaryData();
 
-  
+    return () => {
+      isMounted = false;
+    };
+  }, [summaryId]);
+
+  if (isLoading) {
+    return <div className={styles.loadingContainer}>
+      <div className={styles.spinner}></div>
+      <p>Loading summary...</p>
+    </div>;
+  }
+
+  if (error) {
+    return <div className={styles.errorContainer}>
+      <div className={styles.errorIcon}>!</div>
+      <h2>Something went wrong</h2>
+      <p>{error}</p>
+    </div>;
+  }
+
+  if (!summaryData) {
+    return <div className={styles.notFoundContainer}>
+      <h2>Summary not found</h2>
+      <p>The summary you're looking for doesn't exist or has been removed.</p>
+    </div>;
+  }
 
   return (
-    <>
-      <div className={styles.summaryPageContainer}>
-        <h1>{summaryMock ? summaryMock.name : 'Loading...'}</h1>
-        <div className={styles.summaryContainer}>
-            {summaryMock?.summary.map((item, index) => (
-                <div>
-                    <p key={index}>{item}</p>
-                    <br />
-                </div>
-
-            ))}
+    <div className={styles.summaryPageContainer}>
+      <div className={styles.summaryContainer}>
+        <h1 className={styles.summaryTitle}>{summaryData.name} Exam</h1>
+        
+        <div className={styles.summaryContent}>
+          {summaryData.summary.map((item, index) => (
+            <div key={index} className={styles.summaryItem}>
+              <p>{item}</p>
+            </div>
+          ))}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

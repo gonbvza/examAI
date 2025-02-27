@@ -14,6 +14,8 @@ import Navbar from './components/navbar/Navbar'
 import Footer from './components/Footer/Footer'
 
 import { verifyLogIn } from './helpers/verifyUser.ts'
+import NotFound from './components/NotFound/NotFound.tsx'
+import NotAccesible from './components/NotAccesible/NotAccesible.tsx'
 
 function App() {
   const [username, setUsername] = useState("")
@@ -47,6 +49,9 @@ function App() {
 
         {/* URI ID passing has to be implemented */}
         <Route path="/dashboard" Component={Dashboard}/>
+
+        <Route path="/401" Component={NotAccesible}/>
+        <Route path="/*" Component={NotFound}/>
       </Routes>
       <Footer/>
 	  </BrowserRouter>

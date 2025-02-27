@@ -3,6 +3,12 @@
     text-align: center;
 }
 
+.noExams p {
+    font-size: 20px;
+    margin: auto;
+    margin-top: 10%;
+}
+
 .rowsDisplay {
     width: 60%;
     margin: auto;

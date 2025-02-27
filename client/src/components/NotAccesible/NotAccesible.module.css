@@ -1,0 +1,209 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .content {
+    text-align: center;
+    padding: 2rem;
+    max-width: 600px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  }
+  
+
+
+  .errorIcon {
+    width: 60px;
+    height: 60px;
+    background-color: #fee2e2;
+    color: #dc2626;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    font-weight: bold;
+    margin: 0 auto 20px;
+  }
+  
+  .title {
+    font-size: 2rem;
+    color: #2c3e50;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .description {
+    font-size: 1.1rem;
+    color: #7f8c8d;
+    margin-bottom: 2rem;
+  }
+  
+  .button {
+    background-color: #3498db;
+    color: white;
+    font-weight: 600;
+    border-radius: 30px;
+    cursor: pointer;
+    padding: 12px 28px;
+    text-align: center;
+    border: none;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+  }
+  
+  .button:hover {
+    transform: scale(1.05);
+    background-color: #2980b9;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Space theme illustration */
+  .illustration {
+    position: relative;
+    height: 200px;
+    margin: 2rem 0;
+  }
+  
+  .planet {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle at 30% 30%, #34495e, #2c3e50);
+    border-radius: 50%;
+    box-shadow: 0 0 20px rgba(52, 73, 94, 0.5);
+  }
+  
+  .astronaut {
+    position: absolute;
+    left: 60%;
+    top: 40%;
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  .astronautHead {
+    width: 35px;
+    height: 35px;
+    background-color: #bdc3c7;
+    border-radius: 50%;
+    position: relative;
+  }
+  
+  .astronautHead::after {
+    content: '';
+    position: absolute;
+    width: 25px;
+    height: 20px;
+    background-color: #95a5a6;
+    border-radius: 10px;
+    top: 8px;
+    left: 5px;
+  }
+  
+  .astronautBody {
+    width: 40px;
+    height: 50px;
+    background-color: #ecf0f1;
+    border-radius: 10px;
+    position: absolute;
+    top: 30px;
+    left: -2px;
+  }
+  
+  .astronautArm1, .astronautArm2 {
+    width: 12px;
+    height: 30px;
+    background-color: #ecf0f1;
+    border-radius: 6px;
+    position: absolute;
+  }
+  
+  .astronautArm1 {
+    top: 35px;
+    left: -10px;
+    transform: rotate(-20deg);
+  }
+  
+  .astronautArm2 {
+    top: 35px;
+    left: 38px;
+    transform: rotate(20deg);
+  }
+  
+  .astronautLeg1, .astronautLeg2 {
+    width: 15px;
+    height: 35px;
+    background-color: #bdc3c7;
+    border-radius: 6px;
+    position: absolute;
+    top: 75px;
+  }
+  
+  .astronautLeg1 {
+    left: 2px;
+    transform: rotate(-5deg);
+  }
+  
+  .astronautLeg2 {
+    left: 23px;
+    transform: rotate(5deg);
+  }
+  
+  @keyframes float {
+    0% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-15px) rotate(5deg);
+    }
+    100% {
+      transform: translateY(0px) rotate(0deg);
+    }
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .errorCode {
+      font-size: 6rem;
+    }
+    
+    .title {
+      font-size: 1.5rem;
+    }
+    
+    .description {
+      font-size: 1rem;
+    }
+    
+    .illustration {
+      height: 150px;
+    }
+    
+    .planet {
+      width: 80px;
+      height: 80px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .content {
+      padding: 1.5rem;
+    }
+    
+    .errorCode {
+      font-size: 5rem;
+    }
+    
+    .button {
+      padding: 10px 24px;
+    }
+  }

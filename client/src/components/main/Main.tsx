@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Main.module.css';
-import { faFile} from "@fortawesome/free-solid-svg-icons";
+import { faFile, faL} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 import Modal from 'react-modal';
@@ -56,6 +56,7 @@ const Main = () => {
     const [loading, setloading] = useState(false)
     const [uploadError, setUploadError] = useState(false)
     const [selectionError, setElectionError] = useState(false)
+    const [wrongCredentials, setwrongCredentials] = useState(false)
 
     const navigate = useNavigate();
     
@@ -75,9 +76,17 @@ const Main = () => {
     }, []) 
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setwrongCredentials(false)
         if (e.target.files && e.target.files[0]) {
             let selectedFile = e.target.files[0];
             let originalName = selectedFile.name;
+            let size = selectedFile.size
+            
+            if(size > 10484760 ) {
+                setwrongCredentials(true)
+                return
+            }
+
             let nameWithoutExtension = originalName.substring(0, originalName.lastIndexOf(".")); 
             
             let words = nameWithoutExtension.split(" ").filter(word => word.length > 0); 
@@ -251,6 +260,7 @@ const Main = () => {
                     <label htmlFor="fileUpload" className={styles.uploadButton}>
                         <FontAwesomeIcon icon={faFile}/><i></i> {(file && file.name) || "Or upload a PDF"} 
                     </label>
+                    <p className={styles.wrongCredentials}> {wrongCredentials ? "File size too long, please insert another" : ""}</p>
                 </div>
                 <div className={styles.selectionContainer}>
                     <div className={styles.selectionHeader}>

@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-
 import styles from './Question.module.css'
 import { faChevronDown, faChevronUp} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import { useNavigate } from 'react-router-dom';
 
 interface QuestionData {
   id: number;
@@ -22,35 +23,119 @@ interface QuestionData {
 const Question = () => {
   const [questionMock, setQuestionMock] = useState<QuestionData | null>(null);
   const [visibleAnswers, setVisibleAnswers] = useState<{ [key: string]: boolean }>({});
-  const [answerVisibility, setAnswerVisibility] = useState<boolean>(false)
+  const [answerVisibility, setAnswerVisibility] = useState<boolean>(false);
+  const [selectedAnswers, setSelectedAnswers] = useState<{ [key: string]: string }>({});
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
 
   const { questionId } = useParams<{ questionId: string }>();
-  console.log(questionId);
+
+  const navigate = useNavigate()
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/questions/${questionId}`) 
-      .then((response) => {
+    // Flag to track if component is mounted
+    let isMounted = true;
+
+    const fetchSummaryData = async () => {
+      if (!questionId) return;
+      
+      try {
+        setIsLoading(true);
+        const response = await fetch(`http://localhost:8000/questions/${questionId}`, {
+          credentials: "include",
+        });
+        
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        return response.json();
-      })
-      .then((data) => {
+        
+        if(response.status == 404) {
+          console.log("it is")
+          navigate("/404")
+        }
 
-        setQuestionMock(data);
-      })
-      .catch((error) => console.error('Error loading JSON:', error));
-  }, []);
+        const data = await response.json();
+        
+        if (isMounted) {
+          console.log("Fetched data:", data);
+          setQuestionMock(data);
+          setIsLoading(false);
+        }
+      } catch (error) {
+        console.error(error);
+        if(error == "Error: HTTP error! Status: 404") {
+          navigate("/401")
+        }
+        if (isMounted) {
+          
+          setError('Failed to load summary. Please try again later.');
+          setIsLoading(false);
+        }
+      }
+    };
 
+    fetchSummaryData();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [questionId]);
+  
   const changeAnswersVisibility = (id: string) => {
-    setVisibleAnswers((prevState) => ({
+    return () => {
+      setVisibleAnswers((prevState) => ({
+        ...prevState,
+        [id]: !prevState[id]
+      }));
+    };
+  };
+  
+  const showAnswers = () => {
+    setAnswerVisibility(!answerVisibility);
+  };
+  
+  const checkAnswer = (questionIndex: number, option: string) => {
+    setSelectedAnswers((prevState) => ({
       ...prevState,
-      [id]: !prevState[id] 
+      [questionIndex]: option
     }));
   };
+  
+  const getAnswerBackgroundColor = (questionIndex: number, option: string, correctAnswer: string) => {
+    // Show green for correct answers when "Display results" is clicked
+    if (answerVisibility && option === correctAnswer) {
+      return '#A4EF88'; // Green for correct answer
+    }
+    
+    // Show result when a specific answer is selected
+    if (selectedAnswers[questionIndex] === option) {
+      return option === correctAnswer ? '#A4EF88' : '#FFB6B6'; // Green if correct, red if wrong
+    }
+    
+    return '#F3F2EE'; // Default background
+  };
+  
+  if (isLoading) {
+    return <div className={styles.loadingContainer}>
+      <div className={styles.spinner}></div>
+      <p>Loading summary...</p>
+    </div>;
+  }
 
-  const showAnswers = () => {
-    setAnswerVisibility(!answerVisibility)
+  if (error) {
+    return <div className={styles.errorContainer}>
+      <div className={styles.errorIcon}>!</div>
+      <h2>Something went wrong</h2>
+      <p>{error}</p>
+    </div>;
+  }
+
+  if (!questionMock) {
+    return <div className={styles.notFoundContainer}>
+      <h2>Summary not found</h2>
+      <p>The summary you're looking for doesn't exist or has been removed.</p>
+    </div>;
   }
 
   return (
@@ -60,30 +145,50 @@ const Question = () => {
         <div className={styles.promptContainers}>
           {questionMock?.questions?.map((question, index) => {
             const isVisible = visibleAnswers[String(index)];
-
             return (
               <div key={index}>
-                <div className={styles.prompt}>
+                <div 
+                  className={styles.prompt} 
+                  onClick={changeAnswersVisibility(String(index))}
+                >
                   <h3>Question {index + 1}: {question.questionText}</h3>
-                  <button onClick={() => changeAnswersVisibility(String(index))}>
-                  {isVisible ? <FontAwesomeIcon icon={faChevronUp} /> : <FontAwesomeIcon icon={faChevronDown} />}
-                    
+                  <button 
+                    className={styles.answersButton} 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      changeAnswersVisibility(String(index))();
+                    }}
+                  >
+                    {isVisible ? <FontAwesomeIcon icon={faChevronUp} /> : <FontAwesomeIcon icon={faChevronDown} />}
                   </button>
                 </div>
                 <ul
                   id={String(index)}
-                  className={isVisible ? styles.visible : styles.hidden} 
+                  className={isVisible ? styles.visible : styles.hidden}
                 >
-                  <li id='A' style={{ backgroundColor: answerVisibility && question.correct === 'A' ? '#A4EF88' : '#F3F2EE'}}>A: {question.A}</li>
-                  <li id='B' style={{ backgroundColor: answerVisibility && question.correct === 'B' ? '#A4EF88' : '#F3F2EE' }}>B: {question.B}</li>
-                  <li id='C' style={{ backgroundColor: answerVisibility && question.correct === 'C' ? '#A4EF88' : '#F3F2EE' }}>C: {question.C}</li>
-                  <li id='D' style={{ backgroundColor: answerVisibility && question.correct === 'D' ? '#A4EF88' : '#F3F2EE' }}>D: {question.D}</li>
+                  {['A', 'B', 'C', 'D'].map(option => (
+                    <li 
+                      key={option}
+                      id={option} 
+                      style={{ 
+                        backgroundColor: getAnswerBackgroundColor(index, option, question.correct),
+                        cursor: 'pointer'
+                      }}
+                      onClick={() => checkAnswer(index, option)}
+                    >
+                      {option}: {question[option as keyof typeof question]}
+                    </li>
+                  ))}
                 </ul>
               </div>
             );
           })}
         </div>
-        <button style={{ display: questionMock ? 'block' : 'none'}} onClick={() => showAnswers()} className={styles.submitButton}>
+        <button 
+          style={{ display: questionMock ? 'block' : 'none'}} 
+          onClick={showAnswers} 
+          className={styles.submitButton}
+        >
           Display results
         </button>
       </div>

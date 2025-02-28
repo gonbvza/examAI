@@ -11,8 +11,8 @@
     --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   }
   
-  /* Summary Page Container */
-  .summaryPageContainer {
+
+.summaryPageContainer {
     width: 100%;
     max-width: 1400px;
     margin: 0 auto;
@@ -22,18 +22,17 @@
     flex-direction: column;
     align-items: center;
     font-family: var(--font-family);
-  }
+}
   
-  /* Summary Container */
-  .summaryContainer {
+
+.summaryContainer {
     width: 90%;
     max-width: 800px;
     margin: 0 auto;
     padding: 30px;
     transition: transform 0.3s ease;
-    overflow: hidden; /* Add this to contain child elements */
-  }
-  
+    overflow-y: auto;
+}
   /* Summary Title */
   .summaryTitle {
     font-weight: 800;

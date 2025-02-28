@@ -51,7 +51,8 @@ def generateExam(text):
                         "Correct": "A"
                     }
                 ],
-            }Please provide 10 questions
+            }
+            Please provide 10 questions
 
             If the text provided is not enough, please answer with Not Enough
             """

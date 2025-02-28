@@ -22,7 +22,10 @@ class RegisterView(generics.GenericAPIView):
             return Response({"error": "Username and password are required"}, status=status.HTTP_400_BAD_REQUEST)
         if User.objects.filter(username=username).exists():
             return Response({"error": "User already exists"}, status=status.HTTP_400_BAD_REQUEST)
-        
+        if User.objects.filter(email=email).exists():
+            return Response({"error": "User already exists"}, status=status.HTTP_400_BAD_REQUEST)
+
+                
         user = User.objects.create_user(username=username, password=password, email=email)
 
         login(request, user)

@@ -80,7 +80,7 @@ const LogIn = ({setUsernameNavBar}:{setUsernameNavBar: React.Dispatch<React.SetS
                     <button onClick={sendLogin} className={styles.submitButton}>
                         Log In
                     </button>
-                    <p className={styles.wrongCredentials}> {wrongCredentials ? "Wrong Credential: Please type them again" : ""}</p>
+                    <p className={styles.wrongCredentials}> {wrongCredentials ? "Wrong Credentials: Please type them again" : ""}</p>
                 </form>
             </div>
         </div>

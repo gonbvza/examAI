@@ -1,68 +1,65 @@
-/* Main container */
 html, body {
-    height: 100%;
-    margin: 0;
-  }
-  
-  body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh; /* Viewport height */
-  }
-  
-  /* Main content wrapper - add this to your main content container */
-  .content-wrapper {
-    flex: 1 0 auto; /* This makes the content take up all available space */
-  }
-  
-  /* Footer styles */
-  .footer {
-    background-color: #f8f8f8;
-    padding: 40px 0;
-    text-align: center;
-    font-family: Arial, sans-serif;
-    flex-shrink: 0; /* Prevents the footer from shrinking */
-  }
-  
-  .footerContent {
-    display: flex;
-    justify-content: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-  }
-  
-  .footerLinks {
-    display: flex;
-  }
-  
-  .footerLinks ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .footerLinks li {
-    display: inline;
-    margin: 10px;
-  }
-  
-  .footerLinks a {
-    color: #333;
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.3s ease;
-  }
-  
-  .footerLinks a:hover {
-    color: #007bff;
-  }
-  
-  .footerBottom {
-    margin-top: 20px;
-    font-size: 14px;
-    color: #777;
-  }
-  
-  .footerBottom p {
-    margin: 0;
-  }
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; 
+}
+
+.content-wrapper {
+  flex: 1 0 auto; 
+}
+
+.footer {
+  background-color: #f8f8f8;
+  padding: 40px 0;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  flex-shrink: 0; 
+}
+
+.footerContent {
+  display: flex;
+  justify-content: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.footerLinks {
+  display: flex;
+}
+
+.footerLinks ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.footerLinks li {
+  display: inline;
+  margin: 10px;
+}
+
+.footerLinks a {
+  color: #333;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.footerLinks a:hover {
+  color: #007bff;
+}
+
+.footerBottom {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #777;
+}
+
+.footerBottom p {
+  margin: 0;
+}

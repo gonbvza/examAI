@@ -29,7 +29,7 @@ const customModalStyles = {
     },
   };
 
-  const ErrorModalStyle = {
+const ErrorModalStyle = {
     content: {
         top: '50%',
         left: '50%',
@@ -38,7 +38,7 @@ const customModalStyles = {
         marginRight: '-50%',
         transform: 'translate(-50%, -50%)',
         border: 'none',
-        background: "#ff4d4d",  // Softer red
+        background: "#ff4d4d",  
         padding: "30px",
         borderRadius: "10px",
         color: "white",
@@ -146,7 +146,7 @@ const Main = () => {
                 }
             
                 const data = await response.json();
-                console.log(data); // Handle the response from the server
+                console.log(data); 
                 
                 setloading(false)
                 navigate(`/summary/${data.summaryID}`)
@@ -184,7 +184,7 @@ const Main = () => {
                 }
             
                 const data = await response.json();
-                console.log(data); // Handle the response from the server
+                console.log(data);
                 
                 setloading(false)
                 navigate(`/summary/${data.summaryID}`)
@@ -222,7 +222,7 @@ const Main = () => {
                 }
             
                 const data = await response.json();
-                console.log(data); // Handle the response from the server
+                console.log(data); 
                 
                 setloading(false)
                 navigate(`/question/${data.summaryID}`)
@@ -260,7 +260,7 @@ const Main = () => {
                 }
             
                 const data = await response.json();
-                console.log(data); // Handle the response from the server
+                console.log(data);
                 
                 setloading(false)
                 navigate(`/question/${data.summaryID}`)

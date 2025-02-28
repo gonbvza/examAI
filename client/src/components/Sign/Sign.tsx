@@ -4,7 +4,30 @@ import { verifyLogIn } from '../../helpers/verifyUser.ts'
 import { useNavigate } from 'react-router-dom'
 import { verifyMail } from '../../helpers/verifyMail.ts'
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClose } from "@fortawesome/free-solid-svg-icons";
+
+import Modal from 'react-modal';
+
 import { PasswordCheckService, getPasswordStrengthText} from '../../helpers/passwordCheck.ts'
+
+const ErrorModalStyle = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        border: 'none',
+        background: "#ff4d4d", 
+        padding: "30px",
+        borderRadius: "10px",
+        color: "white",
+        boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
+        animation: "shake 0.5s ease-in-out"
+    },
+};
 
 const Sign = ({setUsernameNavBar} : {setUsernameNavBar: React.Dispatch<React.SetStateAction<string>>}) => {
     const [Email, setEmail] = useState<string>("");
@@ -13,6 +36,8 @@ const Sign = ({setUsernameNavBar} : {setUsernameNavBar: React.Dispatch<React.Set
 
     const [NotValidMail, setNotValidMail] = useState(false);
     const [NotValidPassword, setNotValidPassword] = useState(false);
+    const [uploadError, setUploadError] = useState(false)
+    const [errorModalMessage, setErrorModalMessage] = useState<string>("")
 
     const [passwordStrength, setPasswordStrength] = useState<string>("")
     
@@ -45,11 +70,21 @@ const Sign = ({setUsernameNavBar} : {setUsernameNavBar: React.Dispatch<React.Set
             const data = await response.json();
     
             if (response.ok) {
+
                 console.log("Signup successful!", data);
+
                 setUsernameNavBar(Username)
+
                 navigate("/main")
+
             } else {
                 console.error("Signup failed:", data.error);
+
+                if (data.error == "User already exists") {
+                    setUploadError(true)
+                    setErrorModalMessage("Username or email already taken")
+                    return
+                }
             }
         } catch (error) {
             console.error("Error during signup:", error);
@@ -115,6 +150,29 @@ const Sign = ({setUsernameNavBar} : {setUsernameNavBar: React.Dispatch<React.Set
                     </button>
                 </form>
             </div>
+            <Modal isOpen={uploadError} style={ErrorModalStyle}>
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                    <button 
+                        onClick={() => setUploadError(false)} 
+                        style={{
+                            background: "transparent", 
+                            border: "none", 
+                            fontSize: "20px", 
+                            color: "white", 
+                            position: "absolute", 
+                            top: "10px", 
+                            right: "15px",
+                            cursor: "pointer"
+                        }}
+                    >
+                        <FontAwesomeIcon icon={faClose} />
+                    </button>
+                    <p style={{ fontSize: "18px", fontWeight: "bold", marginBottom: "10px" }}>
+                        Sign up failed
+                    </p>
+                    <p>{errorModalMessage}</p>
+                </div>
+            </Modal>
         </div>
     </>
   )

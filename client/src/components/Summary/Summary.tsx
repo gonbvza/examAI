@@ -18,7 +18,7 @@ const Summary = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    // Flag to track if component is mounted
+
     let isMounted = true;
 
     const fetchSummaryData = async () => {

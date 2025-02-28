@@ -6,7 +6,6 @@
 
 
 /* Title container */
-
 .titleContainer {
     text-align: center;
     margin-top: 3%;
@@ -24,18 +23,17 @@
     font-size: 16px;
 }
 
-/* Input Form */
 .inputForm {
     display: flex;
-    flex-direction: column; /* Stack the form fields vertically */
-    gap: 40px; /* Space between each label and input pair */
+    flex-direction: column; 
+    gap: 40px; 
     padding: 20px;
 }
 
 label {
     font-family: 'Plus Jakarta Sans';
     font-size: 16px;
-    margin-bottom: 5px; /* Space between the label and input */
+    margin-bottom: 5px;
 }
 
 .inputForm form{
@@ -50,7 +48,7 @@ input {
     margin-top: 3px;
     padding: 10px;
     font-size: 16px;
-    width: 100%; /* Full-width for input fields */
+    width: 100%; 
     border: 1px solid var(--input-color);
     border-radius: 6px;
     padding: 15px;
@@ -92,7 +90,6 @@ input::placeholder {
     background-color: rgba(56, 142, 60, 0.1);
 }
 
-/* Submit Button */
 .submitButton {
     width: 22%;
     background-color: var(--button-colour);

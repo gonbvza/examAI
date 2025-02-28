@@ -34,7 +34,7 @@ const Question = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    // Flag to track if component is mounted
+
     let isMounted = true;
 
     const fetchSummaryData = async () => {
@@ -103,17 +103,15 @@ const Question = () => {
   };
   
   const getAnswerBackgroundColor = (questionIndex: number, option: string, correctAnswer: string) => {
-    // Show green for correct answers when "Display results" is clicked
     if (answerVisibility && option === correctAnswer) {
-      return '#A4EF88'; // Green for correct answer
+      return '#A4EF88'; 
     }
     
-    // Show result when a specific answer is selected
     if (selectedAnswers[questionIndex] === option) {
-      return option === correctAnswer ? '#A4EF88' : '#FFB6B6'; // Green if correct, red if wrong
+      return option === correctAnswer ? '#A4EF88' : '#FFB6B6'; 
     }
     
-    return '#F3F2EE'; // Default background
+    return '#F3F2EE'; 
   };
   
   if (isLoading) {

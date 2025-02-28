@@ -8,7 +8,7 @@ interface Row {
   id: string;
   name: string;
   type: string;
-  pub_date: string; // Use string instead of Date
+  pub_date: string; 
 }
 
 interface Rows {
@@ -17,14 +17,14 @@ interface Rows {
 
 const Dashboard = () => {
   const [rows, setRows] = useState<Rows | null>(null);
+
   const navigate = useNavigate();
 
-  // 0 is for summary, 1 is for question
   const sendToWindow = (type: string, id: string) => {
     if (type === "summary") {
-      navigate(`/summary/${id}`); // Route for summaries
+      navigate(`/summary/${id}`); 
     } else {
-      navigate(`/question/${id}`); // Route for questions
+      navigate(`/question/${id}`); 
     }
   };
 
@@ -32,7 +32,7 @@ const Dashboard = () => {
     async function getSummaries() {
       try {
         const response = await fetch("http://localhost:8000/summary/", {
-          credentials: "include", // Sends sessionid cookie
+          credentials: "include", 
         });
 
         if (!response.ok) {
@@ -40,8 +40,9 @@ const Dashboard = () => {
         }
 
         const data = await response.json();
-        console.log(data)
-        setRows(data); // Update rows state
+
+        setRows(data);
+
       } catch (error) {
         console.error("Error fetching summaries:", error);
       }
@@ -50,7 +51,6 @@ const Dashboard = () => {
     getSummaries();
   }, []);
 
-  // Log updated rows after they are set
   useEffect(() => {
     if (rows) {
       console.log("Rows updated: ", rows);

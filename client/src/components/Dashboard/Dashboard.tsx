@@ -77,18 +77,6 @@ const Dashboard = () => {
               <button className={styles.viewButton} onClick={() => sendToWindow(row.type, row.id)}>View</button>
             </div>
           ))}
-
-          {rows?.rows.map((question) => (
-            <div key={question.id} className={styles.row}>
-              <div className={styles.rowBody}>
-                <h3>{capitalizeFirstLetter(question.name)} {capitalizeFirstLetter(question.type)}</h3>
-                <div className={styles.rowCharacteristics}>
-                  <p>Created on: {new Date(question.pub_date).toLocaleDateString()}</p>
-                </div>
-              </div>
-              <button className={styles.viewButton} onClick={() => sendToWindow(question.type, question.id)}>View</button>
-            </div>
-          ))}
         </div>
       </div>
     </>

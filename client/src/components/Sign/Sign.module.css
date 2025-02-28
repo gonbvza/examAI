@@ -25,7 +25,6 @@
 }
 
 /* Input Form */
-
 .inputForm {
     display: flex;
     flex-direction: column; /* Stack the form fields vertically */
@@ -70,6 +69,27 @@ input::placeholder {
     width: 24%;
     display: flex;
     gap: 10px;
+}
+
+.strengthIndicator {
+    margin: 5px 0;
+    padding: 5px;
+    border-radius: 4px;
+}
+  
+.short, .common, .weak {
+    color: #d32f2f;
+    background-color: rgba(211, 47, 47, 0.1);
+}
+  
+.ok {
+    color: #ff9800;
+    background-color: rgba(255, 152, 0, 0.1);
+}
+  
+.strong {
+    color: #388e3c;
+    background-color: rgba(56, 142, 60, 0.1);
 }
 
 /* Submit Button */

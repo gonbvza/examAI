@@ -1,8 +1,10 @@
 /* In your app.tsx CSS */
-html, body, #root {
+html, body {
     height: 100%;
+    overflow-y: auto;
     margin: 0;
-  }
+    padding: 0;
+}
   
   #root {
     display: flex;

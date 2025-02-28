@@ -6,7 +6,7 @@ client = genai.Client(api_key="AIzaSyDmOAkblY5FkPf-CMFm_7Jlmhl1VXobVUk")
 def makeSummary(text):
     response = client.models.generate_content(
         model="gemini-2.0-flash",
-        contents=["summarize this text in 5 paragraphs", text])
+        contents=["summarize this text wiht a minimum of 300 words, but if the text is long, then provide a long summary. If the text provided is not enough, please answer with Not Enough. ONLY RETURN Not Enough or a summary", text])
 
     return response.text
 
@@ -46,6 +46,8 @@ def generateExam(text):
             }
             
             Please provide 10 questions
+
+            If the text provided is not enough, please answer with Not Enough
             """
 
     response = client.models.generate_content(

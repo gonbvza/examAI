@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -20,12 +21,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-0^w*ypk+t^cbaj!s(3r(ai18*_^y005ax72d)uzk5fb6n6tvqo"
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(os.environ.get("DEBUG", default=0))
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "127.0.0.1").split(",")
 
 
 # Application definition
@@ -82,15 +83,15 @@ WSGI_APPLICATION = "serverDjango.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "examai",  # Database name is examAI
-        "USER": "postgres",  # Replace with your PostgreSQL username
-        "PASSWORD": "post1258",  # Replace with your PostgreSQL password
-        "HOST": "localhost",  # Host is localhost if it's a local server
-        "PORT": "5432",  # Default PostgreSQL port
+        "ENGINE": "django.db.backends.{}".format(
+            os.getenv("DATABASE_ENGINE", "sqlite3")
+        ),
+        "NAME": os.getenv("DATABASE_NAME", "polls"),
+        "USER": os.getenv("DATABASE_USERNAME", "myprojectuser"),
+        "PASSWORD": os.getenv("DATABASE_PASSWORD", "password"),
+        "HOST": "db",
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators

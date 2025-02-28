@@ -1,14 +1,22 @@
 from google import genai
-import PyPDF2
 
 client = genai.Client(api_key="AIzaSyDmOAkblY5FkPf-CMFm_7Jlmhl1VXobVUk")
+
 
 def makeSummary(text):
     response = client.models.generate_content(
         model="gemini-2.0-flash",
-        contents=["summarize this text wiht a minimum of 300 words, but if the text is long, then provide a long summary. If the text provided is not enough, please answer with Not Enough. ONLY RETURN Not Enough or a summary", text])
+        contents=[
+            """summarize this text wiht a minimum of 300 words, but if the
+            text is long, then provide a long summary. If the text provided
+            is not enough, please answer with Not Enough. ONLY RETURN Not
+            Enough or a summary""",
+            text,
+        ],
+    )
 
     return response.text
+
 
 def generateExam(text):
     print("generating exam")
@@ -43,15 +51,12 @@ def generateExam(text):
                         "Correct": "A"
                     }
                 ],
-            }
-            
-            Please provide 10 questions
+            }Please provide 10 questions
 
             If the text provided is not enough, please answer with Not Enough
             """
-
     response = client.models.generate_content(
-        model="gemini-2.0-flash",
-        contents=[prompt, text])
+        model="gemini-2.0-flash", contents=[prompt, text]
+    )
 
     return response.text[8:-4]

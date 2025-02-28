@@ -1,7 +1,8 @@
 from django.contrib import admin
 
+from .models import Summaries
+
 # Register your models here.
 
-from .models import Summaries
 
 admin.site.register(Summaries)

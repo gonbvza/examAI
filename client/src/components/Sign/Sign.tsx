@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react'
+import React, {useState, useEffect} from 'react'
 import styles from './Sign.module.css'
 import { verifyLogIn } from '../../helpers/verifyUser.ts'
 import { useNavigate } from 'react-router-dom'
@@ -46,7 +46,7 @@ const Sign = ({setUsernameNavBar} : {setUsernameNavBar: React.Dispatch<React.Set
 
     async function sendLogin(e: React.FormEvent) {
         e.preventDefault(); 
-        setNotValidPassword
+        setNotValidPassword(false)
         if(!verifyMail(Email)) {
             setNotValidMail(true)
             return
@@ -94,7 +94,7 @@ const Sign = ({setUsernameNavBar} : {setUsernameNavBar: React.Dispatch<React.Set
     useEffect(() => {
         
         const getUser = async () => {
-        var user:string = await verifyLogIn()
+        const user:string = await verifyLogIn()
         setUsername(user)
         };
     

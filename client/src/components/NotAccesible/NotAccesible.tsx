@@ -1,3 +1,4 @@
+import React from 'react';
 
 import { useNavigate } from 'react-router-dom';
 import styles from './NotAccesible.module.css';
@@ -15,7 +16,7 @@ const NotAccesible = () => {
         <div className={styles.errorIcon}>!</div>
         <h2 className={styles.title}>Not Accesible</h2>
         <p className={styles.description}>
-          Oops! You don't have permission to access this site.
+          Oops! You don&apos;t have permission to access this site.
         </p>
         <button className={styles.button} onClick={handleGoHome}>
           Return to Home

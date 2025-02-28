@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+
+import { useState, useEffect } from 'react';
 import styles from './Main.module.css';
 import { faFile } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -65,7 +67,7 @@ const Main = () => {
 
     useEffect(() => {
         const getUser = async  () => {
-            var user = await verifyLogIn();
+            const user = await verifyLogIn();
 
             if(user == "") {
                 navigate("/landing")
@@ -78,18 +80,18 @@ const Main = () => {
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setwrongCredentials(false)
         if (e.target.files && e.target.files[0]) {
-            let selectedFile = e.target.files[0];
-            let originalName = selectedFile.name;
-            let size = selectedFile.size
+            const selectedFile = e.target.files[0];
+            const originalName = selectedFile.name;
+            const size = selectedFile.size
             
             if(size > 10484760 ) {
                 setwrongCredentials(true)
                 return
             }
 
-            let nameWithoutExtension = originalName.substring(0, originalName.lastIndexOf(".")); 
+            const nameWithoutExtension = originalName.substring(0, originalName.lastIndexOf(".")); 
             
-            let words = nameWithoutExtension.split(" ").filter(word => word.length > 0); 
+            const words = nameWithoutExtension.split(" ").filter(word => word.length > 0); 
     
             let newName = originalName; 
     

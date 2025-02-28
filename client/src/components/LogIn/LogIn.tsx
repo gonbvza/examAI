@@ -47,7 +47,7 @@ const LogIn = ({setUsernameNavBar}:{setUsernameNavBar: React.Dispatch<React.SetS
 
     useEffect(() => {
         const getUser = async () => {
-        var user:string = await verifyLogIn()
+        const user:string = await verifyLogIn()
         setUsername(user)
         };
     

@@ -1,8 +1,7 @@
 import { BrowserRouter, Routes, Route} from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './App.css'
 
-// Import components
 import Landing from './components/landingPage/Landing'
 import Sign from './components/Sign/Sign'
 import LogIn from './components/LogIn/LogIn'
@@ -24,7 +23,7 @@ function App() {
 
   useEffect(() => {
     const getUser = async () => {
-      var user:string = await verifyLogIn()
+      const user:string = await verifyLogIn()
       setUsername(user)
     };
 

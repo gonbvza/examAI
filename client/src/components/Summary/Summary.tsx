@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styles from './Summary.module.css';
 
@@ -84,7 +84,7 @@ const Summary = () => {
   if (!summaryData) {
     return <div className={styles.notFoundContainer}>
       <h2>Summary not found</h2>
-      <p>The summary you're looking for doesn't exist or has been removed.</p>
+      <p>The summary you&apos;re looking for doesn&apos;t exist or has been removed.</p>
     </div>;
   }
 

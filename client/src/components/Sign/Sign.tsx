@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react'
 import styles from './Sign.module.css'
 import { verifyLogIn } from '../../helpers/verifyUser.ts'
 import { useNavigate } from 'react-router-dom'
-import { verifyMail } from '../../helpers/verifyMail.tsx'
+import { verifyMail } from '../../helpers/verifyMail.ts'
 
 import { PasswordCheckService, getPasswordStrengthText} from '../../helpers/passwordCheck.ts'
 
@@ -72,13 +72,10 @@ const Sign = ({setUsernameNavBar} : {setUsernameNavBar: React.Dispatch<React.Set
     }, []);
 
     useEffect(() => {
-        // Get the enum value (number)
         const strengthEnum = passwordCheck.checkPasswordStrength(Password);
-        
-        // Convert the enum value to its string representation
+
         const strengthText = getPasswordStrengthText(strengthEnum)
-        
-        // Set the text representation
+
         setPasswordStrength(strengthText);
         
         console.log("Password strength:", strengthText);

@@ -7,7 +7,7 @@ from AI import gemini
 
 from .serializer import produceExam
 
-import datetime
+from datetime import datetime
 from django.core import serializers
 from django.contrib.sessions.models import Session
 from django.contrib.auth.models import User
@@ -51,7 +51,7 @@ class QuestionsFile(generics.GenericAPIView):
 
         rowExam = Exams(
             name = file_name,
-            pub_date = datetime.date.today(),
+            pub_date = datetime.now(),
             user_id = current_user
         )
 
@@ -90,7 +90,7 @@ class QuestionsText(generics.GenericAPIView):
 
         rowExam = Exams(
             name = file_name,
-            pub_date = datetime.date.today(),
+            pub_date = datetime.now(),
             user_id = current_user
         )
 

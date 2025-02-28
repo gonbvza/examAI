@@ -1,12 +1,11 @@
 from .models import Summaries
 from questions.models import Exams
-
 from django.http import JsonResponse
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from pypdf import PdfReader
 from AI import gemini
-import datetime
+from datetime import datetime
 from django.core import serializers
 from django.contrib.sessions.models import Session
 from django.contrib.auth.models import User
@@ -14,8 +13,6 @@ from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt, requires_csrf_token
 
 from django.core.exceptions import BadRequest
-
-import pymupdf4llm
 
 import json
 
@@ -51,7 +48,7 @@ class SummarizeTextFile(generics.GenericAPIView):
         summary = Summaries(
             name = file_name,
             summaryText = summarizedText,
-            pub_date = datetime.date.today(),
+            pub_date = datetime.now(),
             user_id = current_user
         )
 
@@ -79,7 +76,7 @@ class SummarizeText(generics.GenericAPIView):
         summary = Summaries(
             name = name,
             summaryText = summarizedText,
-            pub_date = datetime.date.today(),
+            pub_date = datetime.now(),
             user_id = current_user
         )
 
@@ -131,6 +128,9 @@ class GetAllExams(generics.GenericAPIView):
                 data.append(i.getRow())
 
             data.sort(key=lambda x: x['pub_date'], reverse=True)
+            
+            for i in data:
+                print(i)
 
             response = {
                 "rows": data,

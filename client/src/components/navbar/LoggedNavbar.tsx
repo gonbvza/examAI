@@ -5,6 +5,10 @@ import { logout } from '../../helpers/logout'
 import { faUser, faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+async function sleep(ms: number): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 const LoggedNavbar = ({name, setUsernameNavbar}: {name: string, setUsernameNavbar: React.Dispatch<React.SetStateAction<string>>}) => {
   const navigate = useNavigate();
   const [showUsername, setShowUsername] = useState(false);
@@ -21,6 +25,11 @@ const LoggedNavbar = ({name, setUsernameNavbar}: {name: string, setUsernameNavba
     navigate("/main");
   }
   
+   const userUnHover = async () => {
+    console.log("unhovered")
+    await sleep(1000)
+    setShowUsername(false)
+  }
   return (
     <div className={styles.App}>
       <div className="App-header">
@@ -37,7 +46,7 @@ const LoggedNavbar = ({name, setUsernameNavbar}: {name: string, setUsernameNavba
               <div
                 className={styles.userContainer}
                 onMouseEnter={() => setShowUsername(true)}
-                onMouseLeave={() => setShowUsername(false)}
+                onMouseLeave={() => userUnHover()}
               >
                 <FontAwesomeIcon icon={faUser} className={styles.user}/>
                 {showUsername && <div className={styles.usernameTooltip}>{name} <li onClick={logOutLocal} className={styles.logOutButton}>log out</li></div>}

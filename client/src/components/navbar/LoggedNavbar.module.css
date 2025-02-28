@@ -194,6 +194,7 @@
     font-weight: 500;
     min-width: 100px;
     text-align: center;
+    transition: ease 5s;
   }
   
   .usernameTooltip::before {

@@ -1,12 +1,15 @@
 {
   "compilerOptions": {
+    "incremental": true,
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
-    "target": "ES2020",  // Set target to ES2020 (this can be adjusted based on your compatibility needs)
+    "target": "ES2020",
     "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],  // Include DOM and ES libraries
-    "module": "ESNext",  // Use ESNext module system
-    "skipLibCheck": true,  // Skip type checking of declaration files, speeding up the build
-    "moduleResolution": "node",  // Use Node.js-style module resolution (recommended for React apps)
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "isolatedModules": true,  // Enable isolated modules for compatibility with bundlers
     "moduleDetection": "force",  // Force module detection in every file
@@ -18,10 +21,7 @@
     "noUnusedLocals": true,  // Report errors for unused local variables
     "noUnusedParameters": true,  // Report errors for unused function parameters
     "noFallthroughCasesInSwitch": true,  // Prevent fall-through in switch cases
-    "noUncheckedSideEffectImports": true,  // Ensure side-effect-only imports are treated correctly
-    "allowSyntheticDefaultImports": true
+    "noUncheckedSideEffectImports": true  // Ensure side-effect-only imports are treated correctly
   },
-  "include": ["src/**/*"],  // Include all files in the src folder
-  "exclude": ["node_modules", "build", "dist"]  // Exclude unnecessary folders
+  "include": ["src/**/*"]
 }
-

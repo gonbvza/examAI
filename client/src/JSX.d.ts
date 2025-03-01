@@ -1,5 +1,5 @@
-// src/JSX.d.ts
-import React from 'react';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 
 declare global {
   namespace JSX {

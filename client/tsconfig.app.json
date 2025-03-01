@@ -11,17 +11,15 @@
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
-    "isolatedModules": true,  // Enable isolated modules for compatibility with bundlers
-    "moduleDetection": "force",  // Force module detection in every file
-    "noEmit": true,  // Do not emit JS files, useful when bundling
-    "jsx": "react-jsx",  // Use React 17+ JSX Transform (recommended)
-    
-    /* Linting / Strict Options */
-    "strict": true,  // Enable all strict type-checking options
-    "noUnusedLocals": true,  // Report errors for unused local variables
-    "noUnusedParameters": true,  // Report errors for unused function parameters
-    "noFallthroughCasesInSwitch": true,  // Prevent fall-through in switch cases
-    "noUncheckedSideEffectImports": true  // Ensure side-effect-only imports are treated correctly
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
   },
   "include": ["src/**/*"]
 }

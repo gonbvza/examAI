@@ -6,27 +6,27 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { useNavigate } from 'react-router-dom';
 
-interface QuestionData {
-  id: number;
-  name: string;
-  questions: {
-    questionText: string;
-    A: string;
-    B: string;
-    C: string;
-    D: string;
-    correct: string;
-  }[];
-  created_at: string;
-}
+// interface QuestionData {
+//   id: number;
+//   name: string;
+//   questions: {
+//     questionText: string;
+//     A: string;
+//     B: string;
+//     C: string;
+//     D: string;
+//     correct: string;
+//   }[];
+//   created_at: string;
+// }
 
 const Question = () => {
-  const [questionMock, setQuestionMock] = useState<QuestionData | null>(null);
-  const [visibleAnswers, setVisibleAnswers] = useState<{ [key: string]: boolean }>({});
-  const [answerVisibility, setAnswerVisibility] = useState<boolean>(false);
-  const [selectedAnswers, setSelectedAnswers] = useState<{ [key: string]: string }>({});
+  const [questionMock, setQuestionMock] = useState(null);
+  const [visibleAnswers, setVisibleAnswers] = useState({});
+  const [answerVisibility, setAnswerVisibility] = useState(false);
+  const [selectedAnswers, setSelectedAnswers] = useState({});
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState(null);
 
 
   const { questionId } = useParams<{ questionId: string }>();
@@ -84,7 +84,7 @@ const Question = () => {
   
   const changeAnswersVisibility = (id: string) => {
     return () => {
-      setVisibleAnswers((prevState) => ({
+      setVisibleAnswers((prevState:any) => ({
         ...prevState,
         [id]: !prevState[id]
       }));
@@ -96,7 +96,7 @@ const Question = () => {
   };
   
   const checkAnswer = (questionIndex: number, option: string) => {
-    setSelectedAnswers((prevState) => ({
+    setSelectedAnswers((prevState:any) => ({
       ...prevState,
       [questionIndex]: option
     }));
@@ -141,7 +141,7 @@ const Question = () => {
       <div className={styles.questionPageContainer}>
         <h1>{questionMock ? questionMock.name : "Loading..."} Exam</h1>
         <div className={styles.promptContainers}>
-          {questionMock?.questions?.map((question, index) => {
+          {questionMock?.questions?.map((question:any, index:number) => {
             const isVisible = visibleAnswers[String(index)];
             return (
               <div key={index}>

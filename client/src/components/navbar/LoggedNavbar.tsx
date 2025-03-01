@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import styles from './LoggedNavbar.module.css'
 import { logout } from '../../helpers/logout'
@@ -9,7 +9,13 @@ async function sleep(ms: number): Promise<void> {
     return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-const LoggedNavbar = ({name, setUsernameNavbar}: {name: string, setUsernameNavbar: React.Dispatch<React.SetStateAction<string>>}) => {
+interface NavbarProps {
+  name: string;
+  setUsernameNavbar: (username: string) => void;
+}
+
+
+const LoggedNavbar = ({name, setUsernameNavbar}: NavbarProps) => {
   const navigate = useNavigate();
   const [showUsername, setShowUsername] = useState(false);
   

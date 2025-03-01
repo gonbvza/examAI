@@ -1,16 +1,21 @@
-import React, { useState, useEffect} from 'react'
+import { useState, useEffect} from 'react'
 import styles from './LogIn.module.css'
 import { useNavigate } from 'react-router-dom'
 import { verifyLogIn } from '../../helpers/verifyUser'
 
-const LogIn = ({setUsernameNavBar}:{setUsernameNavBar: React.Dispatch<React.SetStateAction<string>>}) => {
-    const [username, setUsername] = useState<string>("");
-    const [Password, setPassword] = useState<string>("");
-    const [wrongCredentials, setWrong] = useState<boolean>(false)
+interface NavbarProps {
+    setUsernameNavBar: (username: string) => void;
+  }
+  
+
+const LogIn = ({setUsernameNavBar}:NavbarProps) => {
+    const [username, setUsername] = useState("");
+    const [Password, setPassword] = useState("");
+    const [wrongCredentials, setWrong] = useState(false)
 
     const navigate = useNavigate();
 
-    async function sendLogin(e: React.FormEvent) {
+    async function sendLogin(e:any) {
         e.preventDefault(); 
         try {
             const response = await fetch("http://localhost:8000/user/login/", {

@@ -11,12 +11,12 @@ interface Row {
   pub_date: string; 
 }
 
-interface Rows {
-  rows: Row[];
-}
+// interface Rows {
+//   rows: Row[];
+// }
 
 const Dashboard = () => {
-  const [rows, setRows] = useState<Rows | null>(null);
+  const [rows, setRows] = useState(null);
 
   const navigate = useNavigate();
 
@@ -66,7 +66,7 @@ const Dashboard = () => {
           <p>Currently you have no exams</p>
         </div>
         <div className={styles.rowsDisplay}>
-          {rows?.rows.map((row) => (
+          {rows?.rows.map((row:Row) => (
             <div key={row.id} className={styles.row}>
               <div className={styles.rowBody}>
                 <h3>{capitalizeFirstLetter(row.name)}  {capitalizeFirstLetter(row.type)}</h3>

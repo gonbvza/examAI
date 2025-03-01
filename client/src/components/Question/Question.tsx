@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styles from './Question.module.css'
 import { faChevronDown, faChevronUp} from "@fortawesome/free-solid-svg-icons";

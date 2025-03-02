@@ -17,7 +17,7 @@
               "cd server/server/ && pip install -r requirements.txt",
               "echo '#!/bin/bash' > start.sh",
               "echo 'source /venv/bin/activate' >> start.sh",
-              "echo 'cd client && npm run preview -- --host 0.0.0.0 --port 3000 && echo server &' >> start.sh",
+              "echo 'cd client && npm run preview -- --host 0.0.0.0 --port \"$PORT\" && echo server &' >> start.sh",
               "echo 'cd server/server/ && python -m pip install -r requirements.txt && python -m gunicorn serverDjango.wsgi:application --bind 0.0.0.0:8000 --workers 3' >> start.sh",
               "chmod +x start.sh"
             ]

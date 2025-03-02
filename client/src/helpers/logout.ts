@@ -1,8 +1,8 @@
-import { HOST } from '../config.ts'; 
+import { HOST, ROUTE } from '../config.ts'; 
 
 export async function logout() {
     try {
-      const response = await fetch(`${HOST}/user/logout/`, {
+      const response = await fetch(`${HOST}/${ROUTE}user/logout/`, {
           credentials: "include", // Sends sessionid cookie
       });
   

@@ -1,9 +1,9 @@
-import { HOST } from '../config.ts'; 
+import { HOST, ROUTE } from '../config.ts'; 
 
 export async function verifyLogIn() {
     console.log(HOST)
     try {
-      const response = await fetch(`${HOST}/user/check-session/`, {
+      const response = await fetch(`${HOST}/${ROUTE}user/check-session/`, {
           credentials: "include", // Sends sessionid cookie
       });
   

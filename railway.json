@@ -1,24 +1,33 @@
 {
     "build": {
       "builder": "nixpacks",
-      "buildCommand": "npm install --save-exact react react-dom @types/react@18.2.0 @types/react-dom@18.2.0 react-router-dom @fortawesome/react-fontawesome @fortawesome/free-solid-svg-icons @fortawesome/fontawesome-svg-core react-modal @types/react-modal js-cookie @types/js-cookie && npm run build --prefix client && cd server && pip install -r requirements.txt"
+      "nixpacksPlan": {
+        "phases": {
+          "setup": {
+            "aptPkgs": ["python3", "python3-pip", "python3-venv", "build-essential"]
+          },
+          "install": {
+            "cmds": [
+              "python3 -m venv /venv",
+              "source /venv/bin/activate",
+              "pip install --upgrade pip",
+              "npm install --save-exact react react-dom @types/react@18.2.0 @types/react-dom@18.2.0 react-router-dom @fortawesome/react-fontawesome @fortawesome/free-solid-svg-icons @fortawesome/fontawesome-svg-core react-modal @types/react-modal js-cookie @types/js-cookie",
+              "npm run build --prefix client",
+              "cd server && pip install -r requirements.txt"
+            ]
+          }
+        }
+      }
     },
     "deploy": {
-      "startCommand": "cd server && gunicorn serverDjango.wsgi:application --bind 0.0.0.0:$PORT --workers 3",
+      "startCommand": "cd server && source /venv/bin/activate && gunicorn serverDjango.wsgi:application --bind 0.0.0.0:$PORT --workers 3",
       "restartPolicyType": "ON_FAILURE",
       "restartPolicyMaxRetries": 10,
-      "healthcheckPath": "/health/",
-      "healthcheckTimeout": 30
+      "healthcheckPath": "/health/"
     },
     "plugins": {
       "postgresql": {
         "version": "17"
       }
-    },
-    "nixpacks": {
-      "buildImage": "node:18-slim"
-    },
-    "variables": {
-      "RAILWAY_DOCKERFILE_PATH": "server/Dockerfile"
     }
   }

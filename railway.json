@@ -20,7 +20,7 @@
               "echo 'source /venv/bin/activate' >> start.sh",
               "echo 'cd server/server/ && python -m pip install -r requirements.txt && python manage.py migrate' >> start.sh",
               "echo 'FRONTEND_PID=$!' >> start.sh",
-              "echo 'python -m gunicorn serverDjango.wsgi:application --bind localhost:8000 --workers 3 &' >> start.sh",
+              "echo 'python -m gunicorn serverDjango.wsgi:application --bind 0.0.0.0:8000 --workers 3 &' >> start.sh",
               "echo 'BACKEND_PID=$!' >> start.sh",
               "echo 'wait $FRONTEND_PID $BACKEND_PID' >> start.sh",
               "chmod +x start.sh"

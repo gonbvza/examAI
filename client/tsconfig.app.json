@@ -22,9 +22,6 @@
     "noFallthroughCasesInSwitch": true,
     "types": ["react", "react-dom"],
     "typeRoots": ["./node_modules/@types", "./src/types"],
-    "paths": {
-      "react": ["./node_modules/@types/react"]
-    }
   },
   "include": ["src/**/*"]
 }

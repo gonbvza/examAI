@@ -3,7 +3,7 @@ import styles from './LogIn.module.css'
 import { useNavigate } from 'react-router-dom'
 import { verifyLogIn } from '../../helpers/verifyUser'
 
-import { HOST } from '../../config.ts';
+import { HOST, ROUTE } from '../../config.ts';
 
 interface NavbarProps {
     setUsernameNavBar: (username: string) => void;
@@ -21,7 +21,7 @@ const LogIn = ({setUsernameNavBar}:NavbarProps) => {
     async function sendLogin(e:any) {
         e.preventDefault(); 
         try {
-            const response = await fetch(`${HOST}/user/login/`, {
+            const response = await fetch(`${HOST}/${ROUTE}user/login/`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ "username": username, "password" : Password}),

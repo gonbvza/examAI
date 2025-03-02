@@ -11,7 +11,7 @@ import Modal from 'react-modal';
 
 import { PasswordCheckService, getPasswordStrengthText} from '../../helpers/passwordCheck.ts'
 
-import { HOST } from '../../config.ts'; 
+import { HOST, ROUTE } from '../../config.ts'; 
 
 const ErrorModalStyle = {
     content: {
@@ -70,7 +70,7 @@ const Sign = ({setUsernameNavBar}: NavbarProps) => {
         setNotValidMail(false)  // Changed from true to false
 
         try {
-            const response = await fetch(`${HOST}/user/signup/`, {
+            const response = await fetch(`${HOST}/${ROUTE}user/signup/`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ "username": Username, "password" : Password, "email": Email}),

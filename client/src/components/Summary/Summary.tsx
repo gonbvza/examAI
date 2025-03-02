@@ -4,7 +4,7 @@ import styles from './Summary.module.css';
 
 import { useNavigate } from 'react-router-dom';
 
-import { HOST } from '../../config.ts'; 
+import { HOST, ROUTE } from '../../config.ts'; 
 
 // interface SummaryData {
 //   name: string;
@@ -28,7 +28,7 @@ const Summary = () => {
       
       try {
         setIsLoading(true);
-        const response = await fetch(`${HOST}/summary/${summaryId}`, {
+        const response = await fetch(`${HOST}/${ROUTE}summary/${summaryId}`, {
           credentials: "include",
         });
         

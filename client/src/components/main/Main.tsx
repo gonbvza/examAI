@@ -11,13 +11,13 @@ import Cookies from 'js-cookie';
 
 import { useNavigate } from 'react-router-dom';
 
-import { HOST } from '../../config.ts'; 
+import { HOST, ROUTE } from '../../config.ts'; 
 
-const summaryURLFile = `${HOST}/summary/generateSummary/file`
-const summaryURLText = `${HOST}/summary/generateSummary/text`
+const summaryURLFile = `${HOST}/${ROUTE}summary/generateSummary/file`
+const summaryURLText = `${HOST}/${ROUTE}summary/generateSummary/text`
 
-const questionsURLFile = `${HOST}/questions/generateQuestions/file`
-const questionsURLText = `${HOST}/questions/generateQuestions/text`
+const questionsURLFile = `${HOST}/${ROUTE}questions/generateQuestions/file`
+const questionsURLText = `${HOST}/${ROUTE}questions/generateQuestions/text`
 
 const customModalStyles = {
     content: {

@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Dashboard.module.css';
 
+import { HOST } from '../../config.ts'; 
+
 import { capitalizeFirstLetter } from '../../helpers/capitalize';
 
 interface Row {
@@ -31,7 +33,7 @@ const Dashboard = () => {
   useEffect(() => {
     async function getSummaries() {
       try {
-        const response = await fetch("http://localhost:8000/summary/", {
+        const response = await fetch(`${HOST}/summary/`, {
           credentials: "include", 
         });
 

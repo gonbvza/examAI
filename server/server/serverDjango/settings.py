@@ -139,7 +139,7 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOW_CREDENTIALS = True
 
-CSRF_TRUSTED_ORIGINS = ["http://localhost:5173"]
+CSRF_TRUSTED_ORIGINS = ["http://localhost:5173", "https://*.railway.app"]
 
 SESSION_COOKIE_NAME = "sessionid"  # Default session cookie
 SESSION_COOKIE_AGE = 60 * 60 * 24 * 7  # 7 days (User stays logged in)

@@ -6,6 +6,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { useNavigate } from 'react-router-dom';
 
+import { HOST } from '../../config.ts'; 
+
 // interface QuestionData {
 //   id: number;
 //   name: string;
@@ -42,7 +44,7 @@ const Question = () => {
       
       try {
         setIsLoading(true);
-        const response = await fetch(`http://localhost:8000/questions/${questionId}`, {
+        const response = await fetch(`${HOST}/questions/${questionId}`, {
           credentials: "include",
         });
         

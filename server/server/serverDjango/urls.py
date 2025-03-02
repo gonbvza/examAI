@@ -24,5 +24,5 @@ urlpatterns = [
     path("user/", include("userManagement.urls")),
     path("summary/", include("summaries.urls")),
     path("questions/", include("questions.urls")),
-    path("/health/", views.health_check, name="Health check for railway")
+    path("health/", views.health_check, name="Health check for railway")
 ]

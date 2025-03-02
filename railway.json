@@ -4,7 +4,7 @@
       "nixpacksPlan": {
         "phases": {
           "setup": {
-            "aptPkgs": ["python3", "python3-pip", "python3-venv", "build-essential"]
+            "aptPkgs": ["python3", "python3-pip", "python3-venv", "build-essential", "postgresql-client"]
           },
           "install": {
             "cmds": [
@@ -17,8 +17,18 @@
               "cd server/server/ && pip install -r requirements.txt",
               "echo '#!/bin/bash' > start.sh",
               "echo 'source /venv/bin/activate' >> start.sh",
-              "echo 'cd client && npm run preview -- --host 0.0.0.0 --port \"$PORT\" && echo server &' >> start.sh",
-              "echo 'cd server/server/ && python -m pip install -r requirements.txt && python -m gunicorn serverDjango.wsgi:application --bind 0.0.0.0:8000 --workers 3' >> start.sh",
+              "echo 'echo \"Waiting for PostgreSQL to be ready...\"' >> start.sh",
+              "echo 'until pg_isready -h \"$PGHOST\" -p \"$PGPORT\" -U \"$PGUSER\"; do' >> start.sh",
+              "echo '  echo \"PostgreSQL is unavailable - sleeping\"' >> start.sh",
+              "echo '  sleep 1' >> start.sh",
+              "echo 'done' >> start.sh",
+              "echo 'echo \"PostgreSQL is up - executing commands\"' >> start.sh",
+              "echo 'cd server/server/ && python manage.py migrate' >> start.sh",
+              "echo 'cd client && npm run preview -- --host 0.0.0.0 --port \"$PORT\" &' >> start.sh",
+              "echo 'FRONTEND_PID=$!' >> start.sh",
+              "echo 'cd ../server/server/ && python -m pip install -r requirements.txt && python -m gunicorn serverDjango.wsgi:application --bind 0.0.0.0:8000 --workers 3 &' >> start.sh",
+              "echo 'BACKEND_PID=$!' >> start.sh",
+              "echo 'wait $FRONTEND_PID $BACKEND_PID' >> start.sh",
               "chmod +x start.sh"
             ]
           }
@@ -28,7 +38,22 @@
     "deploy": {
       "startCommand": "./start.sh",
       "restartPolicyType": "ON_FAILURE",
-      "restartPolicyMaxRetries": 10
+      "restartPolicyMaxRetries": 10,
+      "healthcheckPath": "/",
+      "healthcheckTimeout": 300,
+      "env": {
+        "DJANGO_SECRET_KEY": "django-insecure-railway-deployment-key-should-be-changed",
+        "DEBUG": "False",
+        "DJANGO_LOGLEVEL": "info",
+        "DJANGO_ALLOWED_HOSTS": ".railway.app",
+        "DATABASE_ENGINE": "postgresql",
+        "DATABASE_NAME": "${PGDATABASE}",
+        "DATABASE_USERNAME": "${PGUSER}",
+        "DATABASE_PASSWORD": "${PGPASSWORD}",
+        "DATABASE_HOST": "${PGHOST}",
+        "DATABASE_PORT": "${PGPORT}",
+        "PORT": "3000"
+      }
     },
     "plugins": {
       "postgresql": {

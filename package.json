@@ -6,7 +6,8 @@
     "node": "18.x" 
   },
   "scripts": {
-    "dev": "vite --config client/vite.config.js",        
+    "dev": "vite --config client/vite.config.js",    
+    "railway-setup": "npm install --save-exact react react-dom @types/react@18.2.0 @types/react-dom@18.2.0 react-router-dom @fortawesome/react-fontawesome @fortawesome/free-solid-svg-icons @fortawesome/fontawesome-svg-core react-modal @types/react-modal js-cookie @types/js-cookie",    
     "build": "npm run build --prefix client",            
     "lint": "eslint .",
     "preview": "vite preview --config client/vite.config.js", 

@@ -6,6 +6,9 @@ export default defineConfig({
   plugins: [react()],
   server: {
     host: '0.0.0.0', // Allows Railway to bind to the correct network interface
-    port: 4173, // Uses Railway's assigned port or defaults to 4173
+    port: 8080, // Uses Railway's assigned port or defaults to 4173
+  },
+  preview: {
+    allowedHosts: ['examai-production.up.railway.app', 'localhost', '0.0.0.0'], // Add your Railway URL here
   }
 })

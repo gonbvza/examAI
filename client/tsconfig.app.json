@@ -20,8 +20,6 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "types": ["react", "react-dom"],
-    "typeRoots": ["./node_modules/@types", "./src/types"],
   },
   "include": ["src/**/*"]
 }

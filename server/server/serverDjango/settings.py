@@ -27,7 +27,7 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(os.environ.get("DEBUG", default=0))
 
-ALLOWED_HOSTS = '0.0.0.0'
+ALLOWED_HOSTS = "examai-production.up.railway.app"
 
 
 # Application definition
@@ -139,7 +139,7 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOW_CREDENTIALS = True
 
-CSRF_TRUSTED_ORIGINS = ["http://localhost:5173", "http://*.railway.app", "https://examai-production.up.railway.app"]
+CSRF_TRUSTED_ORIGINS = ["http://localhost:5173", "https://*.railway.app"]
 
 SESSION_COOKIE_NAME = "sessionid"  # Default session cookie
 SESSION_COOKIE_AGE = 60 * 60 * 24 * 7  # 7 days (User stays logged in)

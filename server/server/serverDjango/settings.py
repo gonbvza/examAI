@@ -139,7 +139,21 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOW_CREDENTIALS = True
 
-CSRF_TRUSTED_ORIGINS = ["http://localhost:5173", "https://*.railway.app"]
+# Specific CORS origins (more secure than allowing all)
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "https://examai-production.up.railway.app",
+    "https://0.0.0.0:8000"
+]
+
+# Security settings for HTTPS
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')  # Needed for Railway/Heroku to detect HTTPS
+SECURE_SSL_REDIRECT = True  # Redirect HTTP to HTTPS
+SESSION_COOKIE_SECURE = True  # Only send cookies over HTTPS
+CSRF_COOKIE_SECURE = True  # Only send CSRF cookies over HTTPS
+
+# Update CSRF trusted origins to include HTTPS versions
+CSRF_TRUSTED_ORIGINS = ["http://localhost:5173", "https://*.railway.app", "https://examai-production.up.railway.app"]
 
 SESSION_COOKIE_NAME = "sessionid"  # Default session cookie
 SESSION_COOKIE_AGE = 60 * 60 * 24 * 7  # 7 days (User stays logged in)

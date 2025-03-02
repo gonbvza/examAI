@@ -1,6 +1,8 @@
+import { HOST } from '../config.ts'; 
+
 export async function logout() {
     try {
-      const response = await fetch("http://localhost:8000/user/logout/", {
+      const response = await fetch(`${HOST}/user/logout/`, {
           credentials: "include", // Sends sessionid cookie
       });
   

@@ -29,7 +29,7 @@ const LandingBody = () => {
       <div className={styles.bodyWeb}>
         <div className={styles.bodyTitle}>
           <img 
-            src="/src/assets/im_1.jpg" 
+            src="/assets/im_1.jpg" 
             alt="Document transformation illustration" 
             loading="eager"
           />

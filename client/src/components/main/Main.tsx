@@ -337,7 +337,7 @@ const Main = () => {
                     style={customModalStyles}    
                 >
                     <>
-                        <img src="/src/assets/loading.gif" width="100" height="100"/>
+                        <img src="/assets/loading.gif" width="100" height="100"/>
                     </>
                 </ModalSafeForReact18>
                 <ModalSafeForReact18 isOpen={uploadError} style={ErrorModalStyle}>

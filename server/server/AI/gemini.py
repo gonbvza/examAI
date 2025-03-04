@@ -10,7 +10,7 @@ def makeSummary(text):
             """summarize this text wiht a minimum of 300 words, but if the
             text is long, then provide a long summary. If the text provided
             is not enough, please answer with Not Enough. ONLY RETURN Not
-            Enough or a summary""",
+            Enough or a summary. Do the summary in the same language as the text provided""",
             text,
         ],
     )

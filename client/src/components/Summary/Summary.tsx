@@ -4,15 +4,17 @@ import styles from './Summary.module.css';
 
 import { useNavigate } from 'react-router-dom';
 
-interface SummaryData {
-  name: string;
-  summary: string[];
-}
+import { HOST, ROUTE } from '../../config.ts'; 
+
+// interface SummaryData {
+//   name: string;
+//   summary: string[];
+// }
 
 const Summary = () => {
-  const [summaryData, setSummaryData] = useState<SummaryData | null>(null);
+  const [summaryData, setSummaryData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState(null);
   const { summaryId } = useParams<{ summaryId: string }>();
 
   const navigate = useNavigate()
@@ -26,7 +28,7 @@ const Summary = () => {
       
       try {
         setIsLoading(true);
-        const response = await fetch(`http://localhost:8000/summary/${summaryId}`, {
+        const response = await fetch(`${HOST}/${ROUTE}summary/${summaryId}`, {
           credentials: "include",
         });
         
@@ -94,7 +96,7 @@ const Summary = () => {
         <h1 className={styles.summaryTitle}>{summaryData.name} Exam</h1>
         
         <div className={styles.summaryContent}>
-          {summaryData.summary.map((item, index) => (
+          {summaryData.summary.map((item:any, index:number) => (
             <div key={index} className={styles.summaryItem}>
               <p>{item}</p>
             </div>

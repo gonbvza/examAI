@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 import os
 from pathlib import Path
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -81,16 +82,15 @@ WSGI_APPLICATION = "serverDjango.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+DATABASE_URL = os.environ.get('DATABASE_URL')
+
+# Configure Django to use the DATABASE_URL
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.{}".format(
-            os.getenv("DATABASE_ENGINE", "sqlite3")
-        ),
-        "NAME": os.getenv("DATABASE_NAME", "polls"),
-        "USER": os.getenv("DATABASE_USERNAME", "myprojectuser"),
-        "PASSWORD": os.getenv("DATABASE_PASSWORD", "password"),
-        "HOST": "db",
-    }
+    'default': dj_database_url.config(
+        default=DATABASE_URL,
+        conn_max_age=600,
+        conn_health_checks=True,
+    )
 }
 
 # Password validation
@@ -129,6 +129,7 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
@@ -138,7 +139,21 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOW_CREDENTIALS = True
 
-CSRF_TRUSTED_ORIGINS = ["http://localhost:5173"]
+# Specific CORS origins (more secure than allowing all)
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "https://examai-production.up.railway.app",
+    "https://0.0.0.0:8000"
+]
+
+# Security settings for HTTPS
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')  # Needed for Railway/Heroku to detect HTTPS
+SECURE_SSL_REDIRECT = True  # Redirect HTTP to HTTPS
+SESSION_COOKIE_SECURE = True  # Only send cookies over HTTPS
+CSRF_COOKIE_SECURE = True  # Only send CSRF cookies over HTTPS
+
+# Update CSRF trusted origins to include HTTPS versions
+CSRF_TRUSTED_ORIGINS = ["http://localhost:5173", "https://*.railway.app", "https://examai-production.up.railway.app"]
 
 SESSION_COOKIE_NAME = "sessionid"  # Default session cookie
 SESSION_COOKIE_AGE = 60 * 60 * 24 * 7  # 7 days (User stays logged in)

@@ -1,16 +1,16 @@
-import React from 'react'
-import UnloggedNavbar from './UnloggedNavbar.tsx'
+import UnloggedNavbar from './UnloggedNavbar'
 import LoggedNavbar from './LoggedNavbar'
 
-const Navbar = ({name, setUsernameNavbar}: {name: string, setUsernameNavbar: React.Dispatch<React.SetStateAction<string>>}) => {
-  if(name == "") {
-    return (
-      <UnloggedNavbar/>
-    )
+interface NavbarProps {
+  name: string;
+  setUsernameNavbar: (username: string) => void;
+}
+
+const Navbar = ({ name, setUsernameNavbar }: NavbarProps) => {
+  if (name === "") {
+    return <UnloggedNavbar />
   } else {
-    return (
-      <LoggedNavbar name={name} setUsernameNavbar={setUsernameNavbar}/>
-    )
+    return <LoggedNavbar name={name} setUsernameNavbar={setUsernameNavbar} />
   }
 }
 

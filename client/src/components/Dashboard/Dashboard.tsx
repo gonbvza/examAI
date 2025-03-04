@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Dashboard.module.css';
 
+import { HOST, ROUTE } from '../../config.ts'; 
+
 import { capitalizeFirstLetter } from '../../helpers/capitalize';
 
 interface Row {
@@ -11,12 +13,12 @@ interface Row {
   pub_date: string; 
 }
 
-interface Rows {
-  rows: Row[];
-}
+// interface Rows {
+//   rows: Row[];
+// }
 
 const Dashboard = () => {
-  const [rows, setRows] = useState<Rows | null>(null);
+  const [rows, setRows] = useState(null);
 
   const navigate = useNavigate();
 
@@ -31,7 +33,7 @@ const Dashboard = () => {
   useEffect(() => {
     async function getSummaries() {
       try {
-        const response = await fetch("http://localhost:8000/summary/", {
+        const response = await fetch(`${HOST}/${ROUTE}summary/`, {
           credentials: "include", 
         });
 
@@ -66,7 +68,7 @@ const Dashboard = () => {
           <p>Currently you have no exams</p>
         </div>
         <div className={styles.rowsDisplay}>
-          {rows?.rows.map((row) => (
+          {rows?.rows.map((row:Row) => (
             <div key={row.id} className={styles.row}>
               <div className={styles.rowBody}>
                 <h3>{capitalizeFirstLetter(row.name)}  {capitalizeFirstLetter(row.type)}</h3>

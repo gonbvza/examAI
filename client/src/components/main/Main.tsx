@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { useState, useEffect } from 'react';
 import styles from './Main.module.css';
 import { faFile } from "@fortawesome/free-solid-svg-icons";
@@ -13,11 +11,13 @@ import Cookies from 'js-cookie';
 
 import { useNavigate } from 'react-router-dom';
 
-const summaryURLFile = "http://localhost:8000/summary/generateSummary/file"
-const summaryURLText = "http://localhost:8000/summary/generateSummary/text"
+import { HOST, ROUTE } from '../../config.ts'; 
 
-const questionsURLFile = "http://localhost:8000/questions/generateQuestions/file"
-const questionsURLText = "http://localhost:8000/questions/generateQuestions/text"
+const summaryURLFile = `${HOST}/${ROUTE}summary/generateSummary/file`
+const summaryURLText = `${HOST}/${ROUTE}summary/generateSummary/text`
+
+const questionsURLFile = `${HOST}/${ROUTE}questions/generateQuestions/file`
+const questionsURLText = `${HOST}/${ROUTE}questions/generateQuestions/text`
 
 const customModalStyles = {
     content: {
@@ -49,15 +49,18 @@ const ErrorModalStyle = {
     },
 };
 
+declare type ComponentType = typeof import("react");
+
+const ModalSafeForReact18 = Modal as ComponentType;
 
 const Main = () => {
-    const [file, setFile] = useState<File | null>(null);
-    const [text, setText] = useState<string>("");
-    const [name, setName] = useState<string>("");
-    const [selectedOption, setSelectedOption] = useState<string | null>(null);
+    const [file, setFile] = useState(null);
+    const [text, setText] = useState("");
+    const [name, setName] = useState("");
+    const [selectedOption, setSelectedOption] = useState(null);
     const [loading, setloading] = useState(false)
     const [uploadError, setUploadError] = useState(false)
-    const [errorModalMessage, setErrorModalMessage] = useState<string>("")
+    const [errorModalMessage, setErrorModalMessage] = useState("")
     const [wrongCredentials, setwrongCredentials] = useState(false)
 
     const navigate = useNavigate();
@@ -77,7 +80,7 @@ const Main = () => {
         getUser()
     }, []) 
 
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleFileChange = (e:any) => {
         setwrongCredentials(false)
         if (e.target.files && e.target.files[0]) {
             const selectedFile = e.target.files[0];
@@ -91,7 +94,7 @@ const Main = () => {
 
             const nameWithoutExtension = originalName.substring(0, originalName.lastIndexOf(".")); 
             
-            const words = nameWithoutExtension.split(" ").filter(word => word.length > 0); 
+            const words = nameWithoutExtension.split(" ").filter((word:string) => word.length > 0); 
     
             let newName = originalName; 
     
@@ -329,15 +332,15 @@ const Main = () => {
                         Submit
                     </button>
                 </div>
-                <Modal 
+                <ModalSafeForReact18 
                     isOpen={loading}
                     style={customModalStyles}    
                 >
                     <>
-                        <img src="/src/assets/loading.gif" width="100" height="100"/>
+                        <img src="/assets/loading.gif" width="100" height="100"/>
                     </>
-                </Modal>
-                <Modal isOpen={uploadError} style={ErrorModalStyle}>
+                </ModalSafeForReact18>
+                <ModalSafeForReact18 isOpen={uploadError} style={ErrorModalStyle}>
                     <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                         <button 
                             onClick={() => setUploadError(false)} 
@@ -359,7 +362,7 @@ const Main = () => {
                         </p>
                         <p>{errorModalMessage}</p>
                     </div>
-                </Modal>
+                </ModalSafeForReact18>
 
             </div>
         </>

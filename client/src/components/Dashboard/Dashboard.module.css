@@ -1,6 +1,7 @@
 .dashboardContainer {
     margin-top: 2%;
     text-align: center;
+    min-height: 75vh;
 }
 
 .noExams p {

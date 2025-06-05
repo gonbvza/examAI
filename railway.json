@@ -13,7 +13,7 @@
               "npm install --save-exact react react-dom @types/react@18.2.0 @types/react-dom@18.2.0 react-router-dom @fortawesome/react-fontawesome @fortawesome/free-solid-svg-icons @fortawesome/fontawesome-svg-core react-modal @types/react-modal js-cookie @types/js-cookie",
               "npm install -g concurrently",
               "npm run build --prefix client",
-              "cd server/server/ && python3 -m pip install -r requirements.txt",
+              "source .venv/bin/activate && cd server/server/ && python3 -m pip install -r requirements.txt",
               "echo '#!/bin/bash' > start.sh",
               "echo 'cd client && npm run preview -- --host 0.0.0.0 --port \"$PORT\" &' >> start.sh",
               "echo 'source /venv/bin/activate' >> start.sh",

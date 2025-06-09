@@ -30,10 +30,10 @@ services:
 
   frontend: 
     build: ./client
-    ports: 
-      - 8080:80
     depends_on:
       - backend
+    volumes:
+      - ./dist:/client/dist
 
   nginx:
     container_name: nginx
@@ -44,6 +44,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
+      - ./dist:/usr/share/nginx/html
       - static:/backend/static
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
@@ -58,10 +59,12 @@ services:
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
     command: certonly --webroot -w /var/www/certbot --force-renewal --email gonzalov2000@gmail.com -d examai.eu --agree-tos
+    depends_on:
+      - nginx
 
 volumes:
   postgres_data:
 
   static:
 
-
+  dist:

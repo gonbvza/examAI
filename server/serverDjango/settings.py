@@ -138,7 +138,7 @@ CORS_ALLOW_CREDENTIALS = True
 # Specific CORS origins (more secure than allowing all)
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
-    "https://examai-production.up.railway.app",
+    "https://examai.eu",
     "https://0.0.0.0:8000",
 ]
 

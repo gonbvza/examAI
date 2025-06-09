@@ -14,8 +14,9 @@ export default defineConfig({
         secure: false,
       },
     },
+     allowedHosts: ["examai.eu", "localhost"],
   },
   preview: {
-    allowedHosts: ["examai-production.up.railway.app", "localhost", "0.0.0.0"],
+    allowedHosts: ["examai.eu", "localhost", "0.0.0.0"],
   },
 });

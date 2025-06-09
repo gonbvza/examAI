@@ -14,10 +14,6 @@ from .models import Summaries
 class SummarizeTextFile(generics.GenericAPIView):
 
     def post(self, request):
-        print("Request Method:", request.method)
-        print("Request Content-Type:", request.content_type)
-        print("Request FILES:", request.FILES)
-
         current_user = request.user
 
         if "file" not in request.FILES:
@@ -28,7 +24,6 @@ class SummarizeTextFile(generics.GenericAPIView):
                 status=400,
             )
 
-        print("SUMMARIZING FLE")
         uploaded_file = request.FILES["file"]
         file_name = uploaded_file.name
 
@@ -36,7 +31,6 @@ class SummarizeTextFile(generics.GenericAPIView):
         text = ""
 
         for i in range(len(reader.pages)):
-            print("page " + str(i))
             page = reader.pages[i]
             text += page.extract_text()
 
@@ -65,8 +59,6 @@ class SummarizeText(generics.GenericAPIView):
         name = content["name"]
 
         summarizedText = gemini.makeSummary(text)
-
-        print(summarizedText.split("\n")[0])
 
         if summarizedText.split("\n")[0] == "Not Enough":
             return Response({"error": "Please provide more text"}, status=405)
@@ -123,14 +115,10 @@ class GetAllExams(generics.GenericAPIView):
 
             data.sort(key=lambda x: x["pub_date"], reverse=True)
 
-            for i in data:
-                print(i)
-
             response = {
                 "rows": data,
             }
 
             return Response(response)
 
-        print("Not authenitcated")
         return Response("Not authenticated")

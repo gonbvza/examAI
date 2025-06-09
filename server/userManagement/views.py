@@ -10,7 +10,6 @@ class RegisterView(generics.GenericAPIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        print("signing")
         username = request.data.get("username")
         password = request.data.get("password")
         email = request.data.get("email")
@@ -42,11 +41,9 @@ class RegisterView(generics.GenericAPIView):
 
 class LoginView(generics.GenericAPIView):
     def post(self, request):
-        print("Login in")
         if request.method == "POST":
             username = request.data.get("username")
             password = request.data.get("password")
-
             user = authenticate(username=username, password=password)
             if user:
                 login(request, user)  # Creates a session for the user
@@ -57,12 +54,8 @@ class LoginView(generics.GenericAPIView):
 
 class CheckSession(generics.GenericAPIView):
     def get(self, request):
-        print(request.user)
-
         if request.user.is_authenticated:
-            print("authenticated")
             return Response({"authenticated": True, "username": request.user.username})
-        print("Not authenticated")
         return Response({"authenticated": False})
 
 

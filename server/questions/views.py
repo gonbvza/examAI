@@ -32,16 +32,12 @@ class QuestionsFile(generics.GenericAPIView):
         text = ""
 
         for i in range(len(reader.pages)):
-            print("page " + str(i))
             page = reader.pages[i]
             text += page.extract_text()
 
         page = reader.pages[0]
 
         text = page.extract_text()
-
-        print("The text is")
-        print(text)
 
         exam = gemini.generateExam(text)
 
@@ -70,10 +66,7 @@ class QuestionsFile(generics.GenericAPIView):
 class QuestionsText(generics.GenericAPIView):
 
     def post(self, request):
-        # Debugging: Print request method and content type
         current_user = request.user
-
-        print("SUMMARIZING TEXT")
 
         content = request.data
         text = content["text"]

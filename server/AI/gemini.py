@@ -19,7 +19,6 @@ def makeSummary(text):
 
 
 def generateExam(text):
-    print("generating exam")
     prompt = """Create an exam from this text {text}
             REALLY IMPORTANT Please provide 10 questions.
             Use this JSON schema:

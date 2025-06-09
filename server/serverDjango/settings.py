@@ -142,6 +142,12 @@ CORS_ALLOWED_ORIGINS = [
     "https://0.0.0.0:8000",
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://examai.eu",
+    "https://www.examai.eu",
+]
+
+
 SESSION_COOKIE_NAME = "sessionid"  # Default session cookie
 SESSION_COOKIE_AGE = 60 * 60 * 24 * 7  # 7 days (User stays logged in)
 SESSION_COOKIE_HTTPONLY = True  # Prevent JavaScript access (for security)
@@ -151,3 +157,4 @@ CSRF_COOKIE_SAMESITE = "None"
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SAMESITE = "None"
 SESSION_COOKIE_SECURE = True
+

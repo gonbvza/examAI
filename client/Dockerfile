@@ -1,13 +1,18 @@
-# Build Stage
-FROM node:18-alpine AS build
-WORKDIR /app
-COPY package*.json ./
+# Use a lightweight Node image
+FROM node:alpine
+
+# Set working directory
+WORKDIR ./client
+
+# Copy package files first (for better caching)
+COPY ./package*.json ./
+
+# Install dependencies
 RUN npm install
+
+# Copy the rest of the frontend code
 COPY . .
-RUN npm run build
- 
-# Production Stage
-FROM nginx:stable-alpine AS production
-COPY --from=build /app/dist /usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+
+# Start the development server
+CMD ["npm", "run", "dev"]
+

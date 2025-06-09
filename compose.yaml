@@ -28,15 +28,30 @@ services:
       timeout: 5s
       retries: 5
 
-  web: 
+  frontend: 
     build: ./client
     ports: 
       - 8080:80
     depends_on:
       - backend
 
+  nginx:
+    container_name: nginx
+    build: 
+      context: .
+      dockerfile: docker/nginx/Dockerfile
+    ports:
+      - "80:80"
+    volumes:
+      - static:/backend/static
+    depends_on:
+      - backend
+      - frontend
+
 
 volumes:
   postgres_data:
+
+  static:
 
 

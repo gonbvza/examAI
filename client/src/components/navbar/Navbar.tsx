@@ -1,5 +1,5 @@
-import UnloggedNavbar from './UnloggedNavbar'
-import LoggedNavbar from './LoggedNavbar'
+import UnloggedNavbar from "./UnloggedNavbar";
+import LoggedNavbar from "./LoggedNavbar";
 
 interface NavbarProps {
   name: string;
@@ -7,11 +7,8 @@ interface NavbarProps {
 }
 
 const Navbar = ({ name, setUsernameNavbar }: NavbarProps) => {
-  if (name === "") {
-    return <UnloggedNavbar />
-  } else {
-    return <LoggedNavbar name={name} setUsernameNavbar={setUsernameNavbar} />
-  }
-}
+  return <UnloggedNavbar />;
+};
 
-export default Navbar
+export default Navbar;
+

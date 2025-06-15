@@ -20,7 +20,6 @@ const Sign = () => {
 
   const handleSubmit = (e:any) => {
     e.preventDefault();
-    // Handle form submission here
     console.log("Form data:", formData);
   };
 
@@ -41,7 +40,6 @@ const Sign = () => {
 
         <div className="bg-white rounded-xl shadow-lg p-8">
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Name and Surname Row */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <label 

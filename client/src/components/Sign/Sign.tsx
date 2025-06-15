@@ -1,182 +1,148 @@
-import { useState, useEffect, ComponentType } from 'react'
-import styles from './Sign.module.css'
-import { verifyLogIn } from '../../helpers/verifyUser.ts'
-import { useNavigate } from 'react-router-dom'
-import { verifyMail } from '../../helpers/verifyMail.ts'
+import { useState } from "react";
+import Logo from "../logo/Logo";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClose } from "@fortawesome/free-solid-svg-icons";
+const Sign = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    surname: "",
+    email: "",
+    password: "",
+    confirmPassword: ""
+  });
 
-import Modal from 'react-modal';
+  const handleInputChange = (e:any) => {
+    const { name, value } = e.target;
+    setFormData((prev:any) => ({
+      ...prev,
+      [name]: value
+    }));
+  };
 
-import { PasswordCheckService, getPasswordStrengthText} from '../../helpers/passwordCheck.ts'
+  const handleSubmit = (e:any) => {
+    e.preventDefault();
+    // Handle form submission here
+    console.log("Form data:", formData);
+  };
 
-import { HOST, ROUTE } from '../../config.ts'; 
+  return (
+    <div className="flex flex-col items-center justify-center min-h-full py-12 px-4">
+      <div className="max-w-lg space-y-8">
+        <div className="text-center space-y-4">
+          <div className="flex justify-center">
+            <Logo />
+          </div>
+          <div className="space-y-2">
+            <h1 className="text-3xl font-bold text-gray-900">Welcome!</h1>
+            <p className="text-base font-medium text-gray-600">
+              Create an account to continue
+            </p>
+          </div>
+        </div>
 
-const ErrorModalStyle = {
-    content: {
-        top: '50%',
-        left: '50%',
-        right: 'auto',
-        bottom: 'auto',
-        marginRight: '-50%',
-        transform: 'translate(-50%, -50%)',
-        border: 'none',
-        background: "#ff4d4d", 
-        padding: "30px",
-        borderRadius: "10px",
-        color: "white",
-        boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
-        animation: "shake 0.5s ease-in-out"
-    },
+        <div className="bg-white rounded-xl shadow-lg p-8">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Name and Surname Row */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <label 
+                  htmlFor="name" 
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Name
+                </label>
+                <input
+                  id="name"
+                  name="name"
+                  type="text"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                  placeholder="Enter your name"
+                  required
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <label 
+                  htmlFor="surname" 
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Surname
+                </label>
+                <input
+                  id="surname"
+                  name="surname"
+                  type="text"
+                  value={formData.surname}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                  placeholder="Enter your surname"
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label 
+                htmlFor="email" 
+                className="block text-sm font-medium text-gray-700"
+              >
+                Email Address
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                placeholder="Enter your email"
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label 
+                htmlFor="password" 
+                className="block text-sm font-medium text-gray-700"
+              >
+                Password
+              </label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                value={formData.password}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                placeholder="Create a password"
+                required
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="w-full bg-[#6366F1] text-white py-2.5 px-4 rounded-md font-medium hover:bg-[#3E42FB] cursor-pointer  focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors"
+            >
+              Create Account
+            </button>
+          </form>
+
+          <div className="mt-6 text-center">
+            <p className="text-sm text-gray-600">
+              Already have an account?{" "}
+              <a 
+                href="/logIn" 
+                className="font-medium text-indigo-600 hover:text-indigo-500 transition-colors"
+              >
+                Sign in
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
-interface NavbarProps {
-    setUsernameNavBar: (username: string) => void;
-}
-
-declare type ComponentType = typeof import("react");
-
-const ModalSafeForReact18 = Modal as ComponentType;
-
-const Sign = ({setUsernameNavBar}: NavbarProps) => {
-    const [Email, setEmail] = useState("");
-    const [Password, setPassword] = useState("");
-    const [Username, setUsername] = useState("");
-
-    const [NotValidMail, setNotValidMail] = useState(false);
-    const [NotValidPassword, setNotValidPassword] = useState(false);
-    const [uploadError, setUploadError] = useState(false)
-    const [errorModalMessage, setErrorModalMessage] = useState("")
-
-    const [passwordStrength, setPasswordStrength] = useState("")
-    
-    const passwordCheck = new PasswordCheckService()
-    const navigate = useNavigate();
-
-    async function sendLogin(e:any) {
-        e.preventDefault(); 
-        setNotValidPassword(false)
-        if(!verifyMail(Email)) {
-            setNotValidMail(true)
-            return
-        }
-        
-        if(passwordStrength !== "Strong") {
-            setNotValidPassword(true)
-            return
-        } 
-        
-        setNotValidMail(false)  // Changed from true to false
-
-        try {
-            const response = await fetch(`${HOST}/${ROUTE}user/signup/`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ "username": Username, "password" : Password, "email": Email}),
-                credentials: "include"
-            });
-    
-            const data = await response.json();
-    
-            if (response.ok) {
-                console.log("Signup successful!", data);
-                setUsernameNavBar(Username)
-                navigate("/main")
-            } else {
-                console.error("Signup failed:", data.error);
-
-                if (data.error === "User already exists") {  // Using strict equality
-                    setUploadError(true)
-                    setErrorModalMessage("Username or email already taken")
-                    return
-                }
-            }
-        } catch (error) {
-            console.error("Error during signup:", error);
-        }
-    }
-
-    useEffect(() => {
-        const getUser = async () => {
-            const user:string = await verifyLogIn()
-            setUsername(user)
-        };
-    
-        getUser();
-
-        if(Username.length > 0) {
-            navigate("/main")
-        }
-    }, []);
-
-    useEffect(() => {
-        const strengthEnum = passwordCheck.checkPasswordStrength(Password);
-        const strengthText = getPasswordStrengthText(strengthEnum)
-        setPasswordStrength(strengthText);
-        console.log("Password strength:", strengthText);
-    }, [Password]);
-    
-    return (
-        <>
-            <div className={styles.signContainer}>
-                <div className={styles.titleContainer}>
-                    <h1>Sign Up</h1>
-                    <p>Welcome! Create your account</p>
-                </div>
-
-                <div className={styles.inputForm}>
-                    <form onSubmit={sendLogin}>  {/* Added onSubmit here instead of onClick on button */}
-                        <label className={styles.emailInput}>
-                            Username
-                            <input type="text" name="Username" value={Username} placeholder='Username' onChange={(e) => setUsername(e.target.value)}></input>
-                        </label>
-                        <label className={styles.emailInput}>
-                            Email
-                            <input type="text" name="Email" value={Email} placeholder='Email' onChange={(e) => setEmail(e.target.value)}></input>
-                        </label>
-                        <p style={{color: 'red', display: NotValidMail ? 'inline': 'none'}}> Please provide a valid mail</p>
-                        <label className={styles.emailInput}>
-                            Password  {/* Fixed typo */}
-                            <input type="password" name="Password" value={Password} placeholder='Password' onChange={(e) => setPassword(e.target.value)}></input>
-                        </label>
-                        <p style={{color: 'red', display: NotValidPassword ? 'inline': 'none'}}> Please provide a valid password</p>
-                        {Password.length > 0 && (
-                                <p className={`${styles.strengthIndicator} ${styles[passwordStrength.toLowerCase()]}`}>
-                                    Password Strength: {passwordStrength}
-                                </p>
-                        )}
-                        <button type="submit" className={styles.submitButton}>
-                            Sign Up
-                        </button>
-                    </form>
-                </div>
-                <ModalSafeForReact18 isOpen={uploadError} style={ErrorModalStyle}>
-                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                        <button 
-                            onClick={() => setUploadError(false)} 
-                            style={{
-                                background: "transparent", 
-                                border: "none", 
-                                fontSize: "20px", 
-                                color: "white", 
-                                position: "absolute", 
-                                top: "10px", 
-                                right: "15px",
-                                cursor: "pointer"
-                            }}
-                        >
-                            <FontAwesomeIcon icon={faClose} />
-                        </button>
-                        <p style={{ fontSize: "18px", fontWeight: "bold", marginBottom: "10px" }}>
-                            Sign up failed
-                        </p>
-                        <p>{errorModalMessage}</p>
-                    </div>
-                </ModalSafeForReact18>
-            </div>
-        </>
-    )
-}
-
-export default Sign
+export default Sign;

@@ -4,6 +4,11 @@
   font-family: "Inter", sans-serif;
 }
 
+gray_placeholder::placeholder {
+  color: #6b7280;
+  opacity: 1;
+}
+
 .paragraph-gray {
   color: #4b5563;
 }

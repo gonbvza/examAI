@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "./App.css";
 
+// Component imports
 import Landing from "./components/landingPage/Landing";
 import Sign from "./components/Sign/Sign";
 import LogIn from "./components/LogIn/LogIn";
@@ -11,53 +12,110 @@ import Dashboard from "./components/Dashboard/Dashboard";
 import Summary from "./components/Summary/Summary";
 import Navbar from "./components/navbar/Navbar";
 import Footer from "./components/Footer/Footer";
+import NotFound from "./components/NotFound/NotFound";
+import NotAccessible from "./components/NotAccesible/NotAccesible";
 
-import { verifyLogIn } from "./helpers/verifyUser.ts";
-import NotFound from "./components/NotFound/NotFound.tsx";
-import NotAccesible from "./components/NotAccesible/NotAccesible.tsx";
+// Helper imports
+import { verifyLogIn } from "./helpers/verifyUser";
+
+// Protected Route wrapper component
+const ProtectedRoute = ({ children, isAuthenticated }) => {
+  if (!isAuthenticated) {
+    return <NotAccessible />;
+  }
+  return children;
+};
 
 function App() {
   const [username, setUsername] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const getUser = async () => {
-      const user: string = await verifyLogIn();
-      setUsername(user);
+    const initializeAuth = async () => {
+      try {
+        const user = await verifyLogIn();
+        setUsername(user || "");
+      } catch (error) {
+        console.error("Authentication verification failed:", error);
+        setUsername("");
+      } finally {
+        setIsLoading(false);
+      }
     };
 
-    getUser();
+    initializeAuth();
   }, []);
 
+  const isAuthenticated = Boolean(username);
+
+  // Show loading state while verifying authentication
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
       <BrowserRouter>
         <Navbar name={username} setUsernameNavbar={setUsername} />
-        <Routes>
-          <Route path="landing" Component={Landing} />
-          <Route path="" Component={Landing} />
-          <Route path="/main" Component={Main} />
-          <Route
-            path="/signUp"
-            element={<Sign setUsernameNavBar={setUsername} />}
-          />
-          <Route
-            path="/logIn"
-            element={<LogIn setUsernameNavBar={setUsername} />}
-          />
-
-          {/* URI ID passing has to be implemented */}
-          <Route path="/question/:questionId" Component={Question} />
-          <Route path="/summary/:summaryId" Component={Summary} />
-
-          {/* URI ID passing has to be implemented */}
-          <Route path="/dashboard" Component={Dashboard} />
-
-          <Route path="/401" Component={NotAccesible} />
-          <Route path="/*" Component={NotFound} />
-        </Routes>
+        
+        <main className="flex-grow bg-[#F9FAFB]">
+          <Routes>
+            {/* Public routes */}
+            <Route path="/" element={<Landing />} />
+            <Route path="/landing" element={<Landing />} />
+            <Route path="/signUp" element={<Sign />} />
+            <Route path="/logIn" element={<LogIn />} />
+            
+            {/* Protected routes */}
+            <Route 
+              path="/main" 
+              element={
+                <ProtectedRoute isAuthenticated={isAuthenticated}>
+                  <Main />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/question/:questionId" 
+              element={
+                <ProtectedRoute isAuthenticated={isAuthenticated}>
+                  <Question />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/summary/:summaryId" 
+              element={
+                <ProtectedRoute isAuthenticated={isAuthenticated}>
+                  <Summary />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/dashboard" 
+              element={
+                <ProtectedRoute isAuthenticated={isAuthenticated}>
+                  <Dashboard />
+                </ProtectedRoute>
+              } 
+            />
+            
+            {/* Error routes */}
+            <Route path="/401" element={<NotAccessible />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </main>
+        
         <Footer />
       </BrowserRouter>
-    </>
+    </div>
   );
 }
 

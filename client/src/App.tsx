@@ -16,6 +16,8 @@ import UnloggedNavbar from "./components/navbar/UnloggedNavbar";
 // Helper imports
 import { verifyLogIn } from "./helpers/verifyUser";
 import TopicResources from "./components/TopicResources/TopicResouces";
+import SummaryDashboard from "./components/SummaryDashboard/SummaryDashboard";
+import ExamsDashboard from "./components/ExamsDashboard/ExamsDashboard";
 
 // Protected Route wrapper component
 const ProtectedRoute = ({ children, isAuthenticated }) => {
@@ -84,24 +86,13 @@ const AppContent = () => {
               </ProtectedRoute>
             }
           />
-          <Route
-            path="/question/:questionId"
-            element={
-              <ProtectedRoute isAuthenticated={isAuthenticated}>
-                <Question />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/summary/:summaryId"
-            element={
-              <ProtectedRoute isAuthenticated={isAuthenticated}>
-                <Summary />
-              </ProtectedRoute>
-            }
-          />
+          <Route path="/question/:questionId" element={<Question />} />
+          <Route path="/summary/:summaryId" element={<Summary />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/topic" element={<TopicResources />} />
+          <Route path="/summaries" element={<SummaryDashboard />} />
+          <Route path="/exams" element={<ExamsDashboard />} />
+
           <Route path="/401" element={<NotAccessible />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

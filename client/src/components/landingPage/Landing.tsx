@@ -159,8 +159,8 @@ const Landing = () => {
         <FAQSection faqs={faqData} />
       </div>
       <div>
-        <ContactPage/>
-            </div>  
+        <ContactPage />
+      </div>
     </div>
   );
 };

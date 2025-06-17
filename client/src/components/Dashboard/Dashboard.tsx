@@ -1,88 +1,55 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import styles from './Dashboard.module.css';
+import Sidebar from "../Sidebar/Sidebar";
+import { useEffect, useState } from "react";
 
-import { HOST, ROUTE } from '../../config.ts'; 
-
-import { capitalizeFirstLetter } from '../../helpers/capitalize';
-
-interface Row {
-  id: string;
+interface topic_row {
   name: string;
-  type: string;
-  pub_date: string; 
+  date: string;
+  summaries: number;
+  exams: number;
 }
 
-// interface Rows {
-//   rows: Row[];
-// }
-
 const Dashboard = () => {
-  const [rows, setRows] = useState(null);
-
-  const navigate = useNavigate();
-
-  const sendToWindow = (type: string, id: string) => {
-    if (type === "summary") {
-      navigate(`/summary/${id}`); 
-    } else {
-      navigate(`/question/${id}`); 
-    }
-  };
+  const [topics, setTopics] = useState([] as topic_row[]);
 
   useEffect(() => {
-    async function getSummaries() {
+    const fetchTopics = async () => {
       try {
-        const response = await fetch(`${HOST}/${ROUTE}summary/`, {
-          credentials: "include", 
-        });
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
+        const response = await fetch("/mocks/dashboard_mock.json");
         const data = await response.json();
-
-        setRows(data);
-
+        setTopics(data.topics);
       } catch (error) {
-        console.error("Error fetching summaries:", error);
+        console.error("Error fetching topics:", error);
       }
-    }
+    };
 
-    getSummaries();
+    fetchTopics();
   }, []);
 
-  useEffect(() => {
-    if (rows) {
-      console.log("Rows updated: ", rows);
-    }
-  }, [rows]);
-
   return (
-    <>
-      <div className={styles.dashboardContainer}>
-        <h1>Dashboard</h1>
-        <p>Please select your exam</p>
-        <div style={{display: (rows?.rows.length == 0) ? 'inline': 'none'}} className={styles.noExams}>
-          <p>Currently you have no exams</p>
-        </div>
-        <div className={styles.rowsDisplay}>
-          {rows?.rows.map((row:Row) => (
-            <div key={row.id} className={styles.row}>
-              <div className={styles.rowBody}>
-                <h3>{capitalizeFirstLetter(row.name)}  {capitalizeFirstLetter(row.type)}</h3>
-                <div className={styles.rowCharacteristics}>
-                  <p>Created on: {new Date(row.pub_date).toLocaleDateString()}</p>
-                </div>
+    <div className="flex">
+      <Sidebar />
+      <div className="p-[32px] w-[100%]">
+        <p className="text-3xl font-bold mb-10">All your topics</p>
+
+        {/* Example of rendering the topics */}
+        <div className="mt-6 ">
+          {topics.map((topic: any, index: any) => (
+            <div
+              key={index}
+              className="bg-white w-[80%] p-4 rounded-xl shadow mb-4 cursor-pointer hover:shadow-lg transition-all duration-300"
+            >
+              <h3 className="font-semibold text-lg">{topic.name}</h3>
+              <div className="flex space-x-2">
+                <p className="text-gray-600">Date: {topic.date}</p>
+                <p className="text-gray-600">Summaries: {topic.summaries}</p>
+                <p className="text-gray-600">Exams: {topic.exams}</p>
               </div>
-              <button className={styles.viewButton} onClick={() => sendToWindow(row.type, row.id)}>View</button>
             </div>
           ))}
         </div>
       </div>
-    </>
+    </div>
   );
-}
+};
 
 export default Dashboard;

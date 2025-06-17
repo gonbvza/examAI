@@ -1,0 +1,27 @@
+import Sidebar from "../Sidebar/Sidebar";
+import { useEffect, useState } from "react";
+
+interface topic_row {
+ name: string, 
+ date: string, 
+ summaries: Number, 
+ exams: Number
+}
+
+const Dashboard = () => {
+  const 
+  useEffect(() => {
+    
+  })
+
+  return (
+    <div className="flex">
+      <Sidebar />
+      <div className="p-[32px]">
+        <p className="text-3xl font-bold">All your topics</p>
+      </div>
+    </div>
+  );
+};
+
+export default Dashboard;

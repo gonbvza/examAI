@@ -32,14 +32,18 @@ const TopicResources = () => {
 
         <div className="mt-6 text-center">
           <div className="bg-white w-[15%] p-10 rounded-xl shadow mb-4 cursor-pointer hover:shadow-lg transition-all duration-300">
-            <h3 className="font-semibold text-lg">Summaries</h3>
-            <p className="text-gray-600">{resources.summaries}</p>
+            <h3 className="font-bold text-lg ">Summaries</h3>
+            <p className="text-[#6366F1] font-semibold text-lg">
+              {resources.summaries}
+            </p>
           </div>
         </div>
         <div className="mt-6 ">
           <div className="bg-white  w-[15%] p-10 rounded-xl text-center shadow mb-4 cursor-pointer hover:shadow-lg transition-all duration-300">
-            <h3 className="font-semibold text-lg">Exams</h3>
-            <p className="text-gray-600">{resources.exams}</p>
+            <h3 className="font-bold text-lg">Exams</h3>
+            <p className="text-[#6366F1] font-semibold text-lg">
+              {resources.exams}
+            </p>
           </div>
         </div>
       </div>

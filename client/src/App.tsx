@@ -6,7 +6,7 @@ import Landing from "./components/landingPage/Landing";
 import Sign from "./components/Sign/Sign";
 import LogIn from "./components/LogIn/LogIn";
 import Main from "./components/main/Main";
-import Question from "./components/Question/Question";
+import Exam from "./components/Exam/Exam";
 import Dashboard from "./components/Dashboard/Dashboard";
 import Summary from "./components/Summary/Summary";
 import Footer from "./components/Footer/Footer";
@@ -86,7 +86,7 @@ const AppContent = () => {
               </ProtectedRoute>
             }
           />
-          <Route path="/question/:questionId" element={<Question />} />
+          <Route path="/exam/:exam_id" element={<Exam />} />
           <Route path="/summary/:summaryId" element={<Summary />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/topic" element={<TopicResources />} />

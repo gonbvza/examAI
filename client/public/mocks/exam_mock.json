@@ -1,0 +1,89 @@
+{
+  "name": "Physics Fundamentals Quiz",
+  "date": "2025-06-17",
+  "words": 450,
+  "language": "english",
+  "formality": "formal",
+  "questions": [
+    {
+      "question_text": "What is the acceleration due to gravity on Earth?",
+      "a": "9.8 m/s²",
+      "b": "10.2 m/s²",
+      "c": "8.9 m/s²",
+      "d": "11.1 m/s²",
+      "correct": "a"
+    },
+    {
+      "question_text": "Which law states that for every action, there is an equal and opposite reaction?",
+      "a": "Newton's First Law",
+      "b": "Newton's Second Law",
+      "c": "Newton's Third Law",
+      "d": "Law of Conservation of Energy",
+      "correct": "c"
+    },
+    {
+      "question_text": "What is the unit of electrical resistance?",
+      "a": "Ampere",
+      "b": "Volt",
+      "c": "Watt",
+      "d": "Ohm",
+      "correct": "d"
+    },
+    {
+      "question_text": "At what temperature does water boil at standard atmospheric pressure?",
+      "a": "90°C",
+      "b": "100°C",
+      "c": "110°C",
+      "d": "120°C",
+      "correct": "b"
+    },
+    {
+      "question_text": "What is the speed of light in vacuum?",
+      "a": "3 × 10⁸ m/s",
+      "b": "2 × 10⁸ m/s",
+      "c": "4 × 10⁸ m/s",
+      "d": "1 × 10⁸ m/s",
+      "correct": "a"
+    },
+    {
+      "question_text": "Which particle has a negative charge?",
+      "a": "Proton",
+      "b": "Neutron",
+      "c": "Electron",
+      "d": "Photon",
+      "correct": "c"
+    },
+    {
+      "question_text": "What is the formula for kinetic energy?",
+      "a": "KE = mv",
+      "b": "KE = ½mv²",
+      "c": "KE = m²v",
+      "d": "KE = mv²",
+      "correct": "b"
+    },
+    {
+      "question_text": "Which type of wave requires a medium to travel through?",
+      "a": "Light wave",
+      "b": "Radio wave",
+      "c": "Sound wave",
+      "d": "X-ray",
+      "correct": "c"
+    },
+    {
+      "question_text": "What is the SI unit of force?",
+      "a": "Joule",
+      "b": "Newton",
+      "c": "Pascal",
+      "d": "Watt",
+      "correct": "b"
+    },
+    {
+      "question_text": "Which law of thermodynamics states that energy cannot be created or destroyed?",
+      "a": "Zeroth Law",
+      "b": "First Law",
+      "c": "Second Law",
+      "d": "Third Law",
+      "correct": "b"
+    }
+  ]
+}

@@ -5,7 +5,7 @@ import "./App.css";
 import Landing from "./components/landingPage/Landing";
 import Sign from "./components/Sign/Sign";
 import LogIn from "./components/LogIn/LogIn";
-import Main from "./components/main/Main";
+import Create from "./components/create/Create";
 import Exam from "./components/Exam/Exam";
 import Dashboard from "./components/Dashboard/Dashboard";
 import Summary from "./components/Summary/Summary";
@@ -52,7 +52,7 @@ const AppContent = () => {
 
   // Define routes where navbar and footer should be shown
   const showNavbarAndFooter = ["/", "/landing", "/signUp", "/logIn"].includes(
-    location.pathname,
+    location.pathname
   );
 
   // Show loading state while verifying authentication
@@ -78,14 +78,7 @@ const AppContent = () => {
           <Route path="/signUp" element={<Sign />} />
           <Route path="/logIn" element={<LogIn />} />
           {/* Protected routes */}
-          <Route
-            path="/main"
-            element={
-              <ProtectedRoute isAuthenticated={isAuthenticated}>
-                <Main />
-              </ProtectedRoute>
-            }
-          />
+          <Route path="/create" element={<Create />} />
           <Route path="/exam/:exam_id" element={<Exam />} />
           <Route path="/summary/:summaryId" element={<Summary />} />
           <Route path="/dashboard" element={<Dashboard />} />

@@ -1,5 +1,8 @@
 import Sidebar from "../Sidebar/Sidebar";
 import { useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faDownload, faCopy } from "@fortawesome/free-solid-svg-icons";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface Summary {
   name: string;
@@ -31,21 +34,25 @@ const SummaryDisplay = () => {
   }, []);
 
   const handleDownloadPDF = () => {
-    // PDF download functionality to be implemented
     console.log("Download PDF clicked");
   };
 
   const handleCopyToClipboard = () => {
-    // Copy to clipboard functionality to be implemented
-    console.log("Copy to clipboard clicked");
+    if (summary?.content) {
+      navigator.clipboard.writeText(summary.content);
+      console.log("Content copied to clipboard");
+    }
   };
 
   if (loading) {
     return (
-      <div className="flex">
+      <div className="flex min-h-screen bg-gray-50">
         <Sidebar />
-        <div className="p-[32px] w-[100%] flex items-center justify-center">
-          <p className="text-lg">Loading summary...</p>
+        <div className="flex-1 flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto mb-4"></div>
+            <p className="text-lg text-gray-600">Loading summary...</p>
+          </div>
         </div>
       </div>
     );
@@ -53,102 +60,109 @@ const SummaryDisplay = () => {
 
   if (!summary) {
     return (
-      <div className="flex">
+      <div className="flex min-h-screen bg-gray-50">
         <Sidebar />
-        <div className="p-[32px] w-[100%] flex items-center justify-center">
-          <p className="text-lg text-red-500">Error loading summary</p>
+        <div className="flex-1 flex items-center justify-center">
+          <div className="text-center">
+            <div className="text-red-500 text-4xl mb-4">⚠️</div>
+            <p className="text-lg text-gray-600">Failed to load summary.</p>
+            <button
+              onClick={() => window.location.reload()}
+              className="mt-4 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+            >
+              Try Again
+            </button>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="flex">
+    <div className="flex min-h-screen bg-gray-50">
       <Sidebar />
-      <div className="p-[32px] w-[100%]">
-        {/* Header */}
-        <div className="mb-8">
-          <div className="flex justify-between items-center">
-            <div className="flex-1">
-              <h1 className="text-3xl font-bold mb-4">{summary.name}</h1>
-              <div className="flex flex-wrap gap-4 text-sm text-gray-600">
-                <span>
-                  <strong>Topic:</strong> {summary.topic}
-                </span>
-                <span>
-                  <strong>Date:</strong> {summary.date}
-                </span>
-                <span>
-                  <strong>Words:</strong>{" "}
-                  <span className="text-[#6366F1] font-semibold">
-                    {summary.words}
-                  </span>
-                </span>
-                <span>
-                  <strong>Language:</strong> {summary.language}
-                </span>
-                <span>
-                  <strong>Formality:</strong> {summary.formality}
-                </span>
-              </div>
-            </div>
+      <div className="flex-1 p-8">
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 mb-8">
+          <div className="flex justify-between items-start mb-6">
+            <h1 className="text-4xl font-bold text-gray-900">{summary.name}</h1>
 
-            <div className="flex gap-4 ml-8">
+            <div className="flex gap-3">
               <button
                 onClick={handleDownloadPDF}
-                className="bg-[#6366F1] text-white px-6 py-2 rounded-lg font-medium hover:bg-[#5856EB] transition-all duration-300 flex items-center gap-2 cursor-pointer"
+                className="flex items-center px-4 py-2 bg-gray-700 hover:bg-gray-800 text-white rounded-lg transition-colors duration-200 font-medium text-sm"
               >
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                  />
-                </svg>
+                <FontAwesomeIcon icon={faDownload} className="mr-2" />
                 Download PDF
               </button>
+
               <button
                 onClick={handleCopyToClipboard}
-                className="bg-white border border-gray-300 text-gray-700 px-6 py-2 rounded-lg font-medium hover:bg-gray-50 transition-all duration-300 flex items-center gap-2 cursor-pointer"
+                className="flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-colors duration-200 font-medium text-sm"
               >
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
-                  />
-                </svg>
-                Copy to Clipboard
+                <FontAwesomeIcon icon={faCopy} className="mr-2" />
+                Copy Text
               </button>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+            <div className="bg-gray-50 rounded-lg p-4">
+              <p className="text-sm text-gray-500 font-medium">Topic</p>
+              <p className="text-lg font-semibold text-gray-900">
+                {summary.topic}
+              </p>
+            </div>
+
+            <div className="bg-gray-50 rounded-lg p-4">
+              <p className="text-sm text-gray-500 font-medium">Date</p>
+              <p className="text-lg font-semibold text-gray-900">
+                {summary.date}
+              </p>
+            </div>
+
+            <div className="bg-indigo-50 rounded-lg p-4">
+              <p className="text-sm text-indigo-600 font-medium">Words</p>
+              <p className="text-lg font-semibold text-indigo-700">
+                {summary.words}
+              </p>
+            </div>
+
+            <div className="bg-gray-50 rounded-lg p-4">
+              <p className="text-sm text-gray-500 font-medium">Language</p>
+              <p className="text-lg font-semibold text-gray-900">
+                {summary.language}
+              </p>
+            </div>
+
+            <div className="bg-gray-50 rounded-lg p-4">
+              <p className="text-sm text-gray-500 font-medium">Formality</p>
+              <p className="text-lg font-semibold text-gray-900">
+                {summary.formality}
+              </p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow p-8">
-          <div className="prose max-w-none">
-            {summary.content.split("\n\n").map((paragraph, index) => (
-              <p key={index} className="mb-4 text-gray-800 leading-relaxed">
-                {paragraph}
-              </p>
-            ))}
-          </div>
-        </div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="p-8 bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200"
+          >
+            <div className="prose max-w-none">
+              {summary.content.split("\n\n").map((paragraph:any, index:any) => (
+                <p
+                  key={index}
+                  className="mb-6 text-gray-800 leading-relaxed text-lg"
+                >
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+          </motion.div>
       </div>
     </div>
   );
 };
 
 export default SummaryDisplay;
-

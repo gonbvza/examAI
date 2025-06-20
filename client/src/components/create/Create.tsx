@@ -3,12 +3,10 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faPlus,
   faFileUpload,
   faFileText,
   faQuestionCircle,
   faBookOpen,
-  faTimes,
   faCheck,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -50,7 +48,7 @@ const Create = () => {
     for (let show of Object.values(updated)) {
       if (show) {
         setShowBody(true);
-        return
+        return;
       } else {
         setShowBody(false);
       }
@@ -75,8 +73,7 @@ const Create = () => {
     if (inputMethod === "text" && !formData.content) return false;
     if (inputMethod === "file" && !formData.uploadedFile) return false;
     if (
-      resourceType["exam"] &&
-      formData.questionNumbers <= 0 ||
+      (resourceType["exam"] && formData.questionNumbers <= 0) ||
       formData.questionNumbers == null
     )
       return false;
@@ -111,20 +108,20 @@ const Create = () => {
                 {
                   type: "summary",
                   icon: faBookOpen,
-                  title: "Summary Only",
+                  title: "Summary",
                   desc: "Generate a comprehensive summary",
                 },
                 {
                   type: "exam",
                   icon: faQuestionCircle,
-                  title: "Exam Only",
+                  title: "Exam",
                   desc: "Create questions with answers",
                 },
-              ].map(option => (
+              ].map((option) => (
                 <button
                   key={option.type}
                   onClick={() => handleResource(option.type as any)}
-                  className={`p-6 rounded-xl border-2 transition-all duration-200 text-left ${
+                  className={`p-6 cursor-pointer rounded-xl border-2 transition-all duration-200 text-left ${
                     resourceType[option.type]
                       ? "border-indigo-500 bg-indigo-50"
                       : "border-gray-200 hover:border-indigo-300 hover:bg-gray-50"
@@ -169,7 +166,7 @@ const Create = () => {
                       <input
                         type="text"
                         value={formData.name}
-                        onChange={e =>
+                        onChange={(e) =>
                           setFormData({ ...formData, name: e.target.value })
                         }
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
@@ -184,7 +181,7 @@ const Create = () => {
                       <input
                         type="text"
                         value={formData.topic}
-                        onChange={e =>
+                        onChange={(e) =>
                           setFormData({ ...formData, topic: e.target.value })
                         }
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
@@ -198,7 +195,7 @@ const Create = () => {
                       </label>
                       <select
                         value={formData.language}
-                        onChange={e =>
+                        onChange={(e) =>
                           setFormData({ ...formData, language: e.target.value })
                         }
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
@@ -217,7 +214,7 @@ const Create = () => {
                       </label>
                       <select
                         value={formData.formality}
-                        onChange={e =>
+                        onChange={(e) =>
                           setFormData({
                             ...formData,
                             formality: e.target.value,
@@ -230,23 +227,28 @@ const Create = () => {
                         <option value="Casual">Casual</option>
                       </select>
                     </div>
-                    {resourceType["exam"] && (
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Question Numbers
-                        </label>
-                        <input
-                          value={formData.questionNumbers}
-                          onChange={e =>
-                            setFormData({
-                              ...formData,
-                              questionNumbers: e.target.value,
-                            })
-                          }
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                        />
-                      </div>
-                    )}
+                    <AnimatePresence>
+                      {resourceType["exam"] && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                        >
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Question Numbers
+                          </label>
+                          <input
+                            value={formData.questionNumbers}
+                            onChange={(e) =>
+                              setFormData({
+                                ...formData,
+                                questionNumbers: e.target.value,
+                              })
+                            }
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                          />
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
                 </motion.div>
 
@@ -263,7 +265,7 @@ const Create = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                     <button
                       onClick={() => setInputMethod("text")}
-                      className={`p-6 rounded-xl border-2 transition-all duration-200 text-left ${
+                      className={`cursor-pointer p-6 rounded-xl border-2 transition-all duration-200 text-left ${
                         inputMethod === "text"
                           ? "border-indigo-500 bg-indigo-50"
                           : "border-gray-200 hover:border-indigo-300 hover:bg-gray-50"
@@ -287,7 +289,7 @@ const Create = () => {
 
                     <button
                       onClick={() => setInputMethod("file")}
-                      className={`p-6 rounded-xl border-2 transition-all duration-200 text-left ${
+                      className={`cursor-pointer p-6 rounded-xl border-2 transition-all duration-200 text-left ${
                         inputMethod === "file"
                           ? "border-indigo-500 bg-indigo-50"
                           : "border-gray-200 hover:border-indigo-300 hover:bg-gray-50"
@@ -320,7 +322,7 @@ const Create = () => {
                       >
                         <textarea
                           value={formData.content}
-                          onChange={e =>
+                          onChange={(e) =>
                             setFormData({
                               ...formData,
                               content: e.target.value,
@@ -393,7 +395,7 @@ const Create = () => {
                     <button
                       onClick={handleGenerate}
                       disabled={!isFormValid() || isGenerating}
-                      className={`flex items-center px-8 py-4 rounded-lg transition-all duration-200 font-medium text-lg ${
+                      className={`cursor-pointer flex items-center px-8 py-4 rounded-lg transition-all duration-200 font-medium text-lg ${
                         isFormValid() && !isGenerating
                           ? "bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg hover:shadow-xl"
                           : "bg-gray-300 text-gray-500 cursor-not-allowed"

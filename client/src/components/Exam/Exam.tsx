@@ -2,7 +2,14 @@ import Sidebar from "../Sidebar/Sidebar";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronUp, faChevronDown, faCheckCircle, faTimesCircle, faDownload, faEye } from "@fortawesome/free-solid-svg-icons";
+import {
+  faChevronUp,
+  faChevronDown,
+  faCheckCircle,
+  faTimesCircle,
+  faDownload,
+  faEye,
+} from "@fortawesome/free-solid-svg-icons";
 
 interface question {
   question_text: string;
@@ -25,8 +32,12 @@ interface exam {
 const Exam = () => {
   const [exam, setExam] = useState<exam | null>(null);
   const [loading, setLoading] = useState(true);
-  const [visible_answers, set_visibility] = useState<Record<number, boolean>>({});
-  const [selected_answers, setSelectedAnswers] = useState<Record<number, string>>({});
+  const [visible_answers, set_visibility] = useState<Record<number, boolean>>(
+    {},
+  );
+  const [selected_answers, setSelectedAnswers] = useState<
+    Record<number, string>
+  >({});
   const [show_correct_answers, setShowCorrectAnswers] = useState(false);
 
   useEffect(() => {
@@ -55,33 +66,56 @@ const Exam = () => {
   };
 
   const selectAnswer = (questionIndex: number, answer: string) => {
-    setSelectedAnswers(prev => ({
+    setSelectedAnswers((prev) => ({
       ...prev,
-      [questionIndex]: answer
+      [questionIndex]: answer,
     }));
   };
 
-  const getOptionIcon = (option: string, correct: string, questionIndex: number) => {
+  const getOptionIcon = (
+    option: string,
+    correct: string,
+    questionIndex: number,
+  ) => {
     const selectedAnswer = selected_answers[questionIndex];
     const isSelected = selectedAnswer === option;
     const isCorrect = option === correct.toLowerCase();
-    
+
     if (show_correct_answers) {
       if (isCorrect) {
-        return <FontAwesomeIcon icon={faCheckCircle} className="text-green-500 mr-2" />;
+        return (
+          <FontAwesomeIcon
+            icon={faCheckCircle}
+            className="text-green-500 mr-2"
+          />
+        );
       }
-      return <FontAwesomeIcon icon={faTimesCircle} className="text-red-400 mr-2 opacity-60" />;
+      return (
+        <FontAwesomeIcon
+          icon={faTimesCircle}
+          className="text-red-400 mr-2 opacity-60"
+        />
+      );
     }
-    
+
     if (isSelected) {
       if (isCorrect) {
-        return <FontAwesomeIcon icon={faCheckCircle} className="text-green-500 mr-2" />;
+        return (
+          <FontAwesomeIcon
+            icon={faCheckCircle}
+            className="text-green-500 mr-2"
+          />
+        );
       } else {
-        return <FontAwesomeIcon icon={faTimesCircle} className="text-red-500 mr-2" />;
+        return (
+          <FontAwesomeIcon icon={faTimesCircle} className="text-red-500 mr-2" />
+        );
       }
     }
-    
-    return <div className="w-4 h-4 mr-2 border-2 border-gray-300 rounded-full"></div>;
+
+    return (
+      <div className="w-4 h-4 mr-2 border-2 border-gray-300 rounded-full"></div>
+    );
   };
 
   const downloadPDF = () => {
@@ -115,8 +149,8 @@ const Exam = () => {
           <div className="text-center">
             <div className="text-red-500 text-4xl mb-4">⚠️</div>
             <p className="text-lg text-gray-600">Failed to load exam.</p>
-            <button 
-              onClick={() => window.location.reload()} 
+            <button
+              onClick={() => window.location.reload()}
               className="mt-4 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
             >
               Try Again
@@ -135,7 +169,7 @@ const Exam = () => {
         <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 mb-8">
           <div className="flex justify-between items-start mb-6">
             <h1 className="text-4xl font-bold text-gray-900">{exam.name}</h1>
-            
+
             <div className="flex gap-3">
               <button
                 onClick={downloadPDF}
@@ -144,40 +178,46 @@ const Exam = () => {
                 <FontAwesomeIcon icon={faDownload} className="mr-2" />
                 Download PDF
               </button>
-              
+
               <button
                 onClick={toggleCorrectAnswers}
                 className={`cursor-pointer  flex items-center px-4 py-2 rounded-lg transition-colors duration-200 font-medium text-sm ${
                   show_correct_answers
-                    ? 'bg-red-600 hover:bg-red-700 text-white'
-                    : 'bg-indigo-600 hover:bg-indigo-700 text-white'
+                    ? "bg-red-600 hover:bg-red-700 text-white"
+                    : "bg-indigo-600 hover:bg-indigo-700 text-white"
                 }`}
               >
                 <FontAwesomeIcon icon={faEye} className="mr-2" />
-                {show_correct_answers ? 'Hide Answers' : 'Show Answers'}
+                {show_correct_answers ? "Hide Answers" : "Show Answers"}
               </button>
             </div>
           </div>
-          
+
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="bg-gray-50 rounded-lg p-4">
               <p className="text-sm text-gray-500 font-medium">Date</p>
               <p className="text-lg font-semibold text-gray-900">{exam.date}</p>
             </div>
-            
+
             <div className="bg-indigo-50 rounded-lg p-4">
               <p className="text-sm text-indigo-600 font-medium">Questions</p>
-              <p className="text-lg font-semibold text-indigo-700">{exam.questions.length}</p>
+              <p className="text-lg font-semibold text-indigo-700">
+                {exam.questions.length}
+              </p>
             </div>
-            
+
             <div className="bg-gray-50 rounded-lg p-4">
               <p className="text-sm text-gray-500 font-medium">Language</p>
-              <p className="text-lg font-semibold text-gray-900">{exam.language}</p>
+              <p className="text-lg font-semibold text-gray-900">
+                {exam.language}
+              </p>
             </div>
-            
+
             <div className="bg-gray-50 rounded-lg p-4">
               <p className="text-sm text-gray-500 font-medium">Formality</p>
-              <p className="text-lg font-semibold text-gray-900">{exam.formality}</p>
+              <p className="text-lg font-semibold text-gray-900">
+                {exam.formality}
+              </p>
             </div>
           </div>
         </div>
@@ -207,7 +247,7 @@ const Exam = () => {
                       </p>
                     </div>
                   </div>
-                  
+
                   <button className="flex-shrink-0 bg-indigo-600 hover:bg-indigo-700 transition-colors duration-200 rounded-xl p-3">
                     <FontAwesomeIcon
                       icon={is_visible ? faChevronUp : faChevronDown}
@@ -228,22 +268,25 @@ const Exam = () => {
                       <div className="px-6 pb-6 pt-2 border-t border-gray-100">
                         <div className="space-y-3 ml-11">
                           {[
-                            { key: 'a', label: 'A', value: question.a },
-                            { key: 'b', label: 'B', value: question.b },
-                            { key: 'c', label: 'C', value: question.c },
-                            { key: 'd', label: 'D', value: question.d }
+                            { key: "a", label: "A", value: question.a },
+                            { key: "b", label: "B", value: question.b },
+                            { key: "c", label: "C", value: question.c },
+                            { key: "d", label: "D", value: question.d },
                           ].map((option) => {
                             const selectedAnswer = selected_answers[index];
                             const isSelected = selectedAnswer === option.key;
-                            const isCorrect = option.key === question.correct.toLowerCase();
-                            
-                            let bgColor = 'bg-gray-50 hover:bg-gray-100';
+                            const isCorrect =
+                              option.key === question.correct.toLowerCase();
+
+                            let bgColor = "bg-gray-50 hover:bg-gray-100";
                             if (show_correct_answers && isCorrect) {
-                              bgColor = 'bg-green-50 border border-green-200';
+                              bgColor = "bg-green-50 border border-green-200";
                             } else if (isSelected && !show_correct_answers) {
-                              bgColor = isCorrect ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200';
+                              bgColor = isCorrect
+                                ? "bg-green-50 border border-green-200"
+                                : "bg-red-50 border border-red-200";
                             }
-                            
+
                             return (
                               <div
                                 key={option.key}
@@ -253,9 +296,17 @@ const Exam = () => {
                                   selectAnswer(index, option.key);
                                 }}
                               >
-                                {getOptionIcon(option.key, question.correct, index)}
-                                <span className="font-medium text-gray-700 mr-2">{option.label}:</span>
-                                <span className="text-gray-900">{option.value}</span>
+                                {getOptionIcon(
+                                  option.key,
+                                  question.correct,
+                                  index,
+                                )}
+                                <span className="font-medium text-gray-700 mr-2">
+                                  {option.label}:
+                                </span>
+                                <span className="text-gray-900">
+                                  {option.value}
+                                </span>
                               </div>
                             );
                           })}

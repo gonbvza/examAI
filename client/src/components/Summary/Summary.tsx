@@ -89,7 +89,7 @@ const SummaryDisplay = () => {
             <div className="flex gap-3">
               <button
                 onClick={handleDownloadPDF}
-                className="flex items-center px-4 py-2 bg-gray-700 hover:bg-gray-800 text-white rounded-lg transition-colors duration-200 font-medium text-sm"
+                className="cursor-pointer flex items-center px-4 py-2 bg-gray-700 hover:bg-gray-800 text-white rounded-lg transition-colors duration-200 font-medium text-sm"
               >
                 <FontAwesomeIcon icon={faDownload} className="mr-2" />
                 Download PDF
@@ -97,7 +97,7 @@ const SummaryDisplay = () => {
 
               <button
                 onClick={handleCopyToClipboard}
-                className="flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-colors duration-200 font-medium text-sm"
+                className="cursor-pointer flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-colors duration-200 font-medium text-sm"
               >
                 <FontAwesomeIcon icon={faCopy} className="mr-2" />
                 Copy Text

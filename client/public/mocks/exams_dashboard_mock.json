@@ -1,8 +1,9 @@
 {
+  "topic_name": "Physics",
   "exams": [
     {
       "name": "Basic one",
-      "date": "2025-06-17",
+      "date": "2025-04-17",
       "questions": 18,
       "language": "english",
       "formality": "informal"

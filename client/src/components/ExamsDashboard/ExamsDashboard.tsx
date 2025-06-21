@@ -55,10 +55,10 @@ const ExamsDashboard = () => {
 
   const filteredExams = examsData.exams
     .filter((exam: Exam) =>
-      exam.name.toLowerCase().includes(searchTerm.toLowerCase()),
+      exam.name.toLowerCase().includes(searchTerm.toLowerCase())
     )
     .filter((exam: Exam) =>
-      filterLanguage === "all" ? true : exam.language === filterLanguage,
+      filterLanguage === "all" ? true : exam.language === filterLanguage
     )
     .sort((a: any, b: any) => {
       if (sortBy === "date")
@@ -82,11 +82,6 @@ const ExamsDashboard = () => {
       "from-teal-500 to-cyan-600",
     ];
     return gradients[index % gradients.length];
-  };
-
-  const getIconByIndex = (index: number) => {
-    const icons = [faFileText, faGraduationCap, faQuestionCircle, faLanguage];
-    return icons[index % icons.length];
   };
 
   if (loading) {
@@ -151,7 +146,7 @@ const ExamsDashboard = () => {
                   <p className="text-2xl font-bold">
                     {examsData.exams.reduce(
                       (sum, exam) => sum + exam.questions,
-                      0,
+                      0
                     )}
                   </p>
                 </div>
@@ -217,7 +212,7 @@ const ExamsDashboard = () => {
                 type="text"
                 placeholder="Search exams..."
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={e => setSearchTerm(e.target.value)}
                 className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all duration-200"
               />
             </div>
@@ -230,11 +225,11 @@ const ExamsDashboard = () => {
                 />
                 <select
                   value={filterLanguage}
-                  onChange={(e) => setFilterLanguage(e.target.value)}
+                  onChange={e => setFilterLanguage(e.target.value)}
                   className="pl-10 pr-8 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#6366f1] focus:border-transparent outline-none transition-all duration-200 bg-white"
                 >
                   <option value="all">All Languages</option>
-                  {uniqueLanguages.map((lang) => (
+                  {uniqueLanguages.map(lang => (
                     <option key={lang} value={lang}>
                       {lang}
                     </option>
@@ -249,7 +244,7 @@ const ExamsDashboard = () => {
                 />
                 <select
                   value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
+                  onChange={e => setSortBy(e.target.value)}
                   className="pl-10 pr-8 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all duration-200 bg-white"
                 >
                   <option value="date">Sort by Date</option>
@@ -280,10 +275,6 @@ const ExamsDashboard = () => {
                 <div className="relative z-10">
                   <div className="flex items-center justify-between mb-3">
                     <FontAwesomeIcon
-                      icon={getIconByIndex(index)}
-                      className="text-2xl"
-                    />
-                    <FontAwesomeIcon
                       icon={faChevronRight}
                       className="text-lg opacity-70 group-hover:translate-x-1 transition-transform duration-200"
                     />
@@ -293,7 +284,7 @@ const ExamsDashboard = () => {
                   </h3>
                   <div className="flex items-center text-sm opacity-90">
                     <FontAwesomeIcon icon={faCalendarAlt} className="mr-2" />
-                    {new Date(exam.date).toLocaleDateString("en-US", {
+                    {new Date(exam.date).toLocaleDateString("es-ES", {
                       month: "short",
                       day: "numeric",
                       year: "numeric",
@@ -332,7 +323,7 @@ const ExamsDashboard = () => {
                       </p>
                       <div className="flex items-center mt-1">
                         <div className="flex space-x-1">
-                          {[1, 2, 3, 4, 5].map((level) => (
+                          {[1, 2, 3, 4, 5].map(level => (
                             <div
                               key={level}
                               className={`w-2 h-2 rounded-full ${

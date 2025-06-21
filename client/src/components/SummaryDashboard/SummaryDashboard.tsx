@@ -13,6 +13,8 @@ import {
   faSortAmountDown,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
+import { motion } from "framer-motion";
+import { getGradientByIndex } from "../../helpers/gradient";
 
 interface Summary {
   name: string;
@@ -44,6 +46,7 @@ const SummaryDashboard = () => {
         setLoading(true);
         const response = await fetch("/mocks/summary_dashboard_mock.json");
         const data = await response.json();
+        console.log(data);
         setSummariesData(data);
         setLoading(false);
       } catch (error) {
@@ -53,12 +56,14 @@ const SummaryDashboard = () => {
     fetchTopics();
   }, []);
 
-  const filteredExams = summariesData.summaries
+  const filteredSummaries = summariesData.summaries
     .filter((summary: Summary) =>
-      summary.name.toLowerCase().includes(searchTerm.toLowerCase()),
+      summary.name.toLowerCase().includes(searchTerm.toLowerCase())
     )
     .filter((summary: Summary) =>
-      filterLanguage === "all" ? true : summary.language === filterLanguage,
+      filterLanguage === "" || filterLanguage === "all"
+        ? true
+        : summary.language === filterLanguage
     )
     .sort((a: any, b: any) => {
       if (sortBy === "date")
@@ -180,7 +185,7 @@ const SummaryDashboard = () => {
                 type="text"
                 placeholder="Search exams..."
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={e => setSearchTerm(e.target.value)}
                 className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all duration-200"
               />
             </div>
@@ -194,11 +199,11 @@ const SummaryDashboard = () => {
 
                 <select
                   value={filterLanguage}
-                  onChange={(e) => setFilterLanguage(e.target.value)}
+                  onChange={e => setFilterLanguage(e.target.value)}
                   className="pl-10 pr-8 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:border-transparent outline-none transition-all duration-200 bg-white"
                 >
                   <option value="all">All Languages</option>
-                  {uniqueLanguages.map((lang) => (
+                  {uniqueLanguages.map(lang => (
                     <option key={lang} value={lang}>
                       {lang}
                     </option>
@@ -213,7 +218,7 @@ const SummaryDashboard = () => {
                 />
                 <select
                   value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
+                  onChange={e => setSortBy(e.target.value)}
                   className="pl-10 pr-8 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all duration-200 bg-white"
                 >
                   <option value="date">Sort by Date</option>
@@ -223,6 +228,44 @@ const SummaryDashboard = () => {
               </div>
             </div>
           </div>
+        </div>
+
+        <div className="grid lg:grid-cols-1 xl:grid-cols-3 gap-6">
+          {filteredSummaries.map((summary: Summary, index: number) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+              className="group bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer"
+            >
+              <div
+                className={`bg-gradient-to-r ${getGradientByIndex(index)} p-6 text-white relative overflow-hidden`}
+              >
+                <div className="absolute top-0 right-0 w-24 h-24 bg-white bg-opacity-10 rounded-full -mr-12 -mt-12"></div>
+                <div className="absolute bottom-0 left-0 w-16 h-16 bg-white bg-opacity-10 rounded-full -mb-8 -ml-8"></div>
+                <div className="relative z-10">
+                  <div className="flex items-center justify-between mb-3">
+                    <FontAwesomeIcon
+                      icon={faChevronRight}
+                      className="text-lg opacity-70 group-hover:translate-x-1 transition-transform duration-200"
+                    />
+                  </div>
+                  <h3 className="text-xl font-bold mb-2 leading-tight">
+                    {summary.name}
+                  </h3>
+                  <div className="flex items-center text-sm opacity-90">
+                    <FontAwesomeIcon icon={faCalendarAlt} className="mr-2" />
+                    {new Date(summary.date).toLocaleString("es-ES", {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                    })}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          ))}
         </div>
       </div>
     </div>
